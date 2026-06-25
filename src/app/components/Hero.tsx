@@ -138,68 +138,41 @@ export function Hero({ onApplyClick }: HeroProps) {
         <div className="max-w-[900px]">
           {/* Primary headline */}
           <h1 className="text-[3rem] md:text-[4.5rem] leading-[1.05] mb-6" style={{ fontFamily: 'Cormorant Garamond, serif', color: '#F4EFE2', fontWeight: 500, letterSpacing: '-0.02em' }}>
-            Connecting Those
-            <br />
-            Who Shape <span style={{ color: '#E8DFC8' }}>Europe</span>
+            Invite-only <br/>
+            Peer-to-Peer Community
           </h1>
 
-          {/* Subtitle 1 */}
-          <p className="text-[1.0625rem] md:text-[1.1875rem] leading-[1.7] mb-6 max-w-[700px]" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#F4EFE2' }}>
-            Meaningful conversations, trusted advice and lasting relationships among the people shaping Europe's future.
+          {/* Subtitle 1 (Outcome) */}
+          <p className="text-[1.125rem] md:text-[1.25rem] leading-[1.6] mb-4 max-w-[700px]" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#F4EFE2' }}>
+            Tiefe und relevante Peers statt transaktionalem Networking, gemeinsame europäische Macher-Identität.
           </p>
 
-          {/* Subtitle 2 */}
-          <p className="text-[1rem] md:text-[1.0625rem] leading-[1.7] mb-10 max-w-[700px]" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: 'rgba(244, 239, 226, 0.75)' }}>
-            A highly-vetted community for Europe's entrepreneurs, investors, and executives.
+          {/* Subtitle 2 (Format) */}
+          <p className="text-[1rem] md:text-[1.125rem] leading-[1.6] mb-10 max-w-[700px]" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300, color: 'rgba(244, 239, 226, 0.8)' }}>
+            Eine kuratierte, einladungsbasierte Peer-Community accomplished europäischer Gründer, Investoren und Executives.
           </p>
 
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-4">
+          {/* CTA Area */}
+          <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
             <button
-              onClick={onApplyClick}
-              className="inline-block px-8 py-3.5 transition-all duration-200 text-[0.9375rem] tracking-[0.01em] cursor-pointer hover:opacity-90"
+              onClick={() => {
+                document.getElementById('selected-members')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="inline-flex items-center px-8 py-3.5 transition-all duration-300 text-[0.9375rem] tracking-[0.02em] uppercase font-medium hover:bg-white hover:text-[#0E1F3F] group"
               style={{
-                backgroundColor: '#FFFFFF',
-                color: '#0E1F3F',
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 500,
-                border: 'none',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                color: '#FFFFFF',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '2px'
               }}
             >
-              Request Invitation
+              Member Auswahl ansehen
+              <span className="ml-2 opacity-50 group-hover:opacity-100 transition-opacity">↓</span>
             </button>
+            <div className="text-[0.8125rem] leading-[1.6]" style={{ color: 'rgba(244, 239, 226, 0.5)' }}>
+              Aufnahme primär durch Empfehlung <br/>bestehender Member.
+            </div>
           </div>
-
-          {/* Hint about eligibility */}
-          <p className="text-[0.875rem] leading-[1.6]" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: 'rgba(244, 239, 226, 0.35)' }}>
-            Before applying, please review our{' '}
-            <button
-              onClick={() => {
-                window.location.hash = 'eligibility';
-                setTimeout(() => {
-                  document.getElementById('eligibility')?.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-              }}
-              className="underline hover:no-underline transition-all cursor-pointer"
-              style={{ color: 'rgba(244, 239, 226, 0.60)', background: 'none', border: 'none', padding: 0, fontWeight: 400, fontSize: '0.875rem', fontFamily: 'Inter, sans-serif' }}
-            >
-              eligibility criteria
-            </button>
-            {' '}and{' '}
-            <button
-              onClick={() => {
-                window.location.hash = 'benefits-fees';
-                setTimeout(() => {
-                  document.getElementById('benefits-fees')?.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-              }}
-              className="underline hover:no-underline transition-all cursor-pointer"
-              style={{ color: 'rgba(244, 239, 226, 0.60)', background: 'none', border: 'none', padding: 0, fontWeight: 400, fontSize: '0.875rem', fontFamily: 'Inter, sans-serif' }}
-            >
-              fees
-            </button>.
-          </p>
         </div>
       </div>
 

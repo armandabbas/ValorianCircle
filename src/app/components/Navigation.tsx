@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import logoImg from '../../assets/logo.png';
 
 interface NavigationProps {
   onApplyClick?: () => void;
@@ -8,95 +9,55 @@ interface NavigationProps {
 
 export function Navigation({ onApplyClick }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white z-50" style={{ borderBottom: '1px solid #E8E5E0' }}>
-      <div className="mx-auto max-w-[1200px] px-6 md:px-12 py-4 flex justify-between items-center">
-        <Link to="/" className="flex items-center gap-3 group">
-          {/* Sunburst Icon - organic, non-uniform rays */}
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform duration-300 group-hover:scale-125">
-            <g opacity="1">
-              {/* Create sunburst rays with varying lengths and slight angle variations */}
-              {Array.from({ length: 52 }).map((_, i) => {
-                // Add slight randomness to angle (seeded by index for consistency)
-                const baseAngle = (i * 360) / 52;
-                const angleVariation = ((i * 17) % 7) - 3; // Pseudo-random variation -3 to +3 degrees
-                const angle = baseAngle + angleVariation;
-                const rad = (angle * Math.PI) / 180;
-
-                const innerRadius = 7.5 + ((i * 13) % 10) * 0.1; // Slight inner variation
-                // More variation in outer radius for organic look
-                const lengthVariation = ((i * 23) % 30) * 0.15; // 0 to 4.5 variation
-                const outerRadius = 13 + lengthVariation;
-
-                const x1 = 16 + Math.cos(rad) * innerRadius;
-                const y1 = 16 + Math.sin(rad) * innerRadius;
-                const x2 = 16 + Math.cos(rad) * outerRadius;
-                const y2 = 16 + Math.sin(rad) * outerRadius;
-
-                // Vary stroke width slightly
-                const strokeWidth = 0.7 + ((i * 7) % 3) * 0.1;
-
-                return (
-                  <line
-                    key={i}
-                    x1={x1}
-                    y1={y1}
-                    x2={x2}
-                    y2={y2}
-                    stroke="#0D1F3C"
-                    strokeWidth={strokeWidth}
-                    strokeLinecap="round"
-                  />
-                );
-              })}
-              {/* Center circle with slight thickness variation */}
-              <circle cx="16" cy="16" r="6.8" fill="transparent" stroke="#0D1F3C" strokeWidth="0.9" className="transition-colors duration-300 group-hover:fill-[#FACC15]" />
-            </g>
-          </svg>
-          <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '1.25rem', color: '#0D1F3C', letterSpacing: '-0.02em' }}>
-            VALORIAN
-          </span>
+    <nav 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? 'bg-[#FFF8E7]/90 backdrop-blur-md border-b border-[#0D1F3C]/5 py-4' : 'bg-transparent py-6'
+      }`}
+    >
+      <div className="w-full px-6 md:px-12 flex justify-between items-center">
+        {/* LOGO */}
+        <Link to="/landing" className="flex items-center group">
+          <img src={logoImg} alt="Valorian Logo" className="h-8 md:h-10 w-auto object-contain transition-opacity hover:opacity-85" />
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-10">
           <Link
-            to="/"
-            className="text-[0.9375rem] tracking-[0.01em] transition-opacity hover:opacity-70"
-            style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#2B2B2B' }}
+            to="/mission"
+            className="text-sm font-medium tracking-wide text-[#0D1F3C]/70 hover:text-[#0D1F3C] transition-colors"
           >
-            Home
+            Mission
           </Link>
           <Link
-            to="/about"
-            className="text-[0.9375rem] tracking-[0.01em] transition-opacity hover:opacity-70"
-            style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#2B2B2B' }}
+            to="/members"
+            className="text-sm font-medium tracking-wide text-[#0D1F3C]/70 hover:text-[#0D1F3C] transition-colors"
           >
-            About
+            Members
           </Link>
           <Link
-            to="/circles"
-            className="text-[0.9375rem] tracking-[0.01em] transition-opacity hover:opacity-70"
-            style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#2B2B2B' }}
+            to="/selection"
+            className="text-sm font-medium tracking-wide text-[#0D1F3C]/70 hover:text-[#0D1F3C] transition-colors"
           >
-            Circles
+            Selection
           </Link>
           <button
             onClick={(e) => {
               e.preventDefault();
               onApplyClick?.();
             }}
-            className="text-[0.9375rem] px-6 py-2 transition-opacity hover:opacity-90"
-            style={{
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 500,
-              color: '#FFFFFF',
-              backgroundColor: '#0D1F3C',
-              borderRadius: '6px',
-              border: 'none',
-              cursor: 'pointer'
-            }}
+            className="text-sm font-medium tracking-wide px-6 py-2.5 text-white bg-[#0D1F3C] rounded-full hover:bg-[#0D1F3C]/90 transition-all"
           >
             Request Invitation
           </button>
@@ -105,8 +66,7 @@ export function Navigation({ onApplyClick }: NavigationProps) {
         {/* Mobile Hamburger */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 transition-opacity hover:opacity-70"
-          style={{ color: '#0D1F3C' }}
+          className="md:hidden text-[#0D1F3C] transition-opacity hover:opacity-70"
         >
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -114,31 +74,28 @@ export function Navigation({ onApplyClick }: NavigationProps) {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white" style={{ borderTop: '1px solid #E8E5E0' }}>
-          <div className="px-6 py-4 flex flex-col gap-4">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md border-t border-[#0D1F3C]/10 shadow-lg">
+          <div className="px-6 py-8 flex flex-col gap-6">
             <Link
-              to="/"
+              to="/mission"
               onClick={() => setIsOpen(false)}
-              className="text-[0.9375rem] tracking-[0.01em] py-2"
-              style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#2B2B2B' }}
+              className="text-lg font-medium tracking-wide text-[#0D1F3C]/80"
             >
-              Home
+              Mission
             </Link>
             <Link
-              to="/about"
+              to="/members"
               onClick={() => setIsOpen(false)}
-              className="text-[0.9375rem] tracking-[0.01em] py-2"
-              style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#2B2B2B' }}
+              className="text-lg font-medium tracking-wide text-[#0D1F3C]/80"
             >
-              About
+              Members
             </Link>
             <Link
-              to="/circles"
+              to="/selection"
               onClick={() => setIsOpen(false)}
-              className="text-[0.9375rem] tracking-[0.01em] py-2"
-              style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#2B2B2B' }}
+              className="text-lg font-medium tracking-wide text-[#0D1F3C]/80"
             >
-              Circles
+              Selection
             </Link>
             <button
               onClick={(e) => {
@@ -146,16 +103,7 @@ export function Navigation({ onApplyClick }: NavigationProps) {
                 setIsOpen(false);
                 onApplyClick?.();
               }}
-              className="text-[0.9375rem] px-6 py-2 text-left"
-              style={{
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 500,
-                color: '#FFFFFF',
-                backgroundColor: '#0D1F3C',
-                borderRadius: '6px',
-                border: 'none',
-                cursor: 'pointer'
-              }}
+              className="mt-4 text-base font-medium tracking-wide px-6 py-3 text-white bg-[#0D1F3C] rounded-full text-center"
             >
               Request Invitation
             </button>

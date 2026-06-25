@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CirclesPage } from './CirclesPage';
-import { ApplicationForm } from '../components/ApplicationForm';
+import { motion, useScroll, useTransform, animate } from 'motion/react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ChevronDown } from 'lucide-react';
+import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
+import { ApplicationForm } from '../components/ApplicationForm';
+import { CookieBanner } from '../components/CookieBanner';
 
 interface SloganChar {
   char: string;
@@ -137,83 +140,122 @@ const blendColors = (color1: string, color2: string, percentage: number) => {
   const g = Math.round(g1 + (g2 - g1) * percentage);
   const b = Math.round(b1 + (b2 - b1) * percentage);
 
-  const rHex = r.toString(16).padStart(2, '0');
-  const gHex = g.toString(16).padStart(2, '0');
-  const bHex = b.toString(16).padStart(2, '0');
-
-  return `#${rHex}${gHex}${bHex}`;
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 };
 
+function ScrollReveal({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [revealed, setRevealed] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setRevealed(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.12 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: revealed ? undefined : 0,
+        animationName: revealed ? 'valSloganFadeInChar' : 'none',
+        animationDuration: '0.95s',
+        animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+        animationDelay: `${delay}s`,
+        animationFillMode: 'both',
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export function NewPage() {
-  const navigate = useNavigate();
-  const [key, setKey] = useState(0);
+  const { scrollY } = useScroll();
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
-  const [isLogoMovedUp, setIsLogoMovedUp] = useState(false);
-  const [showContent, setShowContent] = useState(false);
-  const [proximityGlow, setProximityGlow] = useState(0);
-  const [showClickPrompt, setShowClickPrompt] = useState(false);
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [showScrollPrompt, setShowScrollPrompt] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [proximityGlow, setProximityGlow] = useState(0);
 
   useEffect(() => {
     let timeout: number;
-    if (isLoaded && !isClicked) {
+    if (isLoaded) {
       timeout = window.setTimeout(() => {
-        setShowClickPrompt(true);
-      }, 5000);
+        setShowScrollPrompt(true);
+      }, 400);
     } else {
-      setShowClickPrompt(false);
+      setShowScrollPrompt(false);
     }
     return () => window.clearTimeout(timeout);
-  }, [isLoaded, isClicked]);
+  }, [isLoaded]);
+
+  const introDoneRef = useRef(false);
+  const snapFiredRef = useRef(false);
+  const spacerRef = useRef<HTMLDivElement>(null);
+
+  const introY = useTransform(scrollY, (y) => {
+    if (introDoneRef.current) return '-100vh';
+    const progress = Math.min(800, Math.max(0, y)) / 800;
+    return `${-progress * 100}vh`;
+  });
+
+  const pointerEvents = useTransform(scrollY, (y) => {
+    if (introDoneRef.current || y > 750) return 'none';
+    return 'auto';
+  });
+
+  const promptOpacity = useTransform(scrollY, [0, 50], [showScrollPrompt ? 1 : 0, 0]);
+
+  useEffect(() => {
+    return scrollY.on('change', (y) => {
+      // On first scroll: auto-complete the curtain lift (slow, smooth)
+      if (y > 10 && !snapFiredRef.current && !introDoneRef.current) {
+        snapFiredRef.current = true;
+        animate(y, 800, {
+          duration: 1.8,
+          ease: [0.25, 0.1, 0.25, 1],
+          onUpdate: (v) => window.scrollTo(0, v),
+        });
+      }
+
+      // Once intro fully raised: collapse spacer and lock scroll at content top
+      if (y >= 800 && !introDoneRef.current) {
+        introDoneRef.current = true;
+        const contentScroll = Math.max(0, y - window.innerHeight);
+        if (spacerRef.current) spacerRef.current.style.height = '0px';
+        requestAnimationFrame(() => {
+          window.scrollTo({ top: contentScroll, behavior: 'instant' });
+        });
+      }
+    });
+  }, [scrollY]);
 
   const angleRef = useRef(0);
   const lastTimeRef = useRef(performance.now());
-  const currentSpeedRef = useRef(12.0); // Decoupled starting speed (deg/sec)
   const rotateElementRef = useRef<SVGGElement>(null);
-  const logoContainerRef = useRef<HTMLDivElement>(null);
   const targetGlowRef = useRef(0);
   const currentGlowRef = useRef(0);
 
-  const handleReplay = () => {
-    setIsClicked(false);
-    setIsLogoMovedUp(false);
-    setShowContent(false);
-    setProximityGlow(0);
-    targetGlowRef.current = 0;
-    currentGlowRef.current = 0;
-  };
-
-  const handleLogoClick = () => {
-    if (isLoaded && !isClicked) {
-      setIsClicked(true);
-      setIsLogoMovedUp(true);
-      setProximityGlow(0); // Immediately hide proximity text
-      targetGlowRef.current = 0; // Reset physics target
-      currentGlowRef.current = 0; // Reset physics current
-      setTimeout(() => {
-        navigate('/circles', { state: { fromStart: true } });
-      }, 800); // Navigate to the circles page as the animation finishes
-    } else if (isLoaded && isClicked) {
-      handleReplay();
-    }
-  };
-
   useEffect(() => {
-    setIsLoaded(false);
-    setIsClicked(false);
-    setIsLogoMovedUp(false);
-    setShowContent(false);
-    
     const timer = setTimeout(() => {
       setIsLoaded(true);
-    }, 2850); // 1.35s roll-up duration + 1.5s pause before slide-up
-    
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [key]);
+    }, 2850);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     let animationFrameId: number;
@@ -222,33 +264,16 @@ export function NewPage() {
       const delta = time - lastTimeRef.current;
       lastTimeRef.current = time;
 
-      // Speed up elegantly when active (clicked), else run at stable constant speed
-      let targetSpeed = 0;
-      if (isClicked) {
-        targetSpeed = 4;
-      } else {
-        targetSpeed = 12;
-      }
+      angleRef.current = (angleRef.current + 12 * (delta / 1000)) % 360;
 
-      // High-end dampening (inertia) for ultra-premium floating fluidity
-      currentSpeedRef.current += (targetSpeed - currentSpeedRef.current) * 0.05;
-
-      // Increment rotation angle: angle = angle + speed * (delta / 1000)
-      angleRef.current = (angleRef.current + currentSpeedRef.current * (delta / 1000)) % 360;
-
-      // Direct hardware-accelerated DOM writing bypasses React re-render cycle (perfect 120Hz)
       if (rotateElementRef.current) {
         rotateElementRef.current.setAttribute('transform', `rotate(${angleRef.current}, 20, 20)`);
       }
 
-      // Smoothly interpolate proximityGlow with inertia
       currentGlowRef.current += (targetGlowRef.current - currentGlowRef.current) * 0.10;
-      
-      // Snap to 0 if very close to stop pointless microscopic re-renders
       if (targetGlowRef.current === 0 && currentGlowRef.current < 0.002) {
         currentGlowRef.current = 0;
       }
-      
       setProximityGlow(currentGlowRef.current);
 
       animationFrameId = requestAnimationFrame(updateRotation);
@@ -257,12 +282,10 @@ export function NewPage() {
     lastTimeRef.current = performance.now();
     animationFrameId = requestAnimationFrame(updateRotation);
 
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [key, isClicked]);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, []);
 
-  // Track cursor position relative to logo to light up the circle
+  // Track cursor position relative to logo
   useEffect(() => {
     if (!isLoaded) {
       setProximityGlow(0);
@@ -270,17 +293,14 @@ export function NewPage() {
     }
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!logoContainerRef.current) return;
-      const rect = logoContainerRef.current.getBoundingClientRect();
-      const logoCenterX = rect.left + rect.width / 2;
-      const logoCenterY = rect.top + rect.height / 2;
+      const logoCenterX = window.innerWidth / 2;
+      const logoCenterY = window.innerHeight / 2;
 
       const dx = e.clientX - logoCenterX;
       const dy = e.clientY - logoCenterY;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      // Define proximity boundaries. Tighter radius so cursor must be much closer to the logo.
-      const maxDistance = isClicked ? 220 : 330;
+      const maxDistance = 330;
       const minDistance = 45;
 
       if (distance > maxDistance) {
@@ -294,400 +314,420 @@ export function NewPage() {
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, [isLoaded, isClicked]);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [isLoaded]);
+
+  const toggleFaq = (index: number) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
 
   return (
-    <div
-      className="min-h-screen w-full bg-[#FFF8E7] flex flex-col items-center justify-center relative overflow-hidden select-none"
-    >
-      {/* Dynamic Proximity Typography */}
-      {!isClicked && (
-        <div
-          className="absolute pointer-events-none select-none z-50 top-6 left-10 md:top-10 md:left-14"
-          style={{
-            opacity: isLoaded ? Math.min(1.0, proximityGlow * 1.3) : 0
-          }}
-        >
-          <span
-            className="text-[#0D1F3C] text-[70px] md:text-[100px] lg:text-[140px] tracking-[-0.02em] leading-none"
-            style={{
-              fontFamily: "'Instrument Serif', 'Playfair Display', serif",
-              fontStyle: "italic"
-            }}
-          >
-            Circles
-          </span>
-        </div>
-      )}
+    <div className="bg-[#FFF8E7]">
+      <div ref={spacerRef} style={{ height: '100vh' }} />
+      <motion.div
+        style={{ y: introY, pointerEvents: pointerEvents as any }}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-[#FFF8E7] overflow-hidden"
+      >
+        <div className="relative w-full h-full flex flex-col items-center justify-center">
+          <style dangerouslySetInnerHTML={{
+            __html: `
+            .val-char-v1 { animation-delay: 0.15s; }
+            .val-char-v2 { animation-delay: 0.18s; }
+            .val-char-v3 { animation-delay: 0.21s; }
+            .val-char-v4 { animation-delay: 0.24s; }
+            .val-char-v5 { animation-delay: 0.27s; }
+            .val-char-v6 { animation-delay: 0.30s; }
+            .val-char-v7 { animation-delay: 0.33s; }
+            .val-char-v8 { animation-delay: 0.36s; }
+            .val-char-c6 { animation-delay: 0.95s; }
+            .val-char-c5 { animation-delay: 0.98s; }
+            .val-char-c4 { animation-delay: 1.01s; }
+            .val-char-c3 { animation-delay: 1.04s; }
+            .val-char-c2 { animation-delay: 1.07s; }
+            .val-char-c1 { animation-delay: 1.10s; }
+            .val-circle-loaded {
+              cursor: pointer !important;
+              pointer-events: auto !important;
+              transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            @keyframes valSloganFadeInChar {
+              0% { opacity: 0; transform: translateY(6px) scale(0.96); filter: blur(2px); }
+              100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+            }
+            @keyframes scrollBounce {
+              0%, 100% { transform: translateY(0); opacity: 0.45; }
+              50% { transform: translateY(5px); opacity: 0.85; }
+            }
+            .val-line {
+              animation: valShootSpike 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+            .val-circle {
+              animation: valDrawCircle 1.25s linear both;
+            }
+            @keyframes valShootSpike {
+              0% { opacity: 0; stroke-dashoffset: 13; }
+              1% { opacity: 1; }
+              100% { opacity: 1; stroke-dashoffset: 0; }
+            }
+            @keyframes valDrawCircle {
+              from { stroke-dashoffset: 44; }
+              to { stroke-dashoffset: 0; }
+            }
+          `}} />
 
-      {/* Dynamic inline styles for logo animations */}
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes valShootSpike {
-          0% {
-            opacity: 0;
-            stroke-dashoffset: 13;
-          }
-          1% {
-            opacity: 1;
-          }
-          100% {
-            opacity: 1;
-            stroke-dashoffset: 0;
-          }
-        }
-
-        @keyframes valDrawCircle {
-          from {
-            stroke-dashoffset: 44;
-          }
-          to {
-            stroke-dashoffset: 0;
-          }
-        }
-
-        .val-line {
-          stroke-linecap: round;
-          stroke-dasharray: 13;
-          stroke-dashoffset: 13;
-          opacity: 0;
-          animation: valShootSpike 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
-
-        .val-circle {
-          stroke-linecap: round;
-          stroke-dasharray: 44;
-          stroke-dashoffset: 44;
-          animation: valDrawCircle 1.25s linear forwards;
-          animation-delay: 0.1s;
-        }
-
-        .val-logo-rotate {
-          will-change: transform;
-        }
-
-        @keyframes valFadeChar {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        .val-char-v1, .val-char-v2, .val-char-v3, .val-char-v4,
-        .val-char-v5, .val-char-v6, .val-char-v7, .val-char-v8,
-        .val-char-c1, .val-char-c2, .val-char-c3, .val-char-c4,
-        .val-char-c5, .val-char-c6 {
-          opacity: 0;
-          animation: valFadeChar 0.18s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
-
-        /* Valorian Clockwise Sweep (9:00 Start -> swept at t = 0.35s to 0.56s) */
-        .val-char-v1 { animation-delay: 0.35s; }
-        .val-char-v2 { animation-delay: 0.38s; }
-        .val-char-v3 { animation-delay: 0.41s; }
-        .val-char-v4 { animation-delay: 0.44s; }
-        .val-char-v5 { animation-delay: 0.47s; }
-        .val-char-v6 { animation-delay: 0.50s; }
-        .val-char-v7 { animation-delay: 0.53s; }
-        .val-char-v8 { animation-delay: 0.56s; }
-
-        /* Circle Sweep -> Unroll from Right-to-Left (t = 0.95s to 1.10s) */
-        .val-char-c6 { animation-delay: 0.95s; }
-        .val-char-c5 { animation-delay: 0.98s; }
-        .val-char-c4 { animation-delay: 1.01s; }
-        .val-char-c3 { animation-delay: 1.04s; }
-        .val-char-c2 { animation-delay: 1.07s; }
-        .val-char-c1 { animation-delay: 1.10s; }
-
-        .val-circle-loaded {
-          cursor: pointer !important;
-          pointer-events: auto !important;
-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-
-
-        .val-circle-clicked {
-          pointer-events: none !important;
-          transition: all 0.6s ease-out;
-        }
-
-        @keyframes bentoSlideUp {
-          0% {
-            opacity: 0;
-            transform: translateY(40px) scale(0.97);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-
-        .bento-container {
-          animation: bentoSlideUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
-
-        @keyframes valSloganFadeInChar {
-          0% {
-            opacity: 0;
-            transform: translateY(6px) scale(0.96);
-            filter: blur(2px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            filter: blur(0px);
-          }
-        }
-
-        @keyframes valSloganFadeOut {
-          0% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            filter: blur(0px);
-          }
-          100% {
-            opacity: 0;
-            transform: translateY(-8px) scale(0.9);
-            filter: blur(2px);
-          }
-        }
-
-        @keyframes valClickPulseText {
-          0%, 100% { opacity: 0.3; transform: scale(0.98); }
-          50% { opacity: 1; transform: scale(1.02); }
-        }
-
-        @keyframes valClickPulseLogo {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.015); }
-        }
-      `}} />
-
-      {/* Center Brand Column */}
-      <div className="flex flex-col items-center justify-center relative select-none">
-
-        <div
-          ref={logoContainerRef}
-          key={key}
-          onClick={handleLogoClick}
-          className={`w-[360px] h-[360px] flex items-center justify-center relative select-none transition-all ease-[cubic-bezier(0.15,0.85,0.2,1)] duration-[2000ms] z-30 ${isLoaded ? 'cursor-pointer' : ''
-            } ${isLogoMovedUp
-              ? 'transform-gpu scale-[0.48] -translate-y-[53vh] opacity-0 pointer-events-none'
-              : isLoaded
-                ? 'transform-gpu scale-[0.62] -translate-y-[50px] opacity-100'
-                : 'transform-gpu scale-100 translate-y-0 opacity-100'
-            }`}
-        >
-          <div
-            className="w-full h-full flex items-center justify-center"
-            style={{
-              transform: isLogoMovedUp ? `scale(${1 + proximityGlow * 0.25})` : 'scale(1)',
-              transition: 'transform 0.15s ease-out'
-            }}
-          >
-            <svg
-              viewBox="0 0 260 260"
-              className="w-full h-full drop-shadow-[0_8px_24px_rgba(13,31,60,0.06)]"
-              xmlns="http://www.w3.org/2000/svg"
+          <div className="flex flex-col items-center justify-center relative select-none">
+            <div
+              className="w-[360px] h-[360px] flex items-center justify-center relative select-none z-30"
             >
-            {/* Curved Path definitions for text */}
-            <defs>
-              {/* Top arc: radius 112, centered at (130, 130) */}
-              <path id="top-text-path" d="M 18,130 A 112,112 0 0,1 242,130" fill="none" />
-              {/* Bottom arc: radius 124, centered at (130, 130), left-to-right via bottom so text is right side up */}
-              <path id="bottom-text-path" d="M 6,130 A 124,124 0 0,0 254,130" fill="none" />
-            </defs>
-
-            {/* Static Curved Brand Typography (Does NOT rotate) */}
-            <g className={`select-none pointer-events-none transition-opacity duration-[1500ms] ${isClicked ? 'opacity-0' : 'opacity-100'}`}>
-              {/* Top Curved Text: VALORIAN */}
-              <text
-                className="fill-[#0D1F3C] font-light uppercase"
-                fontSize="14"
-                textAnchor="middle"
-                style={{
-                  fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-                  letterSpacing: "0.28em",
-                }}
+              <div
+                className={`w-full h-full flex items-center justify-center transition-all duration-1000 ${
+                  !isLoaded ? 'scale-100 translate-y-0 opacity-100' : 'scale-[0.62] -translate-y-[50px] opacity-100'
+                }`}
               >
-                <textPath href="#top-text-path" startOffset="50%" textAnchor="middle">
-                  <tspan className="val-char-v1">V</tspan><tspan className="val-char-v2">a</tspan><tspan className="val-char-v3">l</tspan><tspan className="val-char-v4">o</tspan><tspan className="val-char-v5">r</tspan><tspan className="val-char-v6">i</tspan><tspan className="val-char-v7">a</tspan><tspan className="val-char-v8">n</tspan>
-                </textPath>
-              </text>
-
-              {/* Bottom Curved Text: CIRCLE */}
-              <text
-                className="fill-[#0D1F3C] font-light uppercase"
-                fontSize="14"
-                textAnchor="middle"
-                style={{
-                  fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
-                  letterSpacing: "0.28em",
-                }}
-              >
-                <textPath href="#bottom-text-path" startOffset="50.8%" textAnchor="middle">
-                  <tspan className="val-char-c1">C</tspan><tspan className="val-char-c2">i</tspan><tspan className="val-char-c3">r</tspan><tspan className="val-char-c4">c</tspan><tspan className="val-char-c5">l</tspan><tspan className="val-char-c6">e</tspan>
-                </textPath>
-              </text>
-            </g>
-
-            {/* Interactive Logo Wrapper (Scaling + Pulsing) */}
-            <g transform={`translate(130, 130) scale(${5 + proximityGlow * 0.35}) translate(-20, -20)`}>
-              <g style={{
-                transformOrigin: '20px 20px',
-                animation: showClickPrompt && !isClicked ? 'valClickPulseLogo 2.5s ease-in-out infinite' : 'none'
-              }}>
-                
-                {/* Rotating Sunburst Icon Group */}
-                <g
-                  ref={rotateElementRef}
-                  className="val-logo-rotate"
+                <svg
+                  viewBox="0 0 260 260"
+                  className="w-full h-full drop-shadow-[0_8px_24px_rgba(13,31,60,0.06)]"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  {/* Exactly rebuilt 80 lines from /Users/armandabbas/Desktop/valorian-circle-logo.svg */}
-                  <g opacity="1">
-                    {LOGO_LINES.map((line, i) => (
-                      <line
-                        key={i}
-                        x1={line.x1}
-                        y1={line.y1}
-                        x2={line.x2}
-                        y2={line.y2}
-                        stroke="#0D1F3C"
-                        strokeWidth="0.4"
-                        strokeLinecap="round"
-                        className="val-line"
-                        style={{
-                          // Sweep starting at 9 o'clock (index 40) and unrolling clockwise
-                          animationDelay: `${0.1 + (((i - 40 + 80) % 80) / 80) * 1.25}s`,
-                        }}
-                      />
-                    ))}
+                  <defs>
+                    <path id="top-text-path" d="M 18,130 A 112,112 0 0,1 242,130" fill="none" />
+                    <path id="bottom-text-path" d="M 6,130 A 124,124 0 0,0 254,130" fill="none" />
+                  </defs>
+
+                  <g className="select-none pointer-events-none transition-opacity duration-[1500ms] opacity-100">
+                    <text
+                      className="fill-[#0D1F3C] font-light uppercase"
+                      fontSize="14"
+                      textAnchor="middle"
+                      style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif", letterSpacing: "0.28em" }}
+                    >
+                      <textPath href="#top-text-path" startOffset="50%" textAnchor="middle">
+                        <tspan className="val-char-v1">V</tspan><tspan className="val-char-v2">a</tspan><tspan className="val-char-v3">l</tspan><tspan className="val-char-v4">o</tspan><tspan className="val-char-v5">r</tspan><tspan className="val-char-v6">i</tspan><tspan className="val-char-v7">a</tspan><tspan className="val-char-v8">n</tspan>
+                      </textPath>
+                    </text>
+                    <text
+                      className="fill-[#0D1F3C] font-light uppercase"
+                      fontSize="14"
+                      textAnchor="middle"
+                      style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif", letterSpacing: "0.28em" }}
+                    >
+                      <textPath href="#bottom-text-path" startOffset="50.8%" textAnchor="middle">
+                        <tspan className="val-char-c1">C</tspan><tspan className="val-char-c2">i</tspan><tspan className="val-char-c3">r</tspan><tspan className="val-char-c4">c</tspan><tspan className="val-char-c5">l</tspan><tspan className="val-char-c6">e</tspan>
+                      </textPath>
+                    </text>
                   </g>
 
-                  {/* Exactly rebuilt center circle, rotated to start unrolling at 9 o'clock */}
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="7"
-                    fill="none"
-                    strokeWidth="0.6"
-                    className={`val-circle ${isLoaded ? 'val-circle-loaded' : ''} ${isClicked ? 'val-circle-clicked' : ''}`}
-                    onClick={handleLogoClick}
-                    transform="rotate(-180, 20, 20)"
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                    style={{
-                      stroke: isHovered
-                        ? "#D4AF37"
-                        : blendColors("#0D1F3C", "#D4AF37", proximityGlow),
-                      filter: isHovered
-                        ? "drop-shadow(0 0 10px rgba(212, 175, 55, 0.85))"
-                        : proximityGlow > 0
-                          ? `drop-shadow(0 0 ${proximityGlow * 8}px rgba(212, 175, 55, ${proximityGlow * 0.7}))`
-                          : undefined,
-                      transition: "stroke 0.4s ease-out, filter 0.4s ease-out"
-                    }}
-                  />
+                  <g transform={`translate(130, 130) scale(${5 + proximityGlow * 0.35}) translate(-20, -20)`}>
+                    <g>
+                      <g ref={rotateElementRef} className="val-logo-rotate">
+                        <g opacity="1">
+                          {LOGO_LINES.map((line, i) => {
+                            const f = ((i - 40 + 80) % 80) / 80;
+                            return (
+                              <line
+                                key={i}
+                                x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2}
+                                stroke="#0D1F3C"
+                                strokeWidth="0.4"
+                                strokeLinecap="round"
+                                className="val-line"
+                                style={{
+                                  strokeDasharray: 13,
+                                  strokeDashoffset: 13,
+                                  animationDelay: `${0.1 + f * 1.25}s`,
+                                }}
+                              />
+                            );
+                          })}
+                        </g>
+                        <circle
+                          cx="20" cy="20" r="7"
+                          fill="none"
+                          strokeWidth="0.6"
+                          className="val-circle"
+                          transform="rotate(-180, 20, 20)"
+                          onMouseEnter={() => setIsHovered(true)}
+                          onMouseLeave={() => setIsHovered(false)}
+                          style={{
+                            strokeDasharray: 44,
+                            strokeDashoffset: 44,
+                            animationDelay: "0.1s",
+                            stroke: isHovered
+                              ? "#D4AF37"
+                              : blendColors("#0D1F3C", "#D4AF37", proximityGlow),
+                            filter: isHovered
+                              ? "drop-shadow(0 0 10px rgba(212, 175, 55, 0.85))"
+                              : proximityGlow > 0
+                                ? `drop-shadow(0 0 ${proximityGlow * 8}px rgba(212, 175, 55, ${proximityGlow * 0.7}))`
+                                : undefined,
+                            transition: "stroke 0.4s ease-out, filter 0.4s ease-out"
+                          }}
+                        />
 
-                  {/* Generous Invisible Hover/Click Target */}
-                  <circle
-                    cx="20"
-                    cy="20"
-                    r="9"
-                    fill="transparent"
-                    style={{ cursor: isLoaded ? 'pointer' : 'default' }}
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                    onClick={handleLogoClick}
-                  />
-                </g>
-                
-                {/* Click prompt text (Static rotation, pulses with logo) */}
-                <text
-                  x="20"
-                  y="20.45"
-                  textAnchor="middle"
-                  fontSize="1.3"
-                  fill="#0D1F3C"
-                  style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontWeight: 600,
-                    letterSpacing: "0.08em",
-                    opacity: showClickPrompt && !isClicked ? 1 : 0,
-                    animation: showClickPrompt && !isClicked ? 'valClickPulseText 2.5s ease-in-out infinite' : 'none',
-                    pointerEvents: 'none',
-                    transition: 'opacity 0.5s ease-in-out',
-                    transformOrigin: '20px 20px'
-                  }}
-                >
-                  CLICK
-                </text>
-              </g>
-            </g>
-          </svg>
+                        <circle
+                          cx="20" cy="20" r="9"
+                          fill="transparent"
+                          style={{ cursor: isLoaded ? 'pointer' : 'default' }}
+                          onMouseEnter={() => setIsHovered(true)}
+                          onMouseLeave={() => setIsHovered(false)}
+                        />
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+            </div>
+
+            {isLoaded && (
+              <div
+                className="absolute flex flex-col items-center justify-center text-center px-6 pointer-events-none select-none"
+              >
+                <div style={{ transform: "translateY(140px)", width: "95vw", maxWidth: "1400px" }}>
+                  <p
+                    className="text-[#0D1F3C]/85 font-light tracking-[0.04em] text-[32px] md:text-[32px] lg:text-[32px]"
+                    style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", lineHeight: "1.4" }}
+                  >
+                    {SLOGAN_CHARS.map((item, idx) => (
+                      <React.Fragment key={idx}>
+                        <span
+                          style={{
+                            fontFamily: item.isItalic ? "'Playfair Display', serif" : undefined,
+                            fontStyle: item.isItalic ? "italic" : undefined,
+                            color: item.isBlue ? "#003399" : undefined,
+                            display: "inline-block",
+                            whiteSpace: item.char === " " ? "pre" : "normal",
+                            animation: `valSloganFadeInChar 0.8s cubic-bezier(0.16, 1, 0.3, 1) both`,
+                            animationDelay: `${0.8 + idx * 0.022}s`
+                          }}
+                        >
+                          {item.char}
+                        </span>
+                        {item.isNewLineAfter && <br />}
+                      </React.Fragment>
+                    ))}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
 
-        {/* Slogan visible when logo has moved up, fades in letter-by-letter from left, and exit fades letter-by-letter from right when clicked */}
-        {isLoaded && (
-          <div
-            className="absolute flex flex-col items-center justify-center text-center px-6 pointer-events-none select-none"
-            style={{
-              top: "320px",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "95vw",
-              maxWidth: "1400px"
-            }}
+          <motion.div
+            style={{ opacity: promptOpacity }}
+            className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
           >
-            <p
-              className="text-[#0D1F3C]/85 font-light tracking-[0.04em] text-[32px] md:text-[32px] lg:text-[32px]"
+            <span
               style={{
-                fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                lineHeight: "1.4"
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '10px',
+                letterSpacing: '0.22em',
+                color: '#0D1F3C',
+                opacity: 0.5,
               }}
             >
-              {SLOGAN_CHARS.map((item, idx) => {
-                const isNewLine = item.isNewLineAfter;
-                return (
-                  <React.Fragment key={idx}>
-                    <span
-                      style={{
-                        fontFamily: item.isItalic ? "'Playfair Display', serif" : undefined,
-                        fontStyle: item.isItalic ? "italic" : undefined,
-                        color: item.isBlue ? "#003399" : undefined,
-                        display: "inline-block",
-                        whiteSpace: item.char === " " ? "pre" : "normal",
-                        animation: isClicked
-                          ? `valSloganFadeOut 0.2s cubic-bezier(0.25, 1, 0.5, 1) forwards`
-                          : `valSloganFadeInChar 0.8s cubic-bezier(0.16, 1, 0.3, 1) both`,
-                        animationDelay: isClicked
-                          ? `${(SLOGAN_CHARS.length - 1 - idx) * 0.012}s`
-                          : `${0.8 + idx * 0.022}s`
-                      }}
-                    >
-                      {item.char}
-                    </span>
-                    {isNewLine && <br />}
-                  </React.Fragment>
-                );
-              })}
-            </p>
-          </div>
-        )}
+              SCROLL TO CONTINUE
+            </span>
+            <ChevronDown
+              size={14}
+              color="#0D1F3C"
+              style={{
+                opacity: 0.4,
+                animation: 'scrollBounce 1.6s ease-in-out infinite',
+              }}
+            />
+          </motion.div>
+        </div>
+      </motion.div>
 
-        {/* Redirect takes care of the content rendering, so no more embedded CirclesPage here */}
+      <div className="relative z-10">
+        <Navigation onApplyClick={() => setIsFormOpen(true)} />
+
+        <div className="min-h-screen bg-[#FFF8E7]" style={{ fontFamily: 'Inter, sans-serif' }}>
+
+          <section className="relative pt-40 pb-20 md:pt-48 md:pb-32 px-6 md:px-12 overflow-hidden">
+            <ScrollReveal className="max-w-[1000px] mx-auto text-center relative z-10">
+              <h1 className="text-5xl md:text-7xl lg:text-[5rem] leading-[1.05] tracking-tight text-[#0D1F3C] mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>
+                Depth and relevant peers over transactional networking.
+              </h1>
+              <p className="text-lg md:text-xl text-[#0D1F3C]/70 leading-relaxed max-w-2xl mx-auto mb-12 font-light">
+                A curated, invite-only peer community of accomplished European founders, investors, and executives. United by a shared European ambition.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <button
+                  onClick={() => setIsFormOpen(true)}
+                  className="w-full sm:w-auto px-8 py-4 bg-[#0D1F3C] text-white rounded-full font-medium tracking-wide hover:bg-[#0D1F3C]/90 transition-all flex items-center justify-center gap-2"
+                >
+                  Request Invitation <ArrowRight className="w-4 h-4" />
+                </button>
+                <div className="text-sm text-[#0D1F3C]/50">
+                  By recommendation only or via our{' '}
+                  <Link to="/selection" className="text-[#0D1F3C] underline underline-offset-4 hover:text-[#0D1F3C]/70 transition-colors">
+                    selection process
+                  </Link>.
+                </div>
+              </div>
+            </ScrollReveal>
+          </section>
+
+          {/* MISSION TEASER */}
+          <section className="py-24 px-6 md:px-12 border-t border-[#0D1F3C]/10 bg-white/30">
+            <ScrollReveal className="max-w-[800px] mx-auto text-center">
+              <h2 className="text-3xl md:text-4xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+                A Vision for Europe
+              </h2>
+              <p className="text-lg text-[#0D1F3C]/70 leading-relaxed mb-8 font-light">
+                Europe is entering a defining decade that requires courage and true builders.
+                We bring together those who carry the responsibility to not only shape their companies but leave a lasting impact on the continent.
+              </p>
+              <Link to="/mission" className="inline-flex items-center gap-2 text-[#0D1F3C] font-medium hover:opacity-70 transition-opacity">
+                Read our mission <ArrowRight className="w-4 h-4" />
+              </Link>
+            </ScrollReveal>
+          </section>
+
+          {/* SELECTED MEMBERS & STATS */}
+          <section className="py-32 px-6 md:px-12 border-t border-[#0D1F3C]/10">
+            <div className="max-w-[1200px] mx-auto">
+              <ScrollReveal className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                <div className="max-w-[600px]">
+                  <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+                    Selected Members
+                  </h2>
+                  <p className="text-lg text-[#0D1F3C]/70 font-light">
+                    The caliber of our network speaks for itself. A confidential space for individuals who already wield significant influence.
+                  </p>
+                </div>
+                <Link to="/members" className="inline-flex items-center gap-2 px-6 py-3 border border-[#0D1F3C]/20 rounded-full text-[#0D1F3C] hover:bg-[#0D1F3C]/5 transition-colors whitespace-nowrap">
+                  All Members <ArrowRight className="w-4 h-4" />
+                </Link>
+              </ScrollReveal>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
+                {[
+                  { value: '€2B+', label: 'Capital Raised' },
+                  { value: '€5B+', label: 'Accumulated Exit Value' },
+                  { value: '€15B+', label: 'Assets Under Management' },
+                  { value: '€500M+', label: 'Combined ARR' },
+                ].map(({ value, label }, idx) => (
+                  <ScrollReveal key={label} delay={idx * 0.08}>
+                    <div className="text-4xl text-[#0D1F3C] mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>{value}</div>
+                    <div className="text-sm text-[#0D1F3C]/60 uppercase tracking-widest font-medium">{label}</div>
+                  </ScrollReveal>
+                ))}
+              </div>
+
+              <ScrollReveal className="bg-white/50 border border-[#0D1F3C]/10 p-8 md:p-12">
+                <h3 className="text-lg font-medium text-[#0D1F3C] mb-8 uppercase tracking-wide">Network Distribution</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
+                  {['Post-Exit Founders', 'Operative Founders', 'Investors & VCs', 'Executives', 'Public Figures'].map((role) => (
+                    <div key={role} className="flex items-center gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#0D1F3C]/40" />
+                      <span className="text-[#0D1F3C]/80 font-light">{role}</span>
+                    </div>
+                  ))}
+                </div>
+              </ScrollReveal>
+            </div>
+          </section>
+
+          {/* WHAT WE TALK ABOUT */}
+          <section className="py-32 px-6 md:px-12 bg-[#0D1F3C] text-white">
+            <div className="max-w-[1200px] mx-auto">
+              <ScrollReveal>
+                <h2 className="text-4xl md:text-5xl mb-16 text-center" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  What we talk about
+                </h2>
+              </ScrollReveal>
+              <div className="grid md:grid-cols-2 gap-x-12 gap-y-16">
+                {[
+                  { title: 'Capital Allocation', body: 'Access to opportunities, market knowledge, and deep allocation experience across industries and markets. Real insights far beyond standard pitches.' },
+                  { title: 'Personal Matters', body: 'Family, health, purpose: the crucial personal questions that extreme success brings. A protected space without judgment.' },
+                  { title: 'Business Decisions', body: 'A trusted sounding board for strategic directions, crisis management, as well as complex questions of exit, stepping back, and identity.' },
+                  { title: 'The Bigger Picture', body: 'Navigating EU regulation together, developing a strong vision for Europe, and answering location questions strategically.' },
+                ].map(({ title, body }, idx) => (
+                  <ScrollReveal key={title} delay={idx * 0.07}>
+                    <h3 className="text-2xl mb-4 font-medium" style={{ fontFamily: "'Playfair Display', serif" }}>{title}</h3>
+                    <p className="text-white/70 leading-relaxed font-light">{body}</p>
+                  </ScrollReveal>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* HOW IT WORKS */}
+          <section className="py-32 px-6 md:px-12">
+            <div className="max-w-[1000px] mx-auto">
+              <ScrollReveal className="text-center mb-20">
+                <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  How it works
+                </h2>
+                <p className="text-lg text-[#0D1F3C]/70 font-light max-w-2xl mx-auto">
+                  Our white-glove promise: Maximum value with minimal time investment.
+                  Valorian handles curation and organization, you invest barely any time.
+                </p>
+              </ScrollReveal>
+              <div className="space-y-12">
+                {[
+                  { title: 'Circles', outcome: 'Continuous depth instead of one-off encounters', mechanic: 'Fixed, small peer groups (6-8 people), individually curated by profile and preferences, meeting regularly and truly getting to know each other over time.' },
+                  { title: 'Member Directory', outcome: 'Find the right peer specifically', mechanic: 'A searchable, exclusive directory by industry, location, experience, and topics.' },
+                  { title: '1-on-1 Introductions', outcome: 'Valuable relationships without doing your own research', mechanic: 'One handpicked introduction per month, exactly tailored to current questions or interests. Valorian selects, the member just says yes.' },
+                  { title: 'Events', outcome: 'Meeting in a genuine setting', mechanic: 'Curated, intimate formats (e.g., exclusive dinners, retreats, off-sites) in strictly limited groups. Conversation quality comes far before event size.' },
+                  { title: 'Knowledge Hub', outcome: 'Profit from experience instead of making mistakes yourself', mechanic: 'Curated playbooks, insights, and bundled resources directly from the exclusive network.' },
+                  { title: 'Digital Community', outcome: 'Ongoing exchange between meetings', mechanic: 'The protected digital space where important questions, recommendations, and strategic conversations can continue confidentially at any time.' },
+                ].map((format, idx) => (
+                  <ScrollReveal key={idx} className="flex flex-col md:flex-row gap-6 md:gap-12 border-b border-[#0D1F3C]/10 pb-12 last:border-0">
+                    <div className="md:w-1/3">
+                      <h3 className="text-2xl text-[#0D1F3C]" style={{ fontFamily: "'Playfair Display', serif" }}>{format.title}</h3>
+                    </div>
+                    <div className="md:w-2/3">
+                      <div className="text-lg font-medium text-[#0D1F3C] mb-2">{format.outcome}</div>
+                      <p className="text-[#0D1F3C]/70 font-light leading-relaxed">{format.mechanic}</p>
+                    </div>
+                  </ScrollReveal>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* FAQ */}
+          <section className="py-32 px-6 md:px-12 bg-white/30 border-t border-[#0D1F3C]/10">
+            <div className="max-w-[800px] mx-auto">
+              <ScrollReveal>
+                <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-12 text-center" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Frequently Asked Questions
+                </h2>
+              </ScrollReveal>
+              <div className="space-y-4">
+                {[
+                  { q: 'Who qualifies for membership?', a: 'Membership is strictly limited to European founders (post-exit or significant operational traction), selected investors, and leading executives. Details can be found on the Selection page.' },
+                  { q: 'How does the application process work?', a: 'The process begins with an invitation by an existing member or a direct application. After an initial screening, short personal interviews follow to ensure the fit for the community.' },
+                  { q: 'How much time do I need to invest?', a: 'Our white-glove approach means you decide how intensely you use the network. Participation in a Circle requires about 2 hours every two months. All other formats are optional.' },
+                  { q: 'How is confidentiality ensured?', a: 'Valorian operates under strict Chatham House Rules. The small, highly curated group size and our rigorous vetting process guarantee a safe space for highly sensitive topics.' },
+                ].map((faq, idx) => (
+                  <ScrollReveal key={idx} delay={idx * 0.06} className="border border-[#0D1F3C]/10 bg-white/50 overflow-hidden">
+                    <button
+                      onClick={() => toggleFaq(idx)}
+                      className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/80 transition-colors"
+                    >
+                      <span className="font-medium text-[#0D1F3C] pr-8">{faq.q}</span>
+                      <ChevronDown className={`w-5 h-5 text-[#0D1F3C]/50 transition-transform ${openFaq === idx ? 'rotate-180' : ''}`} />
+                    </button>
+                    {openFaq === idx && (
+                      <div className="px-6 pb-6 text-[#0D1F3C]/70 font-light leading-relaxed">
+                        {faq.a}
+                      </div>
+                    )}
+                  </ScrollReveal>
+                ))}
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <Footer />
+        <CookieBanner />
       </div>
+
       <ApplicationForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
     </div>
   );

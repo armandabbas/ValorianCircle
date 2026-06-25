@@ -326,47 +326,7 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
           </div>
         </div>
 
-        {/* Header Row for embedded view */}
-        {isEmbedded && (
-          <div className="absolute top-2 sm:top-3 left-0 right-0 w-full pl-3 sm:pl-4 pr-3 sm:pr-4 z-40 flex justify-between items-center">
-            <Link to="/" className="transition-opacity hover:opacity-85">
-              <img src={logoImg} alt="Valorian Logo" className="h-10 md:h-12 w-auto object-contain" />
-            </Link>
-            {handleApplyClick && (
-              <button
-                onClick={handleApplyClick}
-                className="text-[0.9375rem] px-8 py-3 transition-opacity hover:opacity-90 font-medium"
-                style={{ fontFamily: 'Inter, sans-serif', color: '#FFFFFF', backgroundColor: '#0D1F3C', borderRadius: '6px', border: 'none', cursor: 'pointer' }}
-              >
-                Request Invitation
-              </button>
-            )}
-          </div>
-        )}
-
-        {/* Header Row for standalone view */}
-        {!isEmbedded && (
-          <div 
-            className="absolute top-4 left-0 right-0 w-full px-6 md:px-12 z-40 flex justify-between items-center"
-            style={{
-              opacity: animate ? 1 : 0,
-              transition: "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1)",
-            }}
-          >
-            <Link to="/" className="transition-opacity hover:opacity-85 flex items-center gap-3">
-              <img src={logoImg} alt="Valorian Logo" className="h-7 md:h-8 w-auto object-contain" />
-            </Link>
-            {handleApplyClick && (
-              <button
-                onClick={handleApplyClick}
-                className="text-[0.9375rem] px-8 py-3 transition-opacity hover:opacity-90 font-medium"
-                style={{ fontFamily: 'Inter, sans-serif', color: '#FFFFFF', backgroundColor: '#0D1F3C', borderRadius: '6px', border: 'none', cursor: 'pointer' }}
-              >
-                Request Invitation
-              </button>
-            )}
-          </div>
-        )}
+        {/* Custom headers removed to rely on global Navigation component from RootLayout */}
 
         {/* Static Title Content Section */}
         <div 
