@@ -599,7 +599,7 @@ export function NewPage() {
 
         <div className="min-h-screen bg-[#FFF8E7]" style={{ fontFamily: "\'Hanken Grotesk\', sans-serif" }}>
 
-          <section ref={lowerHeroRef} className="relative overflow-hidden flex flex-col items-center justify-center min-h-[110vh]">
+          <section ref={lowerHeroRef} className="relative overflow-x-hidden flex flex-col items-center justify-center min-h-[110vh] mb-[80vh] md:mb-[100vh]">
             {/* Background circle of stars - Animated from bottom up and small to big */}
             <motion.div 
               style={{ y: starY, scale: starScale, opacity: starOpacity, transformOrigin: "top center" }}
