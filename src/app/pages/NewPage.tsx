@@ -2,7 +2,27 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, animate } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown } from 'lucide-react';
-import { Navigation } from '../components/Navigation';
+import StaggeredMenu from '../components/StaggeredMenu';
+import logoImg from '../../assets/logo.png';
+import circleImg from '../../assets/Group 3.svg';
+
+const menuItems = [
+  { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
+  { label: 'Mission', ariaLabel: 'Read our mission', link: '/mission' },
+  { label: 'Selection', ariaLabel: 'View selection process', link: '/selection' },
+  { label: 'Members', ariaLabel: 'See members', link: '/members' },
+];
+
+const socialItems = [
+  { label: 'LinkedIn', link: 'https://linkedin.com' },
+  { label: 'Twitter', link: 'https://twitter.com' },
+];
+
+const headerLinks = [
+  { label: 'Mission', link: '/mission' },
+  { label: 'Members', link: '/members' },
+  { label: 'Selection', link: '/selection' }
+];
 import { Footer } from '../components/Footer';
 import { ApplicationForm } from '../components/ApplicationForm';
 import { CookieBanner } from '../components/CookieBanner';
@@ -189,6 +209,25 @@ export function NewPage() {
   const [isHovered, setIsHovered] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [proximityGlow, setProximityGlow] = useState(0);
+
+  const lowerHeroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: lowerHeroProgress } = useScroll({
+    target: lowerHeroRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Scale from small (0.2) to big (1.2)
+  const starScale = useTransform(lowerHeroProgress, [0.1, 0.8], [0.2, 1.2]);
+  
+  // Move from bottom (400px down) to top (0px)
+  const starY = useTransform(lowerHeroProgress, [0.1, 0.8], [400, 0]);
+  
+  // Fade in the star early on
+  const starOpacity = useTransform(lowerHeroProgress, [0.1, 0.4], [0, 1]);
+  
+  // Fade in and slide up H1 when the star is moving into place
+  const h1Opacity = useTransform(lowerHeroProgress, [0.1, 0.3], [0, 1]);
+  const h1Y = useTransform(lowerHeroProgress, [0.1, 0.4], [50, 0]);
 
   useEffect(() => {
     let timeout: number;
@@ -399,7 +438,7 @@ export function NewPage() {
                       className="fill-[#0D1F3C] font-light uppercase"
                       fontSize="14"
                       textAnchor="middle"
-                      style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif", letterSpacing: "0.28em" }}
+                      style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif", letterSpacing: "0.15em" }}
                     >
                       <textPath href="#top-text-path" startOffset="50%" textAnchor="middle">
                         <tspan className="val-char-v1">V</tspan><tspan className="val-char-v2">a</tspan><tspan className="val-char-v3">l</tspan><tspan className="val-char-v4">o</tspan><tspan className="val-char-v5">r</tspan><tspan className="val-char-v6">i</tspan><tspan className="val-char-v7">a</tspan><tspan className="val-char-v8">n</tspan>
@@ -409,7 +448,7 @@ export function NewPage() {
                       className="fill-[#0D1F3C] font-light uppercase"
                       fontSize="14"
                       textAnchor="middle"
-                      style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif", letterSpacing: "0.28em" }}
+                      style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif", letterSpacing: "0.15em" }}
                     >
                       <textPath href="#bottom-text-path" startOffset="50.8%" textAnchor="middle">
                         <tspan className="val-char-c1">C</tspan><tspan className="val-char-c2">i</tspan><tspan className="val-char-c3">r</tspan><tspan className="val-char-c4">c</tspan><tspan className="val-char-c5">l</tspan><tspan className="val-char-c6">e</tspan>
@@ -519,7 +558,7 @@ export function NewPage() {
               style={{
                 fontFamily: "'Inter', sans-serif",
                 fontSize: '10px',
-                letterSpacing: '0.22em',
+                letterSpacing: "0.15em",
                 color: '#0D1F3C',
                 opacity: 0.5,
               }}
@@ -539,33 +578,47 @@ export function NewPage() {
       </motion.div>
 
       <div className="relative z-10">
-        <Navigation onApplyClick={() => setIsFormOpen(true)} />
+        <StaggeredMenu
+          position="right"
+          items={menuItems}
+          socialItems={socialItems}
+          displaySocials
+          displayItemNumbering={true}
+          menuButtonColor="#0D1F3C"
+          openMenuButtonColor="#fff"
+          changeMenuColorOnOpen={true}
+          colors={['#B497CF', '#5227FF']}
+          logoUrl={logoImg}
+          compactLogoUrl="/valorian-circle-logo.svg"
+          navLinks={headerLinks}
+          accentColor="#5227FF"
+          isFixed={true}
+          onMenuOpen={() => console.log('Menu opened')}
+          onMenuClose={() => console.log('Menu closed')}
+        />
 
-        <div className="min-h-screen bg-[#FFF8E7]" style={{ fontFamily: 'Inter, sans-serif' }}>
+        <div className="min-h-screen bg-[#FFF8E7]" style={{ fontFamily: "\'Hanken Grotesk\', sans-serif" }}>
 
-          <section className="relative pt-40 pb-20 md:pt-48 md:pb-32 px-6 md:px-12 overflow-hidden">
-            <ScrollReveal className="max-w-[1000px] mx-auto text-center relative z-10">
-              <h1 className="text-5xl md:text-7xl lg:text-[5rem] leading-[1.05] tracking-tight text-[#0D1F3C] mb-8" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Depth and relevant peers over transactional networking.
-              </h1>
-              <p className="text-lg md:text-xl text-[#0D1F3C]/70 leading-relaxed max-w-2xl mx-auto mb-12 font-light">
-                A curated, invite-only peer community of accomplished European founders, investors, and executives. United by a shared European ambition.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <button
-                  onClick={() => setIsFormOpen(true)}
-                  className="w-full sm:w-auto px-8 py-4 bg-[#0D1F3C] text-white rounded-full font-medium tracking-wide hover:bg-[#0D1F3C]/90 transition-all flex items-center justify-center gap-2"
-                >
-                  Request Invitation <ArrowRight className="w-4 h-4" />
-                </button>
-                <div className="text-sm text-[#0D1F3C]/50">
-                  By recommendation only or via our{' '}
-                  <Link to="/selection" className="text-[#0D1F3C] underline underline-offset-4 hover:text-[#0D1F3C]/70 transition-colors">
-                    selection process
-                  </Link>.
-                </div>
+          <section ref={lowerHeroRef} className="relative overflow-hidden flex flex-col items-center justify-center min-h-[110vh]">
+            {/* Background circle of stars - Animated from bottom up and small to big */}
+            <motion.div 
+              style={{ y: starY, scale: starScale, opacity: starOpacity, transformOrigin: "top center" }}
+              className="absolute top-[80px] md:top-[100px] left-1/2 -translate-x-1/2 w-[160vw] md:w-[100vw] max-w-[1600px] pointer-events-none select-none z-0">
+              
+              {/* Actual star image */}
+              <div className="relative w-full h-full">
+                <img src={circleImg} alt="Valorian Circle Arc" className="w-full h-auto object-contain" />
               </div>
-            </ScrollReveal>
+            </motion.div>
+
+            {/* H1 Top Left */}
+            <motion.div 
+              style={{ opacity: h1Opacity, y: h1Y }}
+              className="absolute top-[10%] left-6 md:left-12 max-w-[600px] z-20 pointer-events-auto">
+              <h1 className="text-black font-bold text-[36px] md:text-[56px] leading-[1.1]">
+                Depth and relevant peers over<br />transactional networking.
+              </h1>
+            </motion.div>
           </section>
 
           {/* MISSION TEASER */}
@@ -574,7 +627,7 @@ export function NewPage() {
               <h2 className="text-3xl md:text-4xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
                 A Vision for Europe
               </h2>
-              <p className="text-lg text-[#0D1F3C]/70 leading-relaxed mb-8 font-light">
+              <p className="text-lg text-[#5F5F5F] leading-relaxed mb-8 font-light">
                 Europe is entering a defining decade that requires courage and true builders.
                 We bring together those who carry the responsibility to not only shape their companies but leave a lasting impact on the continent.
               </p>
@@ -592,7 +645,7 @@ export function NewPage() {
                   <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
                     Selected Members
                   </h2>
-                  <p className="text-lg text-[#0D1F3C]/70 font-light">
+                  <p className="text-lg text-[#5F5F5F] font-light">
                     The caliber of our network speaks for itself. A confidential space for individuals who already wield significant influence.
                   </p>
                 </div>
@@ -610,7 +663,7 @@ export function NewPage() {
                 ].map(({ value, label }, idx) => (
                   <ScrollReveal key={label} delay={idx * 0.08}>
                     <div className="text-4xl text-[#0D1F3C] mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>{value}</div>
-                    <div className="text-sm text-[#0D1F3C]/60 uppercase tracking-widest font-medium">{label}</div>
+                    <div className="text-sm text-[#5F5F5F] uppercase tracking-widest font-medium">{label}</div>
                   </ScrollReveal>
                 ))}
               </div>
@@ -621,7 +674,7 @@ export function NewPage() {
                   {['Post-Exit Founders', 'Operative Founders', 'Investors & VCs', 'Executives', 'Public Figures'].map((role) => (
                     <div key={role} className="flex items-center gap-3">
                       <div className="w-1.5 h-1.5 rounded-full bg-[#0D1F3C]/40" />
-                      <span className="text-[#0D1F3C]/80 font-light">{role}</span>
+                      <span className="text-[#5F5F5F] font-light">{role}</span>
                     </div>
                   ))}
                 </div>
@@ -660,7 +713,7 @@ export function NewPage() {
                 <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
                   How it works
                 </h2>
-                <p className="text-lg text-[#0D1F3C]/70 font-light max-w-2xl mx-auto">
+                <p className="text-lg text-[#5F5F5F] font-light max-w-2xl mx-auto">
                   Our white-glove promise: Maximum value with minimal time investment.
                   Valorian handles curation and organization, you invest barely any time.
                 </p>
@@ -680,7 +733,7 @@ export function NewPage() {
                     </div>
                     <div className="md:w-2/3">
                       <div className="text-lg font-medium text-[#0D1F3C] mb-2">{format.outcome}</div>
-                      <p className="text-[#0D1F3C]/70 font-light leading-relaxed">{format.mechanic}</p>
+                      <p className="text-[#5F5F5F] font-light leading-relaxed">{format.mechanic}</p>
                     </div>
                   </ScrollReveal>
                 ))}
@@ -712,7 +765,7 @@ export function NewPage() {
                       <ChevronDown className={`w-5 h-5 text-[#0D1F3C]/50 transition-transform ${openFaq === idx ? 'rotate-180' : ''}`} />
                     </button>
                     {openFaq === idx && (
-                      <div className="px-6 pb-6 text-[#0D1F3C]/70 font-light leading-relaxed">
+                      <div className="px-6 pb-6 text-[#5F5F5F] font-light leading-relaxed">
                         {faq.a}
                       </div>
                     )}
