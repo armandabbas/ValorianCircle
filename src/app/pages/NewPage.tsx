@@ -611,30 +611,27 @@ export function NewPage() {
               </div>
             </motion.div>
 
-            {/* H1 Top Left */}
+            {/* Header Content (H1 + Vision Text) */}
             <motion.div 
               style={{ opacity: h1Opacity, y: h1Y }}
               className="absolute top-[10%] left-6 md:left-12 max-w-[600px] z-20 pointer-events-auto">
-              <h1 className="text-black font-bold text-[36px] md:text-[56px] leading-[1.1]">
+              <h1 className="text-black font-bold text-[36px] md:text-[56px] leading-[1.1] mb-8">
                 Depth and relevant peers over<br />transactional networking.
               </h1>
+              
+              <div className="max-w-[500px]">
+                <h2 className="text-2xl md:text-3xl text-[#0D1F3C] mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  A Vision for Europe
+                </h2>
+                <p className="text-base text-[#5F5F5F] leading-relaxed mb-6 font-light">
+                  Europe is entering a defining decade that requires courage and true builders.
+                  We bring together those who carry the responsibility to not only shape their companies but leave a lasting impact on the continent.
+                </p>
+                <Link to="/mission" className="inline-flex items-center gap-2 text-[#0D1F3C] font-medium hover:opacity-70 transition-opacity">
+                  Read our mission <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
             </motion.div>
-          </section>
-
-          {/* MISSION TEASER */}
-          <section className="py-24 px-6 md:px-12 border-t border-[#0D1F3C]/10 bg-white/30">
-            <ScrollReveal className="max-w-[800px] mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
-                A Vision for Europe
-              </h2>
-              <p className="text-lg text-[#5F5F5F] leading-relaxed mb-8 font-light">
-                Europe is entering a defining decade that requires courage and true builders.
-                We bring together those who carry the responsibility to not only shape their companies but leave a lasting impact on the continent.
-              </p>
-              <Link to="/mission" className="inline-flex items-center gap-2 text-[#0D1F3C] font-medium hover:opacity-70 transition-opacity">
-                Read our mission <ArrowRight className="w-4 h-4" />
-              </Link>
-            </ScrollReveal>
           </section>
 
           {/* SELECTED MEMBERS & STATS */}
