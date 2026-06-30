@@ -627,7 +627,7 @@ export function NewPage() {
 
         <div className="min-h-screen bg-[#FFFBF3] overflow-x-hidden w-full" style={{ fontFamily: "\'Hanken Grotesk\', sans-serif" }}>
 
-          <section ref={lowerHeroRef} className="relative overflow-visible flex flex-col items-center justify-center min-h-[110vh] mb-[40vh] md:mb-[60vh] pb-32">
+          <section ref={lowerHeroRef} className="relative overflow-visible flex flex-col items-center justify-center min-h-[110vh] mb-[80vh] md:mb-[100vh]">
             <div className="absolute top-[118vh] w-full h-[1px] snap-center pointer-events-none" />
 
             {/* Background circle of stars - Animated from bottom up and small to big */}
@@ -722,7 +722,7 @@ export function NewPage() {
                   <ScrollExitWord
                     key={i}
                     index={i} total={4} progress={lowerHeroProgress} 
-                    outStart={0.92} outEnd={1.02} 
+                    outStart={0.95} outEnd={1.05} 
                     variants={{
                       hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
                       visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
@@ -748,7 +748,7 @@ export function NewPage() {
                   <ScrollExitWord
                     key={i}
                     index={i} total={34} progress={lowerHeroProgress} 
-                    outStart={0.87} outEnd={0.97} 
+                    outStart={0.9} outEnd={1.0} 
                     variants={{
                       hidden: { opacity: 0, y: 20 },
                       visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
@@ -760,7 +760,7 @@ export function NewPage() {
                 ))}
               </motion.div>
 
-              <ScrollExitWord index={0} total={1} progress={lowerHeroProgress} outStart={0.82} outEnd={0.92}>
+              <ScrollExitWord index={0} total={1} progress={lowerHeroProgress} outStart={0.85} outEnd={0.95}>
                 <motion.button 
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -778,136 +778,48 @@ export function NewPage() {
           {/* OUR NETWORK & STATS */}
           <section className="py-32 px-6 md:px-12">
             <div className="max-w-[1200px] mx-auto">
-              <div className="mb-16 max-w-[600px]">
-                <motion.div
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-100px" }}
-                  variants={{
-                    visible: { transition: { staggerChildren: 0.08 } },
-                    hidden: {}
-                  }}
-                  className="text-[42px] md:text-[72px] text-[#0D1F3C] mb-6 flex flex-wrap"
-                  style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
-                >
-                  {["Our", "Network"].map((word, i) => (
-                    <motion.span
-                      key={i}
-                      variants={{
-                        hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
-                        visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
-                      }}
-                      className="inline-block mr-[0.25em]"
-                    >
-                      {word}
-                    </motion.span>
-                  ))}
-                </motion.div>
-                
-                <motion.div
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-100px" }}
-                  variants={{
-                    visible: { transition: { staggerChildren: 0.02, delayChildren: 0.4 } },
-                    hidden: {}
-                  }}
-                  className="text-lg text-[#5F5F5F] font-light flex flex-wrap"
-                >
-                  {"The caliber of our network speaks for itself. A confidential space for individuals who already wield significant influence.".split(" ").map((word, i) => (
-                    <motion.span
-                      key={i}
-                      variants={{
-                        hidden: { opacity: 0, y: 20 },
-                        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
-                      }}
-                      className="inline-block mr-[0.25em]"
-                    >
-                      {word}
-                    </motion.span>
-                  ))}
-                </motion.div>
-              </div>
+              <ScrollReveal className="mb-16">
+                <div className="max-w-[600px]">
+                  <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
+                    Our Network
+                  </h2>
+                  <p className="text-lg text-[#5F5F5F] font-light">
+                    The caliber of our network speaks for itself. A confidential space for individuals who already wield significant influence.
+                  </p>
+                </div>
+              </ScrollReveal>
 
-              <motion.div 
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={{
-                  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.8 } },
-                  hidden: {}
-                }}
-                className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12"
-              >
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
                 {[
                   { value: '€2B+', label: 'Capital Raised' },
                   { value: '€5B+', label: 'Accumulated Exit Value' },
                   { value: '€15B+', label: 'Assets Under Management' },
                   { value: '€500M+', label: 'Combined ARR' },
-                ].map(({ value, label }) => (
-                  <motion.div 
-                    key={label}
-                    variants={{
-                      hidden: { opacity: 0, y: 30, filter: 'blur(8px)' },
-                      visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
-                    }}
-                  >
+                ].map(({ value, label }, idx) => (
+                  <ScrollReveal key={label} delay={idx * 0.08}>
                     <div className="text-4xl text-[#0D1F3C] mb-2" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>{value}</div>
                     <div className="text-sm text-[#5F5F5F] uppercase tracking-widest font-medium">{label}</div>
-                  </motion.div>
+                  </ScrollReveal>
                 ))}
-              </motion.div>
+              </div>
 
-              <motion.div 
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={{
-                  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, delay: 1.2, ease: [0.16, 1, 0.3, 1] } },
-                  hidden: { opacity: 0, y: 20, filter: 'blur(8px)' }
-                }}
-                className="flex justify-start md:justify-center mb-20"
-              >
+              <ScrollReveal delay={0.3} className="flex justify-start md:justify-center mb-20">
                 <Link to="/members" onClick={() => window.scrollTo(0, 0)} className="inline-flex items-center gap-2 px-6 py-3 border border-[#0D1F3C]/20 rounded-full text-[#0D1F3C] hover:bg-[#0D1F3C]/5 transition-colors whitespace-nowrap">
                   Selected Members <ArrowRight className="w-4 h-4" />
                 </Link>
-              </motion.div>
+              </ScrollReveal>
 
-              <motion.div 
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={{
-                  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, delay: 1.4, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.08, delayChildren: 1.6 } },
-                  hidden: { opacity: 0, y: 40, filter: 'blur(8px)' }
-                }}
-                className="bg-white/50 border border-[#0D1F3C]/10 p-8 md:p-12"
-              >
-                <motion.h3 
-                  variants={{
-                    hidden: { opacity: 0, y: 10, filter: 'blur(4px)' },
-                    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6 } }
-                  }}
-                  className="text-lg font-medium text-[#0D1F3C] mb-8 uppercase tracking-wide"
-                >
-                  Network Distribution
-                </motion.h3>
+              <ScrollReveal className="bg-white/50 border border-[#0D1F3C]/10 p-8 md:p-12">
+                <h3 className="text-lg font-medium text-[#0D1F3C] mb-8 uppercase tracking-wide">Network Distribution</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
                   {['Post-Exit Founders', 'Operative Founders', 'Investors & VCs', 'Executives', 'Public Figures'].map((role) => (
-                    <motion.div 
-                      key={role} 
-                      variants={{
-                        hidden: { opacity: 0, y: 10, filter: 'blur(4px)' },
-                        visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6 } }
-                      }}
-                      className="flex items-center gap-3"
-                    >
+                    <div key={role} className="flex items-center gap-3">
                       <div className="w-1.5 h-1.5 rounded-full bg-[#0D1F3C]/40" />
                       <span className="text-[#5F5F5F] font-light">{role}</span>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
-              </motion.div>
+              </ScrollReveal>
             </div>
           </section>
 
