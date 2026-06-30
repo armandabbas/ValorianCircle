@@ -3,30 +3,30 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useState, useEffect } from 'react';
-import member1 from 'figma:asset/c8d85246ef3bad1d6e5f95fab53d5d407b2b61e5.png';
-import member2 from 'figma:asset/63e47bd0836e773747df275a6cc6405b77e0ad30.png';
-import member3 from 'figma:asset/03e7a8d3be5ad2614de732df648890672667be28.png';
-import member4 from 'figma:asset/b988e4eecb863e87f861e5b602bdffd7abe1d43e.png';
-import member5 from 'figma:asset/37bf613360b8ecd840cd6d8610b9d331d4695267.png';
-import member6 from 'figma:asset/9de6be44988cda7cad71ab08360e2b41d0b92e35.png';
-import member7 from 'figma:asset/0b8875f4e47ba917545238466007f4c4ac404246.png';
-import member8 from 'figma:asset/9e04cc53ac6b79cc23608748529106d2829aad4b.png';
-import member9 from 'figma:asset/258ca15e04cbce674257e87ff2e2eb4ff3c38d20.png';
-import member10 from 'figma:asset/11cc3d4d9410dab22aa5f1fc27f476ee7b0bb465.png';
-import member11 from 'figma:asset/00f0e6528337a6c8596821b53225b3472814921c.png';
-import member12 from 'figma:asset/d1eeaa6f1540dbaadf5082445d41c11779ee7ce4.png';
-import member13 from 'figma:asset/4246f42c3c2e0ef58dc850a088ea2ed2e05293fb.png';
-import member14 from 'figma:asset/de5f3a45d4de452d29f1b87d5e43efe26feccf1c.png';
-import member15 from 'figma:asset/5eb933aa3b8b6b2d340c75dfa45c7b1f9548d458.png';
-import member16 from 'figma:asset/bd9037808b997bf49f288651e4eec42de7c3b9eb.png';
-import member17 from 'figma:asset/99c9e66240d89360e5210853376a3e2522129ea5.png';
-import member18 from 'figma:asset/065314ec8b141d2c6904e58b03af00b15a8cd181.png';
-import member19 from 'figma:asset/ee993a9cdcb8d8d7c15105e815a9fab5be468336.png';
-import member20 from 'figma:asset/3903cab1cc753a736891cd06ff28bd56229947a6.png';
-import member21 from 'figma:asset/19de7866575126f62dbd19f6fbea923f1b88f942.png';
-import member22 from 'figma:asset/4b7a8355323947cd8e505a0f59b406ccc56e3ba8.png';
-import member23 from 'figma:asset/8dd432eb780e74be0dfb63cad7130b6e0abbd340.png';
-import member24 from 'figma:asset/42eea9ab55994baa6e5420d463610569c41241d0.png';
+import member1 from '../../assets/members/c8d85246ef3bad1d6e5f95fab53d5d407b2b61e5 1.png';
+import member2 from '../../assets/members/63e47bd0836e773747df275a6cc6405b77e0ad30 1.png';
+import member3 from '../../assets/members/03e7a8d3be5ad2614de732df648890672667be28 1.png';
+import member4 from '../../assets/members/b988e4eecb863e87f861e5b602bdffd7abe1d43e 1.png';
+import member5 from '../../assets/members/37bf613360b8ecd840cd6d8610b9d331d4695267 1.png';
+import member6 from '../../assets/members/9de6be44988cda7cad71ab08360e2b41d0b92e35 1.png';
+import member7 from '../../assets/members/0b8875f4e47ba917545238466007f4c4ac404246 1.png';
+import member8 from '../../assets/9e04cc53ac6b79cc23608748529106d2829aad4b.png';
+import member9 from '../../assets/members/258ca15e04cbce674257e87ff2e2eb4ff3c38d20 1.png';
+import member10 from '../../assets/members/11cc3d4d9410dab22aa5f1fc27f476ee7b0bb465 1.png';
+import member11 from '../../assets/members/00f0e6528337a6c8596821b53225b3472814921c 1.png';
+import member12 from '../../assets/members/d1eeaa6f1540dbaadf5082445d41c11779ee7ce4 1.png';
+import member13 from '../../assets/members/4246f42c3c2e0ef58dc850a088ea2ed2e05293fb 1.png';
+import member14 from '../../assets/members/de5f3a45d4de452d29f1b87d5e43efe26feccf1c 1.png';
+import member15 from '../../assets/members/5eb933aa3b8b6b2d340c75dfa45c7b1f9548d458 1.png';
+import member16 from '../../assets/members/bd9037808b997bf49f288651e4eec42de7c3b9eb 1.png';
+import member17 from '../../assets/members/99c9e66240d89360e5210853376a3e2522129ea5 1.png';
+import member18 from '../../assets/members/065314ec8b141d2c6904e58b03af00b15a8cd181 1.png';
+import member19 from '../../assets/members/ee993a9cdcb8d8d7c15105e815a9fab5be468336 1.png';
+import member20 from '../../assets/members/3903cab1cc753a736891cd06ff28bd56229947a6 1.png';
+import member21 from '../../assets/members/19de7866575126f62dbd19f6fbea923f1b88f942 1.png';
+import member22 from '../../assets/members/4b7a8355323947cd8e505a0f59b406ccc56e3ba8 1.png';
+import member23 from '../../assets/members/8dd432eb780e74be0dfb63cad7130b6e0abbd340 1.png';
+import member24 from '../../assets/members/42eea9ab55994baa6e5420d463610569c41241d0 1.png';
 import hannesKessel from '../../imports/image-2.png';
 import jeremyOkoth from '../../imports/image-3.png';
 import marcBorowy from '../../imports/Marc_Borowy.jpeg';
@@ -508,9 +508,8 @@ export function SelectedMembers() {
                         <ImageWithFallback
                           src={member.image}
                           alt={member.name}
-                          className="w-full h-full object-cover transition-all duration-500"
+                          className="w-full h-full object-cover transition-all duration-700 hover:scale-105 grayscale hover:grayscale-0"
                           style={{
-                            filter: 'saturate(0.3) contrast(1.05) brightness(1.02)',
                             borderRadius: '6px',
                           }}
                         />

@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, animate, useMotionValueEvent } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown, Linkedin } from 'lucide-react';
 import StaggeredMenu from '../components/StaggeredMenu';
 import logoImg from '../../assets/logo.png';
 import circleImg from '../../assets/Group 3.svg';
+import mem1 from '../../assets/members/00f0e6528337a6c8596821b53225b3472814921c 1.png';
+import mem2 from '../../assets/members/03e7a8d3be5ad2614de732df648890672667be28 1.png';
+import mem3 from '../../assets/members/065314ec8b141d2c6904e58b03af00b15a8cd181 1.png';
+import mem4 from '../../assets/members/0b8875f4e47ba917545238466007f4c4ac404246 1.png';
+import mem5 from '../../assets/members/11cc3d4d9410dab22aa5f1fc27f476ee7b0bb465 1.png';
 
 const ScrollExitWord = ({ children, index, total, progress, outStart, outEnd, className, variants }: any) => {
   const reverseIndex = total - 1 - index;
@@ -923,24 +928,79 @@ export function NewPage() {
                 ))}
               </motion.div>
 
-              <motion.div 
-                initial="hidden"
-                animate={showNetwork ? "visible" : "hidden"}
-                variants={{
-                  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, delay: 1.2, ease: [0.16, 1, 0.3, 1] } },
-                  hidden: { opacity: 0, y: 20, filter: 'blur(8px)' }
-                }}
-                className="flex justify-start md:justify-center mb-20"
-              >
-                <Link to="/members" onClick={() => window.scrollTo(0, 0)} className="inline-flex items-center gap-2 px-6 py-3 border border-[#0D1F3C]/20 rounded-full text-[#0D1F3C] hover:bg-[#0D1F3C]/5 transition-colors whitespace-nowrap">
-                  Selected Members <ArrowRight className="w-4 h-4" />
-                </Link>
-              </motion.div>
+              <div className="w-full md:w-1/2 ml-auto">
+                <ScrollReveal delay={0.2}>
+                  <p className="text-xl md:text-2xl text-[#5F5F5F] font-light leading-relaxed">
+                    A curated community of exceptional individuals. We believe that true impact comes from connecting the right minds at the right time.
+                  </p>
+                </ScrollReveal>
+              </div>
+            </div>
 
+            {/* Members Grid embedded inside Our Network */}
+            <div className="mt-32 w-full max-w-[1400px] mx-auto px-6">
+              
+              {/* Header */}
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-20 gap-8">
+                <ScrollReveal>
+                  <h2 className="text-4xl md:text-5xl font-normal text-[#0D1F3C] tracking-tight" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
+                    Selected Members
+                  </h2>
+                </ScrollReveal>
+                <ScrollReveal delay={0.2} className="md:max-w-md">
+                  <p className="text-[#5F5F5F] font-light leading-relaxed text-lg">
+                    An invitation-only circle of Europe's most consequential founders, investors, and operators. Chosen by calibre, not connections.
+                  </p>
+                </ScrollReveal>
+              </div>
+
+              {/* Members Grid */}
+              <div className="flex flex-col md:flex-row justify-between items-start gap-6 md:gap-4 lg:gap-8">
+                {[
+                  { name: 'Dr. Michael Krause', title: 'GLOBAL HEAD OF AI, BCG', image: mem1 },
+                  { name: 'Carolin Wais', title: 'PARTNER, PLUG & PLAY VC', image: mem2 },
+                  { name: 'Lea Frank', title: 'FOUNDER, ANYBILL', image: mem3 },
+                  { name: 'Seena Amidi', title: 'MD, PLUG AND PLAY', image: mem4 },
+                  { name: 'Dr. Jonas Kahlert', title: 'SENIOR PM, GOOGLE', image: mem5 }
+                ].map((member, idx) => (
+                  <ScrollReveal key={idx} delay={idx * 0.15} className="flex-1 w-full">
+                    <div className="bg-[#f2f2f2] aspect-[4/5] overflow-hidden mb-4 rounded-sm relative group cursor-pointer">
+                      <img 
+                        src={member.image} 
+                        alt={member.name} 
+                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <h3 className="text-[#0D1F3C] font-medium text-lg leading-tight" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
+                        {member.name}
+                      </h3>
+                      <p className="text-[#888888] text-[10px] tracking-wider uppercase font-medium">
+                        {member.title}
+                      </p>
+                      <a href="#" className="inline-flex items-center gap-1.5 text-[#0077b5] hover:text-[#005e93] transition-colors mt-1 w-fit">
+                        <Linkedin className="w-3.5 h-3.5" />
+                        <span className="text-[10px] uppercase tracking-wider font-semibold">LinkedIn</span>
+                      </a>
+                    </div>
+                  </ScrollReveal>
+                ))}
+              </div>
+
+              {/* View All Members Link */}
+              <div className="mt-24 flex justify-end">
+                <ScrollReveal>
+                  <Link 
+                    to="/members" 
+                    className="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-[#5F5F5F] hover:text-[#0D1F3C] transition-colors border-b border-[#5F5F5F]/30 hover:border-[#0D1F3C] pb-1"
+                  >
+                    VIEW ALL MEMBERS <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </ScrollReveal>
+              </div>
 
             </div>
           </section>
-
 
         </div>
 

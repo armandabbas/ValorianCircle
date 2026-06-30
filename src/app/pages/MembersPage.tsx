@@ -4,20 +4,20 @@ import logoImg from '../../assets/logo.png';
 import group3Img from '../../assets/group3.png';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 
-import member17 from 'figma:asset/99c9e66240d89360e5210853376a3e2522129ea5.png';
-import member24 from 'figma:asset/42eea9ab55994baa6e5420d463610569c41241d0.png';
-import member19 from 'figma:asset/ee993a9cdcb8d8d7c15105e815a9fab5be468336.png';
-import member20 from 'figma:asset/3903cab1cc753a736891cd06ff28bd56229947a6.png';
-import member23 from 'figma:asset/8dd432eb780e74be0dfb63cad7130b6e0abbd340.png';
-import member4 from 'figma:asset/b988e4eecb863e87f861e5b602bdffd7abe1d43e.png';
-import member10 from 'figma:asset/11cc3d4d9410dab22aa5f1fc27f476ee7b0bb465.png';
-import member12 from 'figma:asset/d1eeaa6f1540dbaadf5082445d41c11779ee7ce4.png';
-import member7 from 'figma:asset/0b8875f4e47ba917545238466007f4c4ac404246.png';
-import member1 from 'figma:asset/c8d85246ef3bad1d6e5f95fab53d5d407b2b61e5.png';
-import member15 from 'figma:asset/5eb933aa3b8b6b2d340c75dfa45c7b1f9548d458.png';
-import member21 from 'figma:asset/19de7866575126f62dbd19f6fbea923f1b88f942.png';
-import member6 from 'figma:asset/9de6be44988cda7cad71ab08360e2b41d0b92e35.png';
-import member2 from 'figma:asset/63e47bd0836e773747df275a6cc6405b77e0ad30.png';
+import member17 from '../../assets/members/99c9e66240d89360e5210853376a3e2522129ea5 1.png';
+import member24 from '../../assets/members/42eea9ab55994baa6e5420d463610569c41241d0 1.png';
+import member19 from '../../assets/members/ee993a9cdcb8d8d7c15105e815a9fab5be468336 1.png';
+import member20 from '../../assets/members/3903cab1cc753a736891cd06ff28bd56229947a6 1.png';
+import member23 from '../../assets/members/8dd432eb780e74be0dfb63cad7130b6e0abbd340 1.png';
+import member4 from '../../assets/members/b988e4eecb863e87f861e5b602bdffd7abe1d43e 1.png';
+import member10 from '../../assets/members/11cc3d4d9410dab22aa5f1fc27f476ee7b0bb465 1.png';
+import member12 from '../../assets/members/d1eeaa6f1540dbaadf5082445d41c11779ee7ce4 1.png';
+import member7 from '../../assets/members/0b8875f4e47ba917545238466007f4c4ac404246 1.png';
+import member1 from '../../assets/members/c8d85246ef3bad1d6e5f95fab53d5d407b2b61e5 1.png';
+import member15 from '../../assets/members/5eb933aa3b8b6b2d340c75dfa45c7b1f9548d458 1.png';
+import member21 from '../../assets/members/19de7866575126f62dbd19f6fbea923f1b88f942 1.png';
+import member6 from '../../assets/members/9de6be44988cda7cad71ab08360e2b41d0b92e35 1.png';
+import member2 from '../../assets/members/63e47bd0836e773747df275a6cc6405b77e0ad30 1.png';
 
 const MEMBERS_DATA = [
   {
@@ -306,8 +306,8 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                     alignItems: 'center',
                   }}
                 >
-                  <div
-                    className={`w-64 h-64 rounded-full overflow-hidden ${isActive ? 'shadow-[0_20px_40px_rgba(13,31,60,0.2)]' : 'shadow-lg'}`}
+                  <div 
+                    className={`w-64 h-64 rounded-full overflow-hidden bg-[#f2f2f2] ${isActive ? 'shadow-[0_20px_40px_rgba(13,31,60,0.2)]' : 'shadow-lg'}`}
                     style={{
                       transform: `scale(${isActive ? 1.4 : 0.75})`,
                       transition: 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s, box-shadow 0.3s'
@@ -316,8 +316,7 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                     <ImageWithFallback
                       src={member.image}
                       alt={member.title}
-                      className="w-full h-full object-cover"
-                      style={{ filter: 'saturate(0.3) contrast(1.05) brightness(1.02)' }}
+                      className="w-full h-full object-cover grayscale"
                     />
                   </div>
                 </div>
