@@ -1,10 +1,32 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, animate } from 'motion/react';
+import { motion, useScroll, useTransform, animate, useMotionValueEvent } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import StaggeredMenu from '../components/StaggeredMenu';
 import logoImg from '../../assets/logo.png';
 import circleImg from '../../assets/Group 3.svg';
+
+const ScrollExitWord = ({ children, index, total, progress, outStart, outEnd, className, variants }: any) => {
+  const reverseIndex = total - 1 - index;
+  const staggerDuration = (outEnd - outStart) * 0.5;
+  const fadeDuration = (outEnd - outStart) * 0.5;
+  const staggerStep = total > 1 ? staggerDuration / (total - 1) : 0;
+  
+  const wordOutStart = outStart + reverseIndex * staggerStep;
+  const wordOutEnd = wordOutStart + fadeDuration;
+  
+  const opacity = useTransform(progress, [wordOutStart, wordOutEnd], [1, 0]);
+  const y = useTransform(progress, [wordOutStart, wordOutEnd], [0, -60]);
+  const filter = useTransform(progress, [wordOutStart, wordOutEnd], ["blur(0px)", "blur(12px)"]);
+
+  return (
+    <motion.span variants={variants} className={className} style={{ display: 'inline-block' }}>
+      <motion.span style={{ opacity, y, filter, display: 'inline-block' }}>
+        {children}
+      </motion.span>
+    </motion.span>
+  );
+};
 
 const menuItems = [
   { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
@@ -608,7 +630,6 @@ export function NewPage() {
           <section ref={lowerHeroRef} className="relative overflow-visible flex flex-col items-center justify-center min-h-[110vh] mb-[80vh] md:mb-[100vh]">
             <div className="absolute top-[118vh] w-full h-[1px] snap-center pointer-events-none" />
 
-
             {/* Background circle of stars - Animated from bottom up and small to big */}
             <motion.div
               style={{ y: starY, scale: starScale, opacity: starOpacity, transformOrigin: "top center" }}
@@ -620,10 +641,10 @@ export function NewPage() {
               </div>
             </motion.div>
 
-            {/* H1 Top Left - Now Absolute again with Text Animation */}
-            <motion.div
-              style={{ opacity: h1FadeOutOpacity, y: h1Y }}
-              className="absolute top-[12vh] left-6 md:left-12 max-w-[1200px] z-20 pointer-events-auto">
+            {/* H1 Top Left - Sticky inside absolute wrapper to ignore flex center */}
+            <div className="absolute inset-0 z-20 pointer-events-none">
+              <motion.div
+                className="sticky top-[12vh] px-6 md:px-12 max-w-[1200px] pointer-events-auto w-full">
                 <motion.div 
                   initial="hidden" 
                   whileInView="visible" 
@@ -636,7 +657,10 @@ export function NewPage() {
                 >
                   {["Depth", "and", "relevant", "peers", "over", "transactional", "networking."].map((word, i) => (
                     <React.Fragment key={i}>
-                      <motion.span
+                      <ScrollExitWord
+                        key={i}
+                        index={i} total={7} progress={lowerHeroProgress} 
+                        outStart={0.65} outEnd={0.8} 
                         variants={{
                           hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
                           visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
@@ -644,7 +668,7 @@ export function NewPage() {
                         className="inline-block mr-[0.2em]"
                       >
                         {word}
-                      </motion.span>
+                      </ScrollExitWord>
                       {i === 3 && <div className="w-full" />}
                     </React.Fragment>
                   ))}
@@ -661,8 +685,10 @@ export function NewPage() {
                   className="text-lg md:text-2xl text-[#5F5F5F] font-light max-w-[600px] flex flex-wrap"
                 >
                   {["A", "curated", "community", "of", "European", "builders", "and", "visionaries."].map((word, i) => (
-                    <motion.span
+                    <ScrollExitWord
                       key={i}
+                      index={i} total={8} progress={lowerHeroProgress} 
+                      outStart={0.55} outEnd={0.7} 
                       variants={{
                         hidden: { opacity: 0, y: 20 },
                         visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
@@ -670,10 +696,11 @@ export function NewPage() {
                       className="inline-block mr-[0.25em]"
                     >
                       {word}
-                    </motion.span>
+                    </ScrollExitWord>
                   ))}
                 </motion.div>
               </motion.div>
+            </div>
 
             {/* The Vision Text perfectly centered in the visual ring */}
             <motion.div
@@ -692,8 +719,10 @@ export function NewPage() {
                 style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
               >
                 {["A", "Vision", "for", "Europe"].map((word, i) => (
-                  <motion.span
+                  <ScrollExitWord
                     key={i}
+                    index={i} total={4} progress={lowerHeroProgress} 
+                    outStart={0.8} outEnd={0.95} 
                     variants={{
                       hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
                       visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
@@ -701,7 +730,7 @@ export function NewPage() {
                     className="inline-block mx-[0.1em]"
                   >
                     {word}
-                  </motion.span>
+                  </ScrollExitWord>
                 ))}
               </motion.div>
 
@@ -713,34 +742,38 @@ export function NewPage() {
                   visible: { transition: { staggerChildren: 0.03, delayChildren: 0.3 } },
                   hidden: {}
                 }}
-                className="text-lg md:text-xl text-[#5F5F5F] leading-relaxed mb-8 font-light flex flex-wrap justify-center"
+                className="text-lg md:text-2xl text-[#5F5F5F] font-light mb-12 flex flex-wrap justify-center"
               >
                 {["Europe", "is", "entering", "a", "defining", "decade", "that", "requires", "courage", "and", "true", "builders.", "We", "bring", "together", "those", "who", "carry", "the", "responsibility", "to", "not", "only", "shape", "their", "companies", "but", "leave", "a", "lasting", "impact", "on", "the", "continent."].map((word, i) => (
-                  <motion.span
+                  <ScrollExitWord
                     key={i}
+                    index={i} total={34} progress={lowerHeroProgress} 
+                    outStart={0.75} outEnd={0.9} 
                     variants={{
                       hidden: { opacity: 0, y: 20 },
                       visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
                     }}
-                    className="inline-block mx-[0.12em]"
+                    className="inline-block mr-[0.25em]"
                   >
                     {word}
-                  </motion.span>
+                  </ScrollExitWord>
                 ))}
               </motion.div>
 
-              <motion.button 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                viewport={{ once: true, margin: "-100px" }}
-                onClick={() => { alert('Button was clicked!'); window.location.href = '#/circles'; window.scrollTo(0,0); }} 
-                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 999999 }} 
-                className="cursor-pointer inline-flex items-center gap-2 text-[#0D1F3C] font-medium hover:opacity-70 transition-opacity">
-                Read our mission <ArrowRight className="w-4 h-4" />
-              </motion.button>
+              <ScrollExitWord index={0} total={1} progress={lowerHeroProgress} outStart={0.7} outEnd={0.85}>
+                <motion.button 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  onClick={() => { alert('Button was clicked!'); window.location.href = '#/circles'; window.scrollTo(0,0); }} 
+                  style={{ pointerEvents: 'auto', position: 'relative', zIndex: 999999 }} 
+                  className="cursor-pointer inline-flex items-center gap-2 text-[#0D1F3C] font-medium hover:opacity-70 transition-opacity">
+                  Read our mission <ArrowRight className="w-4 h-4" />
+                </motion.button>
+              </ScrollExitWord>
             </motion.div>
-          </section>
+        </section>
 
           {/* OUR NETWORK & STATS */}
           <section className="py-32 px-6 md:px-12">
