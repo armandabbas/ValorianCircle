@@ -1,6 +1,6 @@
 export function SelectionPage() {
   return (
-    <div className="min-h-screen pt-24" style={{ backgroundColor: '#FFF8E7' }}>
+    <div className="min-h-screen pt-24" style={{ backgroundColor: '#FFFBF3' }}>
       <div className="mx-auto max-w-[1200px] px-6 md:px-12 py-20 md:py-28">
         {/* Header */}
         <div className="mb-16">
@@ -33,7 +33,7 @@ export function SelectionPage() {
                   excl. VAT
                 </p>
               </div>
-              <div className="px-4 py-3 mb-4" style={{ backgroundColor: '#FFF8E7', border: '1px solid #E8E5E0' }}>
+              <div className="px-4 py-3 mb-4" style={{ backgroundColor: '#FFFBF3', border: '1px solid #E8E5E0' }}>
                 <p className="text-[0.875rem] leading-[1.65]" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500, color: '#355E3B' }}>
                   <span style={{ fontStyle: 'italic' }}>Fully waived</span> for all applications submitted before July 1, 2026
                 </p>

@@ -218,16 +218,12 @@ export function NewPage() {
 
   // Scale from small (0.2) to big (1.2)
   const starScale = useTransform(lowerHeroProgress, [0.1, 0.8], [0.2, 1.2]);
-  
-  // Move from bottom (400px down) to top (0px)
   const starY = useTransform(lowerHeroProgress, [0.1, 0.8], [400, 0]);
-  
-  // Fade in the star early on
   const starOpacity = useTransform(lowerHeroProgress, [0.1, 0.4], [0, 1]);
-  
-  // Fade in and slide up H1 when the star is moving into place
-  const h1Opacity = useTransform(lowerHeroProgress, [0.1, 0.3], [0, 1]);
-  const h1Y = useTransform(lowerHeroProgress, [0.1, 0.4], [50, 0]);
+  const h1Opacity = useTransform(lowerHeroProgress, [0.1, 0.3, 0.6, 0.75], [0, 1, 1, 0]);
+  const h1Y = useTransform(lowerHeroProgress, [0.1, 0.3, 0.6, 0.75], [50, 0, 0, -50]);
+  const visionOpacity = useTransform(lowerHeroProgress, [0.6, 0.8], [0, 1]);
+  const visionY = useTransform(lowerHeroProgress, [0.6, 0.8], [50, 0]);
 
   useEffect(() => {
     let timeout: number;
@@ -597,9 +593,9 @@ export function NewPage() {
           onMenuClose={() => console.log('Menu closed')}
         />
 
-        <div className="min-h-screen bg-[#FFF8E7]" style={{ fontFamily: "\'Hanken Grotesk\', sans-serif" }}>
+        <div className="min-h-screen bg-[#FFF8E7] overflow-x-hidden w-full" style={{ fontFamily: "\'Hanken Grotesk\', sans-serif" }}>
 
-          <section ref={lowerHeroRef} className="relative overflow-x-hidden flex flex-col items-center justify-center min-h-[110vh] mb-[80vh] md:mb-[100vh]">
+          <section ref={lowerHeroRef} className="relative overflow-visible flex flex-col items-center justify-center min-h-[110vh] mb-[80vh] md:mb-[100vh]">
             {/* Background circle of stars - Animated from bottom up and small to big */}
             <motion.div 
               style={{ y: starY, scale: starScale, opacity: starOpacity, transformOrigin: "top center" }}
@@ -611,31 +607,37 @@ export function NewPage() {
               </div>
             </motion.div>
 
-            {/* Header Content (H1 + Vision Text) */}
-            <motion.div 
+            {/* H1 Top Left */}
+            <motion.div
               style={{ opacity: h1Opacity, y: h1Y }}
-              className="absolute top-[10%] left-6 md:left-12 max-w-[600px] z-20 pointer-events-auto">
-              <h1 className="text-black font-bold text-[36px] md:text-[56px] leading-[1.1] mb-8">
-                Depth and relevant peers over<br />transactional networking.
+              className="absolute top-[calc(10%+30px)] left-6 md:left-12 max-w-[800px] z-20 pointer-events-auto">
+              <h1 className="text-[#393939] font-bold text-[36px] md:text-[56px] leading-[1.1] mb-6">
+                Depth and relevant peers<br />over transactional networking.
               </h1>
-              
-              <div className="max-w-[500px]">
-                <h2 className="text-2xl md:text-3xl text-[#0D1F3C] mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  A Vision for Europe
-                </h2>
-                <p className="text-base text-[#5F5F5F] leading-relaxed mb-6 font-light">
-                  Europe is entering a defining decade that requires courage and true builders.
-                  We bring together those who carry the responsibility to not only shape their companies but leave a lasting impact on the continent.
-                </p>
-                <Link to="/mission" className="inline-flex items-center gap-2 text-[#0D1F3C] font-medium hover:opacity-70 transition-opacity">
-                  Read our mission <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
+              <p className="text-lg md:text-2xl text-[#5F5F5F] font-light max-w-[600px]">
+                A curated community of European builders and visionaries.
+              </p>
+            </motion.div>
+
+            {/* The Vision Text perfectly centered in the visual ring */}
+            <motion.div
+              style={{ opacity: visionOpacity, y: visionY }}
+              className="absolute top-[calc(80px+80vw)] md:top-[calc(100px+50vw)] xl:top-[900px] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] px-6 text-center z-30 pointer-events-auto">
+              <h2 className="text-3xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+                A Vision for Europe
+              </h2>
+              <p className="text-lg md:text-xl text-[#5F5F5F] leading-relaxed mb-8 font-light">
+                Europe is entering a defining decade that requires courage and true builders.
+                We bring together those who carry the responsibility to not only shape their companies but leave a lasting impact on the continent.
+              </p>
+              <Link to="/mission" className="inline-flex items-center gap-2 text-[#0D1F3C] font-medium hover:opacity-70 transition-opacity">
+                Read our mission <ArrowRight className="w-4 h-4" />
+              </Link>
             </motion.div>
           </section>
 
           {/* SELECTED MEMBERS & STATS */}
-          <section className="py-32 px-6 md:px-12 border-t border-[#0D1F3C]/10">
+          <section className="py-32 px-6 md:px-12">
             <div className="max-w-[1200px] mx-auto">
               <ScrollReveal className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                 <div className="max-w-[600px]">

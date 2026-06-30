@@ -23,7 +23,7 @@ export function Navigation({ onApplyClick }: NavigationProps) {
   return (
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-[#FFF8E7]/90 backdrop-blur-md border-b border-[#0D1F3C]/5 py-4' : 'bg-transparent py-6'
+        scrolled ? 'bg-[#FFFBF3]/90 backdrop-blur-md border-b border-[#0D1F3C]/5 py-4' : 'bg-transparent py-6'
       }`}
     >
       <div className="w-full px-6 md:px-12 flex justify-between items-center">
@@ -52,15 +52,6 @@ export function Navigation({ onApplyClick }: NavigationProps) {
           >
             Selection
           </Link>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              onApplyClick?.();
-            }}
-            className="text-sm font-medium tracking-wide px-6 py-2.5 text-white bg-[#0D1F3C] rounded-full hover:bg-[#0D1F3C]/90 transition-all"
-          >
-            Request Invitation
-          </button>
         </div>
 
         {/* Mobile Hamburger */}
@@ -97,16 +88,6 @@ export function Navigation({ onApplyClick }: NavigationProps) {
             >
               Selection
             </Link>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setIsOpen(false);
-                onApplyClick?.();
-              }}
-              className="mt-4 text-base font-medium tracking-wide px-6 py-3 text-white bg-[#0D1F3C] rounded-full text-center"
-            >
-              Request Invitation
-            </button>
           </div>
         </div>
       )}

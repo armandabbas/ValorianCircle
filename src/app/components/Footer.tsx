@@ -21,14 +21,7 @@ export function Footer() {
             Home
           </Link>
           <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>·</span>
-          <Link
-            to="/about"
-            className="text-[0.875rem] tracking-[0.01em] transition-opacity hover:opacity-70"
-            style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#FFFFFF' }}
-          >
-            About
-          </Link>
-          <span style={{ color: 'rgba(255, 255, 255, 0.3)' }}>·</span>
+
           <Link
             to="/circles"
             className="text-[0.875rem] tracking-[0.01em] transition-opacity hover:opacity-70"

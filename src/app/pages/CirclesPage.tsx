@@ -190,7 +190,7 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
   }, []);
 
   return (
-    <div ref={containerRef} style={{ height: '100vh', width: '100%', position: 'relative', overflow: 'hidden', backgroundColor: isEmbedded ? 'transparent' : '#FFF8E7' }}>
+    <div ref={containerRef} style={{ height: '100vh', width: '100%', position: 'relative', overflow: 'hidden', backgroundColor: isEmbedded ? 'transparent' : '#FFFBF3' }}>
       <div className={`w-full h-full relative ${isEmbedded ? 'pt-0' : 'pt-0'}`} style={{ fontFamily: 'Inter, sans-serif' }}>
 
         {/* Decorative premium radial gradient to add depth (anchored to the right) */}

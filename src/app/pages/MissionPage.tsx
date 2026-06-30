@@ -8,7 +8,7 @@ export function MissionPage() {
   const { onApplyClick } = useOutletContext<OutletContext>();
 
   return (
-    <div className="w-full bg-[#FFF8E7] min-h-screen pt-24" style={{ fontFamily: 'Inter, sans-serif' }}>
+    <div className="w-full bg-[#FFFBF3] min-h-screen pt-24" style={{ fontFamily: 'Inter, sans-serif' }}>
       {/* Hero Section */}
       <section className="w-full relative overflow-hidden bg-transparent">
         <div className="mx-auto max-w-[1200px] px-6 md:px-12 py-20 relative z-10">
