@@ -260,6 +260,33 @@ export function NewPage() {
   const visionOpacity = useTransform(lowerHeroProgress, [0.45, 0.7], [0, 1]);
   const visionY = useTransform(lowerHeroProgress, [0.45, 0.7], [50, 0]);
 
+  const [showNetwork, setShowNetwork] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 20);
+      
+      if (currentScrollY > lastScrollY.current && currentScrollY > (window.innerHeight * 1.15)) {
+        setIsNavVisible(false);
+      } else {
+        setIsNavVisible(true);
+      }
+      lastScrollY.current = currentScrollY;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useMotionValueEvent(lowerHeroProgress, "change", (latest) => {
+    if (latest > 0.95 && !showNetwork) setShowNetwork(true);
+    if (latest <= 0.95 && showNetwork) setShowNetwork(false);
+  });
+
   useEffect(() => {
     let timeout: number;
     if (isLoaded) {
@@ -606,24 +633,65 @@ export function NewPage() {
       </motion.div>
 
       <div className="relative z-10">
-        <StaggeredMenu
-          position="right"
-          items={menuItems}
-          socialItems={socialItems}
-          displaySocials
-          displayItemNumbering={true}
-          menuButtonColor="#0D1F3C"
-          openMenuButtonColor="#fff"
-          changeMenuColorOnOpen={true}
-          colors={['#B497CF', '#5227FF']}
-          logoUrl={logoImg}
-          compactLogoUrl="/valorian-circle-logo.svg"
-          navLinks={headerLinks}
-          accentColor="#5227FF"
-          isFixed={true}
-          onMenuOpen={() => console.log('Menu opened')}
-          onMenuClose={() => console.log('Menu closed')}
-        />
+        <header 
+          className={`fixed top-0 left-0 w-full z-[1000] transition-all duration-300 ${!isNavVisible ? '-translate-y-full opacity-0' : 'translate-y-0 opacity-100'} ${scrolled ? 'bg-[#FFFBF3] py-2 border-b border-[#0D1F3C]/10' : 'bg-transparent py-6'}`}
+        >
+          <div className="flex items-center justify-between px-6 md:px-12">
+            <Link to="/" onClick={() => window.scrollTo(0, 0)} className="z-50 pointer-events-auto">
+              <img 
+                src={logoImg} 
+                alt="Valorian Circle" 
+                className={`h-8 md:h-10 w-auto transition-all duration-300 hover:opacity-80 ${isNavOpen ? 'brightness-0 invert' : ''}`} 
+              />
+            </Link>
+            
+            <div className="flex items-center gap-10">
+              <div className={`hidden md:flex items-center gap-10 transition-all duration-300 ${scrolled ? 'opacity-0 pointer-events-none translate-y-[-10px]' : 'opacity-100 translate-y-0'}`}>
+                {headerLinks.map((link, i) => (
+                  <Link
+                    key={link.label + i}
+                    to={link.link}
+                    className={`text-sm font-medium tracking-wide transition-colors ${isNavOpen ? 'text-white/80 hover:text-white' : 'text-[#0D1F3C]/70 hover:text-[#0D1F3C]'}`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+
+              <button 
+                onClick={() => setIsNavOpen(!isNavOpen)}
+                className={`z-50 pointer-events-auto flex items-center gap-3 transition-colors ${isNavOpen ? 'text-white hover:text-white/80' : 'text-[#0D1F3C] hover:text-[#0D1F3C]/80'} ${!scrolled ? 'opacity-0 pointer-events-none w-0 h-0 overflow-hidden absolute right-6 md:right-12' : 'opacity-100'}`}
+                style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
+              >
+                {!isNavOpen && <span className="text-lg font-medium tracking-wide">Menu</span>}
+                <div className="flex flex-col gap-[5px] w-6">
+                  <span className={`h-[2px] w-full bg-current rounded-full transition-transform duration-300 origin-right ${isNavOpen ? '-rotate-45 -translate-y-[2px]' : ''}`} />
+                  <span className={`h-[2px] w-full bg-current rounded-full transition-opacity duration-300 ${isNavOpen ? 'opacity-0' : ''}`} />
+                  <span className={`h-[2px] w-full bg-current rounded-full transition-transform duration-300 origin-right ${isNavOpen ? 'rotate-45 translate-y-[2px]' : ''}`} />
+                </div>
+              </button>
+            </div>
+          </div>
+
+          {/* Expanding Dropdown Menu */}
+          <div 
+            className={`absolute top-0 left-0 w-full bg-[#0D1F3C] overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${isNavOpen ? 'max-h-[300px] shadow-2xl border-b border-white/10' : 'max-h-0'}`}
+          >
+            <div className="pt-6 pb-6 pr-20 md:pr-32 px-6 md:px-12 flex flex-col gap-2 items-end">
+              {headerLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  to={link.link}
+                  onClick={() => { setIsNavOpen(false); window.scrollTo(0, 0); }}
+                  className="text-xl md:text-2xl font-light text-white hover:text-[#B497CF] transition-colors"
+                  style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </header>
 
         <div className="min-h-screen bg-[#FFFBF3] overflow-x-hidden w-full" style={{ fontFamily: "\'Hanken Grotesk\', sans-serif" }}>
 
@@ -768,7 +836,7 @@ export function NewPage() {
                   viewport={{ once: true, margin: "-200px" }}
                   onClick={() => { alert('Button was clicked!'); window.location.href = '#/circles'; window.scrollTo(0,0); }} 
                   style={{ pointerEvents: 'auto', position: 'relative', zIndex: 999999 }} 
-                  className="cursor-pointer inline-flex items-center gap-2 text-[#0D1F3C] font-medium hover:opacity-70 transition-opacity">
+                  className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 border border-[#0D1F3C]/20 rounded-full text-[#0D1F3C] hover:bg-[#0D1F3C]/5 transition-colors whitespace-nowrap">
                   Read our mission <ArrowRight className="w-4 h-4" />
                 </motion.button>
               </ScrollExitWord>
@@ -781,10 +849,9 @@ export function NewPage() {
               <div className="mb-16 max-w-[600px]">
                 <motion.div
                   initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-100px" }}
+                  animate={showNetwork ? "visible" : "hidden"}
                   variants={{
-                    visible: { transition: { staggerChildren: 0.08 } },
+                    visible: { transition: { staggerChildren: 0.15 } },
                     hidden: {}
                   }}
                   className="text-[42px] md:text-[72px] text-[#0D1F3C] mb-6 flex flex-wrap"
@@ -806,8 +873,7 @@ export function NewPage() {
                 
                 <motion.div
                   initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-100px" }}
+                  animate={showNetwork ? "visible" : "hidden"}
                   variants={{
                     visible: { transition: { staggerChildren: 0.02, delayChildren: 0.4 } },
                     hidden: {}
@@ -831,8 +897,7 @@ export function NewPage() {
 
               <motion.div 
                 initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
+                animate={showNetwork ? "visible" : "hidden"}
                 variants={{
                   visible: { transition: { staggerChildren: 0.1, delayChildren: 0.8 } },
                   hidden: {}
@@ -860,8 +925,7 @@ export function NewPage() {
 
               <motion.div 
                 initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
+                animate={showNetwork ? "visible" : "hidden"}
                 variants={{
                   visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, delay: 1.2, ease: [0.16, 1, 0.3, 1] } },
                   hidden: { opacity: 0, y: 20, filter: 'blur(8px)' }
@@ -873,136 +937,10 @@ export function NewPage() {
                 </Link>
               </motion.div>
 
-              <motion.div 
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-                variants={{
-                  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, delay: 1.4, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.08, delayChildren: 1.6 } },
-                  hidden: { opacity: 0, y: 40, filter: 'blur(8px)' }
-                }}
-                className="bg-white/50 border border-[#0D1F3C]/10 p-8 md:p-12"
-              >
-                <motion.h3 
-                  variants={{
-                    hidden: { opacity: 0, y: 10, filter: 'blur(4px)' },
-                    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6 } }
-                  }}
-                  className="text-lg font-medium text-[#0D1F3C] mb-8 uppercase tracking-wide"
-                >
-                  Network Distribution
-                </motion.h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
-                  {['Post-Exit Founders', 'Operative Founders', 'Investors & VCs', 'Executives', 'Public Figures'].map((role) => (
-                    <motion.div 
-                      key={role} 
-                      variants={{
-                        hidden: { opacity: 0, y: 10, filter: 'blur(4px)' },
-                        visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6 } }
-                      }}
-                      className="flex items-center gap-3"
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#0D1F3C]/40" />
-                      <span className="text-[#5F5F5F] font-light">{role}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
+
             </div>
           </section>
 
-          {/* WHAT WE TALK ABOUT */}
-          <section className="py-32 px-6 md:px-12 bg-[#0D1F3C] text-white">
-            <div className="max-w-[1200px] mx-auto">
-              <ScrollReveal>
-                <h2 className="text-4xl md:text-5xl mb-16 text-center" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
-                  What we talk about
-                </h2>
-              </ScrollReveal>
-              <div className="grid md:grid-cols-2 gap-x-12 gap-y-16">
-                {[
-                  { title: 'Capital Allocation', body: 'Access to opportunities, market knowledge, and deep allocation experience across industries and markets. Real insights far beyond standard pitches.' },
-                  { title: 'Personal Matters', body: 'Family, health, purpose: the crucial personal questions that extreme success brings. A protected space without judgment.' },
-                  { title: 'Business Decisions', body: 'A trusted sounding board for strategic directions, crisis management, as well as complex questions of exit, stepping back, and identity.' },
-                  { title: 'The Bigger Picture', body: 'Navigating EU regulation together, developing a strong vision for Europe, and answering location questions strategically.' },
-                ].map(({ title, body }, idx) => (
-                  <ScrollReveal key={title} delay={idx * 0.07}>
-                    <h3 className="text-2xl mb-4 font-medium" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>{title}</h3>
-                    <p className="text-white/70 leading-relaxed font-light">{body}</p>
-                  </ScrollReveal>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* HOW IT WORKS */}
-          <section className="py-32 px-6 md:px-12">
-            <div className="max-w-[1000px] mx-auto">
-              <ScrollReveal className="text-center mb-20">
-                <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
-                  How it works
-                </h2>
-                <p className="text-lg text-[#5F5F5F] font-light max-w-2xl mx-auto">
-                  Our white-glove promise: Maximum value with minimal time investment.
-                  Valorian handles curation and organization, you invest barely any time.
-                </p>
-              </ScrollReveal>
-              <div className="space-y-12">
-                {[
-                  { title: 'Circles', outcome: 'Continuous depth instead of one-off encounters', mechanic: 'Fixed, small peer groups (6-8 people), individually curated by profile and preferences, meeting regularly and truly getting to know each other over time.' },
-                  { title: 'Member Directory', outcome: 'Find the right peer specifically', mechanic: 'A searchable, exclusive directory by industry, location, experience, and topics.' },
-                  { title: '1-on-1 Introductions', outcome: 'Valuable relationships without doing your own research', mechanic: 'One handpicked introduction per month, exactly tailored to current questions or interests. Valorian selects, the member just says yes.' },
-                  { title: 'Events', outcome: 'Meeting in a genuine setting', mechanic: 'Curated, intimate formats (e.g., exclusive dinners, retreats, off-sites) in strictly limited groups. Conversation quality comes far before event size.' },
-                  { title: 'Knowledge Hub', outcome: 'Profit from experience instead of making mistakes yourself', mechanic: 'Curated playbooks, insights, and bundled resources directly from the exclusive network.' },
-                  { title: 'Digital Community', outcome: 'Ongoing exchange between meetings', mechanic: 'The protected digital space where important questions, recommendations, and strategic conversations can continue confidentially at any time.' },
-                ].map((format, idx) => (
-                  <ScrollReveal key={idx} className="flex flex-col md:flex-row gap-6 md:gap-12 border-b border-[#0D1F3C]/10 pb-12 last:border-0">
-                    <div className="md:w-1/3">
-                      <h3 className="text-2xl text-[#0D1F3C]" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>{format.title}</h3>
-                    </div>
-                    <div className="md:w-2/3">
-                      <div className="text-lg font-medium text-[#0D1F3C] mb-2">{format.outcome}</div>
-                      <p className="text-[#5F5F5F] font-light leading-relaxed">{format.mechanic}</p>
-                    </div>
-                  </ScrollReveal>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* FAQ */}
-          <section className="py-32 px-6 md:px-12 bg-white/30 border-t border-[#0D1F3C]/10">
-            <div className="max-w-[800px] mx-auto">
-              <ScrollReveal>
-                <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-12 text-center" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
-                  Frequently Asked Questions
-                </h2>
-              </ScrollReveal>
-              <div className="space-y-4">
-                {[
-                  { q: 'Who qualifies for membership?', a: 'Membership is strictly limited to European founders (post-exit or significant operational traction), selected investors, and leading executives. Details can be found on the Selection page.' },
-                  { q: 'How does the application process work?', a: 'The process begins with an invitation by an existing member or a direct application. After an initial screening, short personal interviews follow to ensure the fit for the community.' },
-                  { q: 'How much time do I need to invest?', a: 'Our white-glove approach means you decide how intensely you use the network. Participation in a Circle requires about 2 hours every two months. All other formats are optional.' },
-                  { q: 'How is confidentiality ensured?', a: 'Valorian operates under strict Chatham House Rules. The small, highly curated group size and our rigorous vetting process guarantee a safe space for highly sensitive topics.' },
-                ].map((faq, idx) => (
-                  <ScrollReveal key={idx} delay={idx * 0.06} className="border border-[#0D1F3C]/10 bg-white/50 overflow-hidden">
-                    <button
-                      onClick={() => toggleFaq(idx)}
-                      className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/80 transition-colors"
-                    >
-                      <span className="font-medium text-[#0D1F3C] pr-8">{faq.q}</span>
-                      <ChevronDown className={`w-5 h-5 text-[#0D1F3C]/50 transition-transform ${openFaq === idx ? 'rotate-180' : ''}`} />
-                    </button>
-                    {openFaq === idx && (
-                      <div className="px-6 pb-6 text-[#5F5F5F] font-light leading-relaxed">
-                        {faq.a}
-                      </div>
-                    )}
-                  </ScrollReveal>
-                ))}
-              </div>
-            </div>
-          </section>
 
         </div>
 

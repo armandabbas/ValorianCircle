@@ -419,27 +419,7 @@ export const StaggeredMenu = ({
         data-position={position}
         data-open={open || undefined}
       >
-        <div
-          ref={preLayersRef}
-          className="sm-prelayers absolute top-0 right-0 bottom-0 pointer-events-none z-[5]"
-          aria-hidden="true"
-        >
-          {(() => {
-            const raw = colors && colors.length ? colors.slice(0, 4) : ['#1e1e22', '#35353c'];
-            let arr = [...raw];
-            if (arr.length >= 3) {
-              const mid = Math.floor(arr.length / 2);
-              arr.splice(mid, 1);
-            }
-            return arr.map((c: string, i: number) => (
-              <div
-                key={i}
-                className="sm-prelayer absolute top-0 right-0 h-full w-full translate-x-0"
-                style={{ background: c }}
-              />
-            ));
-          })()}
-        </div>
+
 
         <header
           className={`staggered-menu-header absolute top-0 left-0 w-full flex items-center justify-between px-6 md:px-12 pointer-events-none z-20 transition-all duration-300 border-b border-[#0D1F3C]/10 ${!isVisible ? '-translate-y-full opacity-0' : 'translate-y-0 opacity-100'} ${scrolled ? 'py-1 md:py-2' : 'py-2 md:py-3'}`}
@@ -476,46 +456,53 @@ export const StaggeredMenu = ({
               ref={toggleBtnRef}
               className={`sm-toggle relative inline-flex items-center gap-[0.3rem] bg-transparent border-0 cursor-pointer text-[#e9e9ef] font-medium leading-none overflow-visible pointer-events-auto transition-all duration-300 ${!scrolled ? 'opacity-0 pointer-events-none w-0 h-0 overflow-hidden absolute right-6 md:right-12' : 'opacity-100'}`}
               aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
-            aria-controls="staggered-menu-panel"
-            onClick={toggleMenu}
-            type="button"
-          >
-            <span
-              ref={textWrapRef}
-              className="sm-toggle-textWrap relative inline-block h-[1em] overflow-hidden whitespace-nowrap w-[var(--sm-toggle-width,auto)] min-w-[var(--sm-toggle-width,auto)]"
-              aria-hidden="true"
+              aria-expanded={open}
+              aria-controls="staggered-menu-panel"
+              onClick={toggleMenu}
+              type="button"
             >
-              <span ref={textInnerRef} className="sm-toggle-textInner flex flex-col leading-none">
-                {textLines.map((l, i) => (
-                  <span className="sm-toggle-line block h-[1em] leading-none" key={i}>
-                    {l}
-                  </span>
-                ))}
+              <span
+                ref={textWrapRef}
+                className="sm-toggle-textWrap relative inline-block h-[1em] overflow-hidden whitespace-nowrap w-[var(--sm-toggle-width,auto)] min-w-[var(--sm-toggle-width,auto)]"
+                aria-hidden="true"
+              >
+                <span ref={textInnerRef} className="sm-toggle-textInner flex flex-col leading-none">
+                  {textLines.map((l, i) => (
+                    <span className="sm-toggle-line block h-[1em] leading-none" key={i}>
+                      {l}
+                    </span>
+                  ))}
+                </span>
               </span>
-            </span>
 
-            <span
-              ref={iconRef}
-              className="sm-icon relative w-[18px] h-[14px] shrink-0 inline-flex items-center justify-center [will-change:transform]"
-              aria-hidden="true"
-            >
               <span
-                ref={plusHRef}
-                className="sm-icon-line absolute left-1/2 top-[20%] w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:transform,top]"
-              />
-              <span
-                ref={middleLineRef}
-                className="sm-icon-line absolute left-1/2 top-[50%] w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:opacity]"
-              />
-              <span
-                ref={plusVRef}
-                className="sm-icon-line absolute left-1/2 top-[80%] w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:transform,top]"
-              />
-            </span>
-          </button>
+                ref={iconRef}
+                className="sm-icon relative w-[18px] h-[14px] shrink-0 inline-flex items-center justify-center [will-change:transform]"
+                aria-hidden="true"
+              >
+                <span
+                  ref={plusHRef}
+                  className="sm-icon-line absolute left-1/2 top-[20%] w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:transform,top]"
+                />
+                <span
+                  ref={middleLineRef}
+                  className="sm-icon-line absolute left-1/2 top-[50%] w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:opacity]"
+                />
+                <span
+                  ref={plusVRef}
+                  className="sm-icon-line absolute left-1/2 top-[80%] w-full h-[2px] bg-current rounded-[2px] -translate-x-1/2 -translate-y-1/2 [will-change:transform,top]"
+                />
+              </span>
+            </button>
           </div>
         </header>
+
+        {open && (
+          <div 
+            className="fixed inset-0 bg-black/20 z-[5] backdrop-blur-sm transition-opacity duration-500 pointer-events-auto"
+            onClick={closeMenu}
+          />
+        )}
 
         <aside
           id="staggered-menu-panel"
