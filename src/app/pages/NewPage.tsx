@@ -211,6 +211,8 @@ export function NewPage() {
   const [proximityGlow, setProximityGlow] = useState(0);
 
   const lowerHeroRef = useRef<HTMLElement>(null);
+
+
   const { scrollYProgress: lowerHeroProgress } = useScroll({
     target: lowerHeroRef,
     offset: ["start end", "end start"]
@@ -256,18 +258,8 @@ export function NewPage() {
 
   useEffect(() => {
     return scrollY.on('change', (y) => {
-      // On first scroll: auto-complete the curtain lift (slow, smooth)
-      if (y > 10 && !snapFiredRef.current && !introDoneRef.current) {
-        snapFiredRef.current = true;
-        animate(y, 800, {
-          duration: 1.8,
-          ease: [0.25, 0.1, 0.25, 1],
-          onUpdate: (v) => window.scrollTo(0, v),
-        });
-      }
-
-      // Once intro fully raised: collapse spacer and lock scroll at content top
-      if (y >= 800 && !introDoneRef.current) {
+      // Once intro fully raised: collapse spacer and adjust scroll
+      if (y >= window.innerHeight && !introDoneRef.current) {
         introDoneRef.current = true;
         const contentScroll = Math.max(0, y - window.innerHeight);
         if (spacerRef.current) spacerRef.current.style.height = '0px';
@@ -596,6 +588,9 @@ export function NewPage() {
         <div className="min-h-screen bg-[#FFF8E7] overflow-x-hidden w-full" style={{ fontFamily: "\'Hanken Grotesk\', sans-serif" }}>
 
           <section ref={lowerHeroRef} className="relative overflow-visible flex flex-col items-center justify-center min-h-[110vh] mb-[80vh] md:mb-[100vh]">
+            <div className="absolute top-[118vh] w-full h-[1px] snap-center pointer-events-none" />
+
+
             {/* Background circle of stars - Animated from bottom up and small to big */}
             <motion.div 
               style={{ y: starY, scale: starScale, opacity: starOpacity, transformOrigin: "top center" }}
@@ -610,7 +605,7 @@ export function NewPage() {
             {/* H1 Top Left */}
             <motion.div
               style={{ opacity: h1Opacity, y: h1Y }}
-              className="absolute top-[calc(10%+30px)] left-6 md:left-12 max-w-[800px] z-20 pointer-events-auto">
+              className="absolute top-[calc(10%-10px)] left-6 md:left-12 max-w-[800px] z-20 pointer-events-auto">
               <h1 className="text-[#393939] font-bold text-[36px] md:text-[56px] leading-[1.1] mb-6">
                 Depth and relevant peers<br />over transactional networking.
               </h1>
@@ -622,7 +617,7 @@ export function NewPage() {
             {/* The Vision Text perfectly centered in the visual ring */}
             <motion.div
               style={{ opacity: visionOpacity, y: visionY }}
-              className="absolute top-[calc(80px+80vw)] md:top-[calc(100px+50vw)] xl:top-[900px] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] px-6 text-center z-30 pointer-events-auto">
+              className="absolute top-[calc(130px+80vw)] md:top-[calc(150px+50vw)] xl:top-[950px] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] px-6 text-center z-30 pointer-events-auto">
               <h2 className="text-3xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
                 A Vision for Europe
               </h2>
