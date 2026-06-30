@@ -1,7 +1,7 @@
 export function PrivacyPage() {
   return (
     <div style={{ backgroundColor: '#F7F5F2', minHeight: '100vh' }}>
-      <div className="max-w-[800px] mx-auto px-6 md:px-12 py-20 md:py-32">
+      <div className="max-w-[800px] mx-auto px-6 md:px-12 pt-28 pb-20 md:pt-32 md:pb-24">
         <h1 
           className="text-[2.25rem] md:text-[2.75rem] leading-[1.2] tracking-[-0.015em] mb-12"
           style={{ 
@@ -23,7 +23,7 @@ export function PrivacyPage() {
           }}
         >
           <section>
-            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#38574A' }}>
+            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#003399' }}>
               1. Privacy at a Glance
             </h2>
             <h3 className="text-[1.125rem] tracking-[0.005em] mb-3" style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, color: '#2B2B2B' }}>General Information</h3>
@@ -34,7 +34,7 @@ export function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#38574A' }}>
+            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#003399' }}>
               2. Responsible Party
             </h2>
             <p className="mb-4">
@@ -60,7 +60,7 @@ export function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#38574A' }}>
+            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#003399' }}>
               3. Data Collection on This Website
             </h2>
             
@@ -116,7 +116,7 @@ export function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#38574A' }}>
+            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#003399' }}>
               4. Hosting
             </h2>
             <p className="mb-4">
@@ -134,7 +134,7 @@ export function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#38574A' }}>
+            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#003399' }}>
               5. Your Rights
             </h2>
             <p className="mb-4">
@@ -156,7 +156,7 @@ export function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#38574A' }}>
+            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#003399' }}>
               6. Revocation of Your Consent to Data Processing
             </h2>
             <p className="mb-4">
@@ -167,7 +167,7 @@ export function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#38574A' }}>
+            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#003399' }}>
               7. Changes to This Privacy Policy
             </h2>
             <p className="mb-4">

@@ -6,6 +6,7 @@ import { MembersPage } from './pages/MembersPage';
 import { NewPage } from './pages/NewPage';
 import { ImprintPage } from './pages/ImprintPage';
 import { PrivacyPage } from './pages/PrivacyPage';
+import { FAQPage } from './pages/FAQPage';
 import { RootLayout } from './layouts/RootLayout';
 
 export const router = createHashRouter([
@@ -22,6 +23,7 @@ export const router = createHashRouter([
       { path: "circles", Component: CirclesPage },
       { path: "imprint", Component: ImprintPage },
       { path: "privacy", Component: PrivacyPage },
+      { path: "faq", Component: FAQPage },
     ]
   }
 ]);

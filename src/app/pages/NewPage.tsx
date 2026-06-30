@@ -276,7 +276,7 @@ export function NewPage() {
       const currentScrollY = window.scrollY;
       setScrolled(currentScrollY > 20);
       
-      if (currentScrollY > lastScrollY.current && currentScrollY > (window.innerHeight * 1.15)) {
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
         setIsNavVisible(false);
       } else {
         setIsNavVisible(true);
@@ -665,7 +665,7 @@ export function NewPage() {
 
               <button 
                 onClick={() => setIsNavOpen(!isNavOpen)}
-                className={`z-50 pointer-events-auto flex items-center gap-3 transition-colors ${isNavOpen ? 'text-white hover:text-white/80' : 'text-[#0D1F3C] hover:text-[#0D1F3C]/80'} ${!scrolled ? 'opacity-0 pointer-events-none w-0 h-0 overflow-hidden absolute right-6 md:right-12' : 'opacity-100'}`}
+                className={`z-50 pointer-events-auto flex items-center gap-3 transition-colors ${isNavOpen ? 'text-[#FFFBF3] hover:text-[#FFFBF3]/80' : 'text-[#5F5F5F] hover:text-[#5F5F5F]/80'} ${!scrolled ? 'opacity-0 pointer-events-none w-0 h-0 overflow-hidden absolute right-6 md:right-12' : 'opacity-100'}`}
                 style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
               >
                 {!isNavOpen && <span className="text-lg font-medium tracking-wide">Menu</span>}
@@ -680,7 +680,7 @@ export function NewPage() {
 
           {/* Expanding Dropdown Menu */}
           <div 
-            className={`absolute top-0 left-0 w-full bg-[#0D1F3C] overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${isNavOpen ? 'max-h-[300px] shadow-2xl border-b border-white/10' : 'max-h-0'}`}
+            className={`absolute top-0 left-0 w-full bg-[#003399] overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${isNavOpen ? 'max-h-[300px] shadow-2xl border-b border-white/10' : 'max-h-0'}`}
           >
             <div className="pt-6 pb-6 pr-20 md:pr-32 px-6 md:px-12 flex flex-col gap-2 items-end">
               {headerLinks.map((link) => (
@@ -688,7 +688,7 @@ export function NewPage() {
                   key={link.label}
                   to={link.link}
                   onClick={() => { setIsNavOpen(false); window.scrollTo(0, 0); }}
-                  className="text-xl md:text-2xl font-light text-white hover:text-[#B497CF] transition-colors"
+                  className="text-xl md:text-2xl font-light text-[#FFFBF3]/80 hover:text-[#FFFBF3] transition-colors"
                   style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
                 >
                   {link.label}
@@ -839,7 +839,7 @@ export function NewPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
                   viewport={{ once: true, margin: "-200px" }}
-                  onClick={() => { alert('Button was clicked!'); window.location.href = '#/circles'; window.scrollTo(0,0); }} 
+                  onClick={() => { window.location.href = '#/circles'; window.scrollTo(0,0); }} 
                   style={{ pointerEvents: 'auto', position: 'relative', zIndex: 999999 }} 
                   className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 border border-[#0D1F3C]/20 rounded-full text-[#0D1F3C] hover:bg-[#0D1F3C]/5 transition-colors whitespace-nowrap">
                   Read our mission <ArrowRight className="w-4 h-4" />
@@ -883,7 +883,7 @@ export function NewPage() {
                     visible: { transition: { staggerChildren: 0.02, delayChildren: 0.4 } },
                     hidden: {}
                   }}
-                  className="text-lg text-[#5F5F5F] font-light flex flex-wrap"
+                  className="text-xl md:text-2xl text-[#5F5F5F] font-light leading-relaxed flex flex-wrap"
                 >
                   {"The caliber of our network speaks for itself. A confidential space for individuals who already wield significant influence.".split(" ").map((word, i) => (
                     <motion.span
@@ -928,31 +928,12 @@ export function NewPage() {
                 ))}
               </motion.div>
 
-              <div className="w-full md:w-1/2 ml-auto">
-                <ScrollReveal delay={0.2}>
-                  <p className="text-xl md:text-2xl text-[#5F5F5F] font-light leading-relaxed">
-                    A curated community of exceptional individuals. We believe that true impact comes from connecting the right minds at the right time.
-                  </p>
-                </ScrollReveal>
-              </div>
             </div>
 
             {/* Members Grid embedded inside Our Network */}
-            <div className="mt-32 w-full max-w-[1400px] mx-auto px-6">
+            <div className="mt-12 w-full max-w-[1400px] mx-auto px-6">
               
-              {/* Header */}
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-20 gap-8">
-                <ScrollReveal>
-                  <h2 className="text-4xl md:text-5xl font-normal text-[#0D1F3C] tracking-tight" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
-                    Selected Members
-                  </h2>
-                </ScrollReveal>
-                <ScrollReveal delay={0.2} className="md:max-w-md">
-                  <p className="text-[#5F5F5F] font-light leading-relaxed text-lg">
-                    An invitation-only circle of Europe's most consequential founders, investors, and operators. Chosen by calibre, not connections.
-                  </p>
-                </ScrollReveal>
-              </div>
+
 
               {/* Members Grid */}
               <div className="flex flex-col md:flex-row justify-between items-start gap-6 md:gap-4 lg:gap-8">
@@ -964,7 +945,7 @@ export function NewPage() {
                   { name: 'Dr. Jonas Kahlert', title: 'SENIOR PM, GOOGLE', image: mem5 }
                 ].map((member, idx) => (
                   <ScrollReveal key={idx} delay={idx * 0.15} className="flex-1 w-full">
-                    <div className="bg-[#f2f2f2] aspect-[4/5] overflow-hidden mb-4 rounded-sm relative group cursor-pointer">
+                    <div className="bg-[#f2f2f2] aspect-square overflow-hidden mb-4 rounded-sm relative group cursor-pointer">
                       <img 
                         src={member.image} 
                         alt={member.name} 
@@ -988,17 +969,78 @@ export function NewPage() {
               </div>
 
               {/* View All Members Link */}
-              <div className="mt-24 flex justify-end">
+              <div className="mt-12 flex justify-end">
                 <ScrollReveal>
                   <Link 
                     to="/members" 
-                    className="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-[#5F5F5F] hover:text-[#0D1F3C] transition-colors border-b border-[#5F5F5F]/30 hover:border-[#0D1F3C] pb-1"
+                    className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 border border-[#0D1F3C]/20 rounded-full text-[#0D1F3C] hover:bg-[#0D1F3C]/5 transition-colors whitespace-nowrap"
                   >
-                    VIEW ALL MEMBERS <ArrowRight className="w-3 h-3" />
+                    View selected members <ArrowRight className="w-4 h-4" />
                   </Link>
                 </ScrollReveal>
               </div>
 
+            </div>
+          </section>
+
+          {/* Motivational CTA Section */}
+          <section className="pt-12 pb-40 md:pt-16 md:pb-[300px] px-6 md:px-12">
+            <div className="max-w-[1200px] mx-auto flex flex-col items-start w-full">
+                <motion.h2 
+                  initial="hidden" 
+                  whileInView="visible" 
+                  viewport={{ once: false, margin: "-100px" }}
+                  variants={{
+                    visible: { transition: { staggerChildren: 0.04 } },
+                    hidden: {}
+                  }}
+                  className="text-5xl md:text-7xl lg:text-[88px] font-medium leading-[1.05] mb-12 text-[#0D1F3C] tracking-tight flex flex-wrap w-full" 
+                  style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
+                >
+                  {["A", "curated", "community", "thrives", "on", "the", "excellence", "of", "its", "individuals.", "We", "connect", "those", "who", "shape", "the", "future."].map((word, i) => (
+                    <motion.span
+                      key={i}
+                      variants={{
+                        hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
+                        visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+                      }}
+                      className="inline-block mr-[0.2em]"
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
+                </motion.h2>
+                
+                <motion.p 
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: false, margin: "-100px" }}
+                  variants={{
+                    hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
+                    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { delay: 0.9, duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+                  }}
+                  className="text-lg md:text-xl mb-12 text-[#5F5F5F]"
+                >
+                  Discover if you meet the criteria to join our network.
+                </motion.p>
+                
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: false, margin: "-100px" }}
+                  variants={{
+                    hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
+                    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { delay: 1.0, duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+                  }}
+                >
+                  <Link 
+                    to="/selection"
+                    onClick={() => window.scrollTo(0, 0)}
+                    className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 border border-[#0D1F3C]/20 rounded-full text-[#0D1F3C] hover:bg-[#0D1F3C]/5 transition-colors whitespace-nowrap"
+                  >
+                    Review Selection Criteria <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </motion.div>
             </div>
           </section>
 

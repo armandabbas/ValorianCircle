@@ -1,14 +1,14 @@
 export function ImprintPage() {
   return (
-    <div className="min-h-screen pt-24" style={{ backgroundColor: '#F7F5F2' }}>
-      <div className="mx-auto max-w-[800px] px-6 md:px-12 py-20 md:py-32">
+    <div className="min-h-screen" style={{ backgroundColor: '#F7F5F2' }}>
+      <div className="mx-auto max-w-[800px] px-6 md:px-12 pt-28 pb-20 md:pt-32 md:pb-24">
         <h1 className="text-[2.25rem] md:text-[2.75rem] leading-[1.2] tracking-[-0.015em] mb-12" style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, color: '#2B2B2B' }}>
           Legal Notice
         </h1>
 
         <div className="space-y-8">
           <section>
-            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#38574A' }}>
+            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#003399' }}>
               Information pursuant to Section 5 of the German Telemedia Act (TMG)
             </h2>
             <p className="text-[1rem] leading-[1.65] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 300, color: '#5A5A5A' }}>
@@ -33,7 +33,7 @@ export function ImprintPage() {
           </section>
 
           <section>
-            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#38574A' }}>
+            <h2 className="text-[1.375rem] tracking-[0.005em] mb-4" style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, color: '#003399' }}>
               Responsible for Content (if applicable)
             </h2>
             <p className="text-[1rem] leading-[1.65] tracking-[0.005em]" style={{ fontFamily: 'Fraunces, serif', fontWeight: 300, color: '#5A5A5A' }}>

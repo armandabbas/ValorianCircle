@@ -140,7 +140,7 @@ export function FAQ() {
 
   return (
     <section className="w-full" style={{ backgroundColor: '#F9F8F5' }}>
-      <div className="mx-auto max-w-[1200px] px-6 md:px-12 py-20 md:py-28">
+      <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-28 pb-20 md:pt-32 md:pb-24">
         <h2 className="text-[2rem] md:text-[2.5rem] leading-[1.2] tracking-[-0.015em] mb-12 md:mb-16" style={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 400, color: '#0D1F3C' }}>
           Frequently Asked Questions
         </h2>
