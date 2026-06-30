@@ -84,7 +84,7 @@ export const StaggeredMenu = ({
       const currentScrollY = window.scrollY;
       setScrolled(currentScrollY > 20);
       
-      if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+      if (currentScrollY > lastScrollY.current && currentScrollY > (window.innerHeight * 1.15)) {
         setIsVisible(false);
       } else {
         setIsVisible(true);
@@ -443,7 +443,7 @@ export const StaggeredMenu = ({
 
         <header
           className={`staggered-menu-header absolute top-0 left-0 w-full flex items-center justify-between px-6 md:px-12 pointer-events-none z-20 transition-all duration-300 border-b border-[#0D1F3C]/10 ${!isVisible ? '-translate-y-full opacity-0' : 'translate-y-0 opacity-100'} ${scrolled ? 'py-1 md:py-2' : 'py-2 md:py-3'}`}
-          style={{ backgroundColor: 'transparent' }}
+          style={{ backgroundColor: scrolled ? '#FFFBF3' : 'transparent' }}
           aria-label="Main navigation header"
         >
           <div className="sm-logo flex items-center select-none pointer-events-auto" aria-label="Logo">

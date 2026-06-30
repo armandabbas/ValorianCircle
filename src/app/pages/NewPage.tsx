@@ -233,9 +233,10 @@ export function NewPage() {
   const starY = useTransform(lowerHeroProgress, [0.1, 0.8], [400, 0]);
   const starOpacity = useTransform(lowerHeroProgress, [0.1, 0.4], [0, 1]);
   const h1Opacity = useTransform(lowerHeroProgress, [0.1, 0.3, 0.6, 0.75], [0, 1, 1, 0]);
+  const h1FadeOutOpacity = useTransform(lowerHeroProgress, [0.6, 0.75], [1, 0]);
   const h1Y = useTransform(lowerHeroProgress, [0.1, 0.3, 0.6, 0.75], [50, 0, 0, -50]);
-  const visionOpacity = useTransform(lowerHeroProgress, [0.6, 0.8], [0, 1]);
-  const visionY = useTransform(lowerHeroProgress, [0.6, 0.8], [50, 0]);
+  const visionOpacity = useTransform(lowerHeroProgress, [0.45, 0.7], [0, 1]);
+  const visionY = useTransform(lowerHeroProgress, [0.45, 0.7], [50, 0]);
 
   useEffect(() => {
     let timeout: number;
@@ -264,6 +265,7 @@ export function NewPage() {
     const progress = Math.min(800, Math.max(0, y)) / 800;
     return `${-progress * 100}vh`;
   });
+  const introFadeOut = useTransform(scrollY, [0, 400], [1, 0]);
 
   const pointerEvents = useTransform(scrollY, (y) => {
     if (introDoneRef.current || y > 750) return 'none';
@@ -368,7 +370,7 @@ export function NewPage() {
     <div className="bg-[#FFFBF3]">
       <div id="intro-spacer" ref={spacerRef} style={{ height: '100vh' }} />
       <motion.div
-        style={{ y: introY, pointerEvents: pointerEvents as any }}
+        style={{ y: introY, opacity: introFadeOut, pointerEvents: pointerEvents as any }}
         className="fixed inset-0 z-50 flex items-center justify-center bg-[#FFFBF3] overflow-hidden"
       >
         <div className="relative w-full h-full flex flex-col items-center justify-center">
@@ -540,7 +542,7 @@ export function NewPage() {
                             display: "inline-block",
                             whiteSpace: item.char === " " ? "pre" : "normal",
                             animation: `valSloganFadeInChar 0.8s cubic-bezier(0.16, 1, 0.3, 1) both`,
-                            animationDelay: `${0.8 + idx * 0.022}s`
+                            animationDelay: `${0.4 + idx * 0.022}s`
                           }}
                         >
                           {item.char}
@@ -608,63 +610,153 @@ export function NewPage() {
 
 
             {/* Background circle of stars - Animated from bottom up and small to big */}
-            <motion.div 
+            <motion.div
               style={{ y: starY, scale: starScale, opacity: starOpacity, transformOrigin: "top center" }}
               className="absolute top-[80px] md:top-[100px] left-1/2 -translate-x-1/2 w-[160vw] md:w-[100vw] max-w-[1600px] pointer-events-none select-none z-0">
-              
+
               {/* Actual star image */}
               <div className="relative w-full h-full">
                 <img src={circleImg} alt="Valorian Circle Arc" className="w-full h-auto object-contain" />
               </div>
             </motion.div>
 
-            {/* H1 Top Left */}
+            {/* H1 Top Left - Now Absolute again with Text Animation */}
             <motion.div
-              style={{ opacity: h1Opacity, y: h1Y }}
-              className="absolute top-[calc(10%-10px)] left-6 md:left-12 max-w-[800px] z-20 pointer-events-auto">
-              <h1 className="text-[#393939] font-bold text-[36px] md:text-[56px] leading-[1.1] mb-6">
-                Depth and relevant peers<br />over transactional networking.
-              </h1>
-              <p className="text-lg md:text-2xl text-[#5F5F5F] font-light max-w-[600px]">
-                A curated community of European builders and visionaries.
-              </p>
-            </motion.div>
+              style={{ opacity: h1FadeOutOpacity, y: h1Y }}
+              className="absolute top-[12vh] left-6 md:left-12 max-w-[1200px] z-20 pointer-events-auto">
+                <motion.div 
+                  initial="hidden" 
+                  whileInView="visible" 
+                  viewport={{ once: true, margin: "-100px" }}
+                  variants={{
+                    visible: { transition: { staggerChildren: 0.08 } },
+                    hidden: {}
+                  }}
+                  className="text-[#393939] font-bold text-[42px] md:text-[72px] leading-[1.1] mb-6 flex flex-wrap"
+                >
+                  {["Depth", "and", "relevant", "peers", "over", "transactional", "networking."].map((word, i) => (
+                    <React.Fragment key={i}>
+                      <motion.span
+                        variants={{
+                          hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
+                          visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+                        }}
+                        className="inline-block mr-[0.2em]"
+                      >
+                        {word}
+                      </motion.span>
+                      {i === 3 && <div className="w-full" />}
+                    </React.Fragment>
+                  ))}
+                </motion.div>
+                
+                <motion.div 
+                  initial="hidden" 
+                  whileInView="visible" 
+                  viewport={{ once: true, margin: "-100px" }}
+                  variants={{
+                    visible: { transition: { staggerChildren: 0.04, delayChildren: 0.4 } },
+                    hidden: {}
+                  }}
+                  className="text-lg md:text-2xl text-[#5F5F5F] font-light max-w-[600px] flex flex-wrap"
+                >
+                  {["A", "curated", "community", "of", "European", "builders", "and", "visionaries."].map((word, i) => (
+                    <motion.span
+                      key={i}
+                      variants={{
+                        hidden: { opacity: 0, y: 20 },
+                        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
+                      }}
+                      className="inline-block mr-[0.25em]"
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
+                </motion.div>
+              </motion.div>
 
             {/* The Vision Text perfectly centered in the visual ring */}
             <motion.div
-              style={{ opacity: visionOpacity, y: visionY }}
+              style={{ y: visionY }}
               className="absolute top-[calc(130px+80vw)] md:top-[calc(150px+50vw)] xl:top-[950px] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] px-6 text-center z-30 pointer-events-auto">
-              <h2 className="text-3xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
-                A Vision for Europe
-              </h2>
-              <p className="text-lg md:text-xl text-[#5F5F5F] leading-relaxed mb-8 font-light">
-                Europe is entering a defining decade that requires courage and true builders.
-                We bring together those who carry the responsibility to not only shape their companies but leave a lasting impact on the continent.
-              </p>
-              <Link to="/mission" className="inline-flex items-center gap-2 text-[#0D1F3C] font-medium hover:opacity-70 transition-opacity">
+              
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={{
+                  visible: { transition: { staggerChildren: 0.08 } },
+                  hidden: {}
+                }}
+                className="text-[42px] md:text-[72px] text-[#0D1F3C] mb-6 flex flex-wrap justify-center"
+                style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
+              >
+                {["A", "Vision", "for", "Europe"].map((word, i) => (
+                  <motion.span
+                    key={i}
+                    variants={{
+                      hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
+                      visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+                    }}
+                    className="inline-block mx-[0.1em]"
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+              </motion.div>
+
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={{
+                  visible: { transition: { staggerChildren: 0.03, delayChildren: 0.3 } },
+                  hidden: {}
+                }}
+                className="text-lg md:text-xl text-[#5F5F5F] leading-relaxed mb-8 font-light flex flex-wrap justify-center"
+              >
+                {["Europe", "is", "entering", "a", "defining", "decade", "that", "requires", "courage", "and", "true", "builders.", "We", "bring", "together", "those", "who", "carry", "the", "responsibility", "to", "not", "only", "shape", "their", "companies", "but", "leave", "a", "lasting", "impact", "on", "the", "continent."].map((word, i) => (
+                  <motion.span
+                    key={i}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
+                    }}
+                    className="inline-block mx-[0.12em]"
+                  >
+                    {word}
+                  </motion.span>
+                ))}
+              </motion.div>
+
+              <motion.button 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true, margin: "-100px" }}
+                onClick={() => { alert('Button was clicked!'); window.location.href = '#/circles'; window.scrollTo(0,0); }} 
+                style={{ pointerEvents: 'auto', position: 'relative', zIndex: 999999 }} 
+                className="cursor-pointer inline-flex items-center gap-2 text-[#0D1F3C] font-medium hover:opacity-70 transition-opacity">
                 Read our mission <ArrowRight className="w-4 h-4" />
-              </Link>
+              </motion.button>
             </motion.div>
           </section>
 
-          {/* SELECTED MEMBERS & STATS */}
+          {/* OUR NETWORK & STATS */}
           <section className="py-32 px-6 md:px-12">
             <div className="max-w-[1200px] mx-auto">
-              <ScrollReveal className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+              <ScrollReveal className="mb-16">
                 <div className="max-w-[600px]">
                   <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
-                    Selected Members
+                    Our Network
                   </h2>
                   <p className="text-lg text-[#5F5F5F] font-light">
                     The caliber of our network speaks for itself. A confidential space for individuals who already wield significant influence.
                   </p>
                 </div>
-                <Link to="/members" className="inline-flex items-center gap-2 px-6 py-3 border border-[#0D1F3C]/20 rounded-full text-[#0D1F3C] hover:bg-[#0D1F3C]/5 transition-colors whitespace-nowrap">
-                  All Members <ArrowRight className="w-4 h-4" />
-                </Link>
               </ScrollReveal>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
                 {[
                   { value: '€2B+', label: 'Capital Raised' },
                   { value: '€5B+', label: 'Accumulated Exit Value' },
@@ -677,6 +769,12 @@ export function NewPage() {
                   </ScrollReveal>
                 ))}
               </div>
+
+              <ScrollReveal delay={0.3} className="flex justify-start md:justify-center mb-20">
+                <Link to="/members" onClick={() => window.scrollTo(0, 0)} className="inline-flex items-center gap-2 px-6 py-3 border border-[#0D1F3C]/20 rounded-full text-[#0D1F3C] hover:bg-[#0D1F3C]/5 transition-colors whitespace-nowrap">
+                  Selected Members <ArrowRight className="w-4 h-4" />
+                </Link>
+              </ScrollReveal>
 
               <ScrollReveal className="bg-white/50 border border-[#0D1F3C]/10 p-8 md:p-12">
                 <h3 className="text-lg font-medium text-[#0D1F3C] mb-8 uppercase tracking-wide">Network Distribution</h3>
