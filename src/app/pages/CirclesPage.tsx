@@ -6,60 +6,32 @@ import { LOGO_LINES } from './NewPage';
 
 const CIRCLES_DATA = [
   {
-    title: "Bootstrapped Founders",
-    description: "This Circle brings together founders who have grown their companies without external capital. Members face unique trade-offs around capital efficiency, personal risk, cash-flow discipline, and long-term ownership versus speed. Discussions often center on scaling without dilution, founder burnout, and navigating growth while staying profitable. The shared mindset creates a highly pragmatic and execution-focused peer dynamic."
+    title: "Capital\nAllocation",
+    description: [
+      "Direct access to opportunities, market insights, and deep allocation experience across sectors. Real knowledge far away from standard pitches.",
+      "Our members share deal flow, co-invest with trust, and navigate complex markets together. Backed by the kind of candour that only genuine peer relationships can produce."
+    ]
   },
   {
-    title: "Expats",
-    description: "Designed for internationally mobile individuals navigating life and business across borders. Members share challenges around taxation, residency, asset structuring, identity, family planning, and maintaining community while living globally. Conversations go beyond logistics into long-term life design, belonging, and decision-making in a non-rooted lifestyle. The Circle offers clarity and emotional grounding in a globally fragmented life."
+    title: "Personal\nMatters",
+    description: [
+      "Family, health, and purpose. The crucial personal questions that come with extreme success. A quiet space without judgment.",
+      "Carrying significant responsibility can be isolating. Valorian offers a rare environment where vulnerability is protected and the most human conversations can finally take place."
+    ]
   },
   {
-    title: "Post-Exit Founders",
-    description: "This Circle is for founders who have sold their company and are navigating the transition that follows. Members often face questions around purpose, identity, wealth management, and what to build—or not build—next. Discussions are deeply personal, touching on ambition after success, redefining fulfillment, and avoiding the common traps of post-exit restlessness. A space for honest reflection among peers who've \"been there.\""
+    title: "Business\nDecisions",
+    description: [
+      "A trusted sounding board for strategic moves, crisis management, complex exits, and questions of identity.",
+      "Whether you are navigating a founder transition, weighing a major acquisition, or rethinking your next chapter, your circle has seen it before and will tell you the truth."
+    ]
   },
   {
-    title: "HNW (2–10m+)",
-    description: "For individuals who have reached high net worth and face a new category of decisions. Members discuss wealth allocation, risk management, family governance, lifestyle inflation, and long-term capital preservation. The Circle addresses the psychological shift that comes with financial independence, including boundaries, responsibility, and legacy thinking. Conversations are candid and grounded in real capital at stake."
-  },
-  {
-    title: "Retired Early",
-    description: "This Circle connects individuals who stepped away from traditional careers earlier than most. Members explore how to structure time, meaning, relationships, and ambition beyond work. Common themes include identity after exit, motivation without external pressure, and designing a life that stays intellectually and emotionally engaging. A reflective group for those redefining \"retirement\" on their own terms."
-  },
-  {
-    title: "High-Earning Professionals",
-    description: "Built for professionals with significant income but limited time and mental bandwidth. Members often face pressure around performance, lifestyle expectations, career ceilings, and transitioning from income to wealth. Discussions focus on leverage, optionality, stress management, and long-term strategy beyond salary. The Circle creates space to think beyond the next promotion."
-  },
-  {
-    title: "Second Generation",
-    description: "For individuals who grew up with wealth or family businesses and now carry inherited responsibility. Members navigate expectation, identity, stewardship, and the balance between independence and legacy. Conversations often explore governance, succession, personal ambition, and redefining success outside parental frameworks. A trusted space for nuanced, often unspoken challenges."
-  },
-  {
-    title: "Females of Valorian",
-    description: "A Circle for women navigating ambition, wealth, leadership, and personal growth in high-performance environments. Members discuss dynamics that are often underrepresented elsewhere: visibility, negotiation, boundaries, family planning, and identity shifts across life stages. The peer setting fosters openness, confidence, and shared perspective among women with comparable trajectories. Designed for depth, not networking."
-  },
-  {
-    title: "Tech Leaders",
-    description: "This Circle brings together senior technology leaders, product executives, and technical founders navigating high-impact decisions in fast-moving environments. Members face unique challenges around technical strategy, team scaling, emerging technologies, and balancing innovation with execution. Discussions explore leadership in technical contexts, career progression, equity decisions, and maintaining relevance in rapidly evolving fields. A space for strategic thinking beyond day-to-day execution."
-  },
-  {
-    title: "VC-backed Operative Founders",
-    description: "This Circle is for founders still deeply involved in day-to-day operations. Members share challenges around leadership scale, delegation, decision fatigue, and balancing growth with personal life. Discussions are tactical, immediate, and grounded in real operational pressure. The group offers clarity and perspective during intense execution phases."
-  },
-  {
-    title: "UHNW (10m+)",
-    description: "A highly confidential Circle for individuals with ultra-high net worth. Members face distinct issues around complexity, discretion, governance, intergenerational planning, and systemic risk. Conversations move beyond accumulation into preservation, influence, and legacy. The intimacy of the group enables unusually open discussions rarely possible elsewhere."
-  },
-  {
-    title: "Executive Mothers",
-    description: "Designed for mothers in senior leadership roles balancing responsibility across work and family. Members navigate time scarcity, identity shifts, guilt, ambition, and societal expectations. Discussions focus on sustainable performance, boundaries, partnership dynamics, and redefining success across life stages. A deeply supportive yet intellectually rigorous Circle."
-  },
-  {
-    title: "Full-Time Investors",
-    description: "For individuals whose primary occupation is capital allocation. Members discuss decision frameworks, portfolio construction, emotional discipline, information asymmetry, and long-term thinking. Conversations often explore loneliness in decision-making, risk psychology, and building conviction under uncertainty. A peer group for sharpening judgment, not pitching deals."
-  },
-  {
-    title: "Breaking into Politics as a Business Person",
-    description: "This Circle brings together individuals considering or actively pursuing a transition into public service or politics. Members face unique challenges around credibility, public scrutiny, value alignment, and translating private-sector thinking into political systems. Discussions explore strategy, ethics, narrative, and personal risk. A space for thoughtful preparation before stepping into the public arena."
+    title: "The Bigger\nPicture",
+    description: [
+      "Navigating European regulations together, developing a shared vision for the continent, and answering strategic location questions.",
+      "Europe's most consequential decisions are shaped by those in the room. Valorian ensures that room is filled with people who think in decades, not quarters."
+    ]
   }
 ];
 
@@ -250,11 +222,11 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
 
               // Smoother opacity drop-off using a power curve.
               // This keeps the card fully colored longer, and fades out elegantly without dropping to 40% mid-transition.
-              const isActive = diff < 12;
-              const opacityProgress = Math.min(diff / 22, 1);
+              const isActive = diff < 25;
+              const opacityProgress = Math.min(diff / 35, 1);
               const opacity = 1 - Math.pow(opacityProgress, 2);
 
-              const scaleProgress = Math.min(diff / 30, 1);
+              const scaleProgress = Math.min(diff / 45, 1);
               const scale = Math.max(0.75, 1 - Math.pow(scaleProgress, 2) * 0.25);
 
               return (
@@ -272,7 +244,7 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                   }}
                 >
                   <div
-                    className={`group p-8 md:p-10 border ${isActive ? 'bg-white/95 shadow-[0_20px_40px_rgba(13,31,60,0.1)] border-[#D4AF37]/40' : 'bg-white/60 shadow-lg border-[#0D1F3C]/10'}`}
+                    className={`group p-8 md:p-10 border ${isActive ? 'bg-white/95 shadow-[0_20px_40px_rgba(13,31,60,0.1)] border-transparent' : 'bg-white/60 shadow-lg border-[#0D1F3C]/10'}`}
                     style={{
                       transform: `scale(${scale})`,
                       // Only transition colors and shadows, NOT transform, to prevent jitter
@@ -281,9 +253,17 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                     }}
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/0 via-[#D4AF37]/0 to-[#D4AF37]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none" />
-                    <p className={`text-lg leading-relaxed font-light relative z-10 transition-colors duration-300 ${isActive ? 'text-[#0D1F3C]/80' : 'text-[#0D1F3C]/50'}`}>
-                      {circle.description}
-                    </p>
+                    {Array.isArray(circle.description) ? (
+                      circle.description.map((p, pIdx) => (
+                        <p key={pIdx} className={`text-lg leading-relaxed font-light relative z-10 transition-colors duration-300 mb-4 last:mb-0 ${isActive ? 'text-[#0D1F3C]/80' : 'text-[#0D1F3C]/50'}`}>
+                          {p}
+                        </p>
+                      ))
+                    ) : (
+                      <p className={`text-lg leading-relaxed font-light relative z-10 transition-colors duration-300 ${isActive ? 'text-[#0D1F3C]/80' : 'text-[#0D1F3C]/50'}`}>
+                        {circle.description}
+                      </p>
+                    )}
                   </div>
                 </div>
               );
@@ -304,15 +284,12 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
           <div className="w-full h-full px-6 md:px-12 flex flex-col justify-center relative">
 
             {/* Header pushed up */}
-            <div className="absolute top-20 left-6 md:left-12 pointer-events-auto max-w-3xl">
-              <h1 className="text-4xl md:text-5xl text-[#0D1F3C] mb-4 tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Our Circles
+            <div className="absolute top-28 md:top-32 left-6 md:left-12 pointer-events-auto max-w-3xl">
+              <h1 className="text-4xl md:text-5xl text-[#0D1F3C] mb-4 tracking-tight" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
+                Our Mission
               </h1>
-              <p className="text-base text-[#0D1F3C]/70 font-light md:whitespace-nowrap">
-                Not sure what the general purpose and structure of a Circle is?{' '}
-                <a href="/members" onClick={handleLearnMore} className="text-[#D4AF37] hover:text-[#0D1F3C] transition-colors duration-300 cursor-pointer">
-                  Learn more here.
-                </a>
+              <p className="text-base text-[#0D1F3C]/70 font-light max-w-xl">
+                The conversations that matter most happen inside Valorian. Candid, confidential, and among true peers.
               </p>
             </div>
 
@@ -332,10 +309,8 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                         : 'opacity-0 translate-y-4 pointer-events-none duration-200 ease-in'
                     }`}
                   >
-                    <div className="text-[#D4AF37] font-medium tracking-[0.2em] text-sm mb-4">
-                      {String(idx + 1).padStart(2, '0')} <span className="opacity-50 mx-1">/</span> {String(CIRCLES_DATA.length).padStart(2, '0')}
-                    </div>
-                    <h2 className="text-5xl md:text-6xl lg:text-[72px] font-medium text-[#0D1F3C] leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+                    {/* Indicator removed */}
+                    <h2 className="text-5xl md:text-6xl lg:text-[72px] font-medium text-[#0D1F3C] leading-tight whitespace-pre-line" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                       {circle.title}
                     </h2>
                   </div>

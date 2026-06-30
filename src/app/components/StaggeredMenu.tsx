@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 export const StaggeredMenu = ({
   position = 'right',
@@ -24,6 +24,27 @@ export const StaggeredMenu = ({
 }: any) => {
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      sessionStorage.setItem('skipIntro', 'true');
+      const spacer = document.getElementById('intro-spacer');
+      if (spacer) spacer.style.height = '0px';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    
+    sessionStorage.setItem('skipIntro', 'true');
+    navigate('/');
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }, 100);
+  };
+
 
   const panelRef = useRef<HTMLElement>(null);
   const preLayersRef = useRef<HTMLDivElement>(null);
@@ -426,7 +447,7 @@ export const StaggeredMenu = ({
           aria-label="Main navigation header"
         >
           <div className="sm-logo flex items-center select-none pointer-events-auto" aria-label="Logo">
-            <Link to="/">
+            <Link to="/" onClick={handleLogoClick}>
               <img
                 src={logoUrl}
                 alt="Logo"

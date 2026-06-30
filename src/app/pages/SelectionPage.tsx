@@ -4,7 +4,7 @@ export function SelectionPage() {
       <div className="mx-auto max-w-[1200px] px-6 md:px-12 py-20 md:py-28">
         {/* Header */}
         <div className="mb-16">
-          <h1 className="text-[2.5rem] md:text-[3.5rem] leading-[1.2] tracking-[-0.015em] mb-6" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 400, color: '#0D1F3C' }}>
+          <h1 className="text-[2.5rem] md:text-[3.5rem] leading-[1.2] tracking-[-0.015em] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif", fontWeight: 400, color: '#0D1F3C' }}>
             Pricing & <span style={{ fontStyle: 'italic' }}>Eligibility</span>
           </h1>
           <p className="text-[1rem] leading-[1.65] max-w-[700px]" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#1A1A1A' }}>
@@ -14,7 +14,7 @@ export function SelectionPage() {
 
         {/* Pricing Section */}
         <div className="mb-20">
-          <h2 className="text-[2rem] md:text-[2.5rem] leading-[1.2] tracking-[-0.015em] mb-8" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 400, color: '#0D1F3C' }}>
+          <h2 className="text-[2rem] md:text-[2.5rem] leading-[1.2] tracking-[-0.015em] mb-8" style={{ fontFamily: "'Hanken Grotesk', sans-serif", fontWeight: 400, color: '#0D1F3C' }}>
             Membership Fees
           </h2>
 
@@ -26,7 +26,7 @@ export function SelectionPage() {
                 <p className="text-[0.75rem] uppercase tracking-[0.12em] mb-2" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500, color: '#0D1F3C' }}>
                   One-Time Onboarding
                 </p>
-                <p className="text-[2.5rem] leading-[1.2] tracking-[-0.02em]" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 500, color: '#0D1F3C' }}>
+                <p className="text-[2.5rem] leading-[1.2] tracking-[-0.02em]" style={{ fontFamily: "'Hanken Grotesk', sans-serif", fontWeight: 500, color: '#0D1F3C' }}>
                   €1,000
                 </p>
                 <p className="text-[0.875rem]" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#5A5A5A' }}>
@@ -46,7 +46,7 @@ export function SelectionPage() {
                 <p className="text-[0.75rem] uppercase tracking-[0.12em] mb-2" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500, color: '#0D1F3C' }}>
                   Annual Membership
                 </p>
-                <p className="text-[2.5rem] leading-[1.2] tracking-[-0.02em]" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 500, color: '#0D1F3C' }}>
+                <p className="text-[2.5rem] leading-[1.2] tracking-[-0.02em]" style={{ fontFamily: "'Hanken Grotesk', sans-serif", fontWeight: 500, color: '#0D1F3C' }}>
                   €2,500
                 </p>
                 <p className="text-[0.875rem]" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#5A5A5A' }}>
@@ -65,7 +65,7 @@ export function SelectionPage() {
               <p className="text-[0.75rem] uppercase tracking-[0.12em] mb-2" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500, color: '#0D1F3C' }}>
                 Household Membership
               </p>
-              <p className="text-[2.5rem] leading-[1.2] tracking-[-0.02em]" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 500, color: '#0D1F3C' }}>
+              <p className="text-[2.5rem] leading-[1.2] tracking-[-0.02em]" style={{ fontFamily: "'Hanken Grotesk', sans-serif", fontWeight: 500, color: '#0D1F3C' }}>
                 €1,000
               </p>
               <p className="text-[0.875rem]" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#5A5A5A' }}>
@@ -79,7 +79,7 @@ export function SelectionPage() {
 
           {/* What's Included */}
           <div className="p-10" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E8E5E0' }}>
-            <h3 className="text-[1.5rem] tracking-[-0.01em] mb-6" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 500, color: '#0D1F3C' }}>
+            <h3 className="text-[1.5rem] tracking-[-0.01em] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif", fontWeight: 500, color: '#0D1F3C' }}>
               What's <span style={{ fontStyle: 'italic' }}>Included</span>
             </h3>
 
@@ -131,7 +131,7 @@ export function SelectionPage() {
 
         {/* Eligibility Section */}
         <div>
-          <h2 className="text-[2rem] md:text-[2.5rem] leading-[1.2] tracking-[-0.015em] mb-8" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 400, color: '#0D1F3C' }}>
+          <h2 className="text-[2rem] md:text-[2.5rem] leading-[1.2] tracking-[-0.015em] mb-8" style={{ fontFamily: "'Hanken Grotesk', sans-serif", fontWeight: 400, color: '#0D1F3C' }}>
             Eligibility Criteria
           </h2>
 

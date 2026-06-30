@@ -530,7 +530,7 @@ export function NewPage() {
                       <React.Fragment key={idx}>
                         <span
                           style={{
-                            fontFamily: item.isItalic ? "'Playfair Display', serif" : undefined,
+                            fontFamily: item.isItalic ? "'Hanken Grotesk', sans-serif" : undefined,
                             fontStyle: item.isItalic ? "italic" : undefined,
                             color: item.isBlue ? "#003399" : undefined,
                             display: "inline-block",
@@ -624,7 +624,7 @@ export function NewPage() {
           {/* MISSION TEASER */}
           <section className="py-24 px-6 md:px-12 border-t border-[#0D1F3C]/10 bg-white/30">
             <ScrollReveal className="max-w-[800px] mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <h2 className="text-3xl md:text-4xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                 A Vision for Europe
               </h2>
               <p className="text-lg text-[#5F5F5F] leading-relaxed mb-8 font-light">
@@ -642,7 +642,7 @@ export function NewPage() {
             <div className="max-w-[1200px] mx-auto">
               <ScrollReveal className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                 <div className="max-w-[600px]">
-                  <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                     Selected Members
                   </h2>
                   <p className="text-lg text-[#5F5F5F] font-light">
@@ -662,7 +662,7 @@ export function NewPage() {
                   { value: '€500M+', label: 'Combined ARR' },
                 ].map(({ value, label }, idx) => (
                   <ScrollReveal key={label} delay={idx * 0.08}>
-                    <div className="text-4xl text-[#0D1F3C] mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>{value}</div>
+                    <div className="text-4xl text-[#0D1F3C] mb-2" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>{value}</div>
                     <div className="text-sm text-[#5F5F5F] uppercase tracking-widest font-medium">{label}</div>
                   </ScrollReveal>
                 ))}
@@ -686,7 +686,7 @@ export function NewPage() {
           <section className="py-32 px-6 md:px-12 bg-[#0D1F3C] text-white">
             <div className="max-w-[1200px] mx-auto">
               <ScrollReveal>
-                <h2 className="text-4xl md:text-5xl mb-16 text-center" style={{ fontFamily: "'Playfair Display', serif" }}>
+                <h2 className="text-4xl md:text-5xl mb-16 text-center" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                   What we talk about
                 </h2>
               </ScrollReveal>
@@ -698,7 +698,7 @@ export function NewPage() {
                   { title: 'The Bigger Picture', body: 'Navigating EU regulation together, developing a strong vision for Europe, and answering location questions strategically.' },
                 ].map(({ title, body }, idx) => (
                   <ScrollReveal key={title} delay={idx * 0.07}>
-                    <h3 className="text-2xl mb-4 font-medium" style={{ fontFamily: "'Playfair Display', serif" }}>{title}</h3>
+                    <h3 className="text-2xl mb-4 font-medium" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>{title}</h3>
                     <p className="text-white/70 leading-relaxed font-light">{body}</p>
                   </ScrollReveal>
                 ))}
@@ -710,7 +710,7 @@ export function NewPage() {
           <section className="py-32 px-6 md:px-12">
             <div className="max-w-[1000px] mx-auto">
               <ScrollReveal className="text-center mb-20">
-                <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+                <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                   How it works
                 </h2>
                 <p className="text-lg text-[#5F5F5F] font-light max-w-2xl mx-auto">
@@ -729,7 +729,7 @@ export function NewPage() {
                 ].map((format, idx) => (
                   <ScrollReveal key={idx} className="flex flex-col md:flex-row gap-6 md:gap-12 border-b border-[#0D1F3C]/10 pb-12 last:border-0">
                     <div className="md:w-1/3">
-                      <h3 className="text-2xl text-[#0D1F3C]" style={{ fontFamily: "'Playfair Display', serif" }}>{format.title}</h3>
+                      <h3 className="text-2xl text-[#0D1F3C]" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>{format.title}</h3>
                     </div>
                     <div className="md:w-2/3">
                       <div className="text-lg font-medium text-[#0D1F3C] mb-2">{format.outcome}</div>
@@ -745,7 +745,7 @@ export function NewPage() {
           <section className="py-32 px-6 md:px-12 bg-white/30 border-t border-[#0D1F3C]/10">
             <div className="max-w-[800px] mx-auto">
               <ScrollReveal>
-                <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-12 text-center" style={{ fontFamily: "'Playfair Display', serif" }}>
+                <h2 className="text-4xl md:text-5xl text-[#0D1F3C] mb-12 text-center" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                   Frequently Asked Questions
                 </h2>
               </ScrollReveal>

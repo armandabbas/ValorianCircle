@@ -307,7 +307,7 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                   }}
                 >
                   <div
-                    className={`w-64 h-64 rounded-full overflow-hidden border-4 ${isActive ? 'border-[#D4AF37] shadow-[0_20px_40px_rgba(13,31,60,0.2)]' : 'border-white shadow-lg'}`}
+                    className={`w-64 h-64 rounded-full overflow-hidden ${isActive ? 'shadow-[0_20px_40px_rgba(13,31,60,0.2)]' : 'shadow-lg'}`}
                     style={{
                       transform: `scale(${isActive ? 1.4 : 0.75})`,
                       transition: 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s, box-shadow 0.3s'
@@ -339,8 +339,8 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
           <div className="w-full h-full px-6 md:px-12 flex flex-col justify-center relative">
 
             {/* Header pushed up */}
-            <div className="absolute top-20 left-6 md:left-12 pointer-events-auto max-w-3xl">
-              <h1 className="text-4xl md:text-5xl text-[#0D1F3C] mb-4 tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <div className="absolute top-28 md:top-32 left-6 md:left-12 pointer-events-auto max-w-3xl">
+              <h1 className="text-4xl md:text-5xl text-[#0D1F3C] mb-4 tracking-tight" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                 Selected Members
               </h1>
               <p className="text-base text-[#0D1F3C]/70 font-light md:whitespace-nowrap">
@@ -364,10 +364,8 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                         : 'opacity-0 translate-y-4 pointer-events-none duration-200 ease-in'
                     }`}
                   >
-                    <div className="text-[#D4AF37] font-medium tracking-[0.2em] text-sm mb-4">
-                      {String(idx + 1).padStart(2, '0')} <span className="opacity-50 mx-1">/</span> {String(MEMBERS_DATA.length).padStart(2, '0')}
-                    </div>
-                    <h2 className="text-5xl md:text-6xl lg:text-[72px] font-medium text-[#0D1F3C] leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+                    {/* Indicator removed */}
+                    <h2 className="text-5xl md:text-6xl lg:text-[72px] font-medium text-[#0D1F3C] leading-tight" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                       {member.title}
                     </h2>
                     <p className="text-xl md:text-2xl mt-4 text-[#0D1F3C]/70 font-light" style={{ fontFamily: "'Inter', sans-serif" }}>

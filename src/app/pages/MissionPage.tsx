@@ -21,7 +21,7 @@ export function MissionPage() {
             </div>
             <h1 
               className="text-[2.5rem] md:text-[3.5rem] leading-[1.15] tracking-[-0.015em] mb-6"
-              style={{ fontFamily: "'Playfair Display', serif", fontWeight: 400, color: '#0D1F3C' }}
+              style={{ fontFamily: "'Hanken Grotesk', sans-serif", fontWeight: 400, color: '#0D1F3C' }}
             >
               Europe's Competitiveness Is a Leadership Question
             </h1>
@@ -42,7 +42,7 @@ export function MissionPage() {
             <div className="md:col-span-4">
               <h2 
                 className="text-[1.75rem] md:text-[2rem] leading-[1.2] tracking-[-0.015em]"
-                style={{ fontFamily: "'Playfair Display', serif", fontWeight: 400, color: '#0D1F3C' }}
+                style={{ fontFamily: "'Hanken Grotesk', sans-serif", fontWeight: 400, color: '#0D1F3C' }}
               >
                 The Context
               </h2>
@@ -64,7 +64,7 @@ export function MissionPage() {
         <div className="mx-auto max-w-[1200px] px-6 md:px-12 py-20">
           <h2 
             className="text-[1.75rem] md:text-[2rem] leading-[1.2] tracking-[-0.015em] mb-8"
-            style={{ fontFamily: "'Playfair Display', serif", fontWeight: 400, color: '#0D1F3C' }}
+            style={{ fontFamily: "'Hanken Grotesk', sans-serif", fontWeight: 400, color: '#0D1F3C' }}
           >
             Our Contribution
           </h2>

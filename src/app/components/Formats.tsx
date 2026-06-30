@@ -2,7 +2,7 @@ export function Formats() {
   return (
     <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
       <div className="mb-16">
-        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>How it works</h2>
+        <h2 className="text-4xl md:text-5xl font-light mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>How it works</h2>
         <p className="text-xl text-[#0D1F3C]/80 font-light max-w-3xl leading-relaxed">
           <strong className="font-medium">The White-Glove Promise:</strong> Viel Wert, wenig Zeitaufwand. Valorian übernimmt Kuratierung und Organisation, der Member investiert kaum Zeit.
         </p>
