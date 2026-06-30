@@ -2,7 +2,7 @@ export function ImprintPage() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F7F5F2' }}>
       <div className="mx-auto max-w-[800px] px-6 md:px-12 pt-28 pb-20 md:pt-32 md:pb-24">
-        <h1 className="text-[2.25rem] md:text-[2.75rem] leading-[1.2] tracking-[-0.015em] mb-12" style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, color: '#2B2B2B' }}>
+        <h1 className="text-[2.25rem] md:text-[2.75rem] leading-[1.2] tracking-[-0.015em] mb-12 font-bold" style={{ fontFamily: 'Fraunces, serif', color: '#2B2B2B' }}>
           Legal Notice
         </h1>
 

@@ -16,7 +16,7 @@ export function FellowshipsPage() {
       <section className="w-full" style={{ backgroundColor: '#0D1F3C' }}>
         <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-32 md:pt-40 pb-32 md:pb-40">
           <div className="max-w-[900px]">
-            <h1 className="text-[3rem] md:text-[4.5rem] leading-[1.1] tracking-[-0.02em] mb-6" style={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 500, color: 'white' }}>
+            <h1 className="text-[3rem] md:text-[4.5rem] leading-[1.1] tracking-[-0.02em] mb-6 font-bold" style={{ fontFamily: 'Cormorant Garamond, serif', color: 'white' }}>
               Fellowships
             </h1>
             <p className="text-[1.25rem] md:text-[1.5rem] leading-[1.7] mb-8" style={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 400, color: 'rgba(255, 255, 255, 0.9)' }}>

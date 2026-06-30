@@ -984,7 +984,7 @@ export function NewPage() {
           </section>
 
           {/* Motivational CTA Section */}
-          <section className="pt-12 pb-40 md:pt-16 md:pb-[300px] px-6 md:px-12">
+          <section className="pt-12 pb-24 md:pt-16 md:pb-32 px-6 md:px-12">
             <div className="max-w-[1200px] mx-auto flex flex-col items-start w-full">
                 <motion.h2 
                   initial="hidden" 
@@ -994,7 +994,7 @@ export function NewPage() {
                     visible: { transition: { staggerChildren: 0.04 } },
                     hidden: {}
                   }}
-                  className="text-5xl md:text-7xl lg:text-[88px] font-medium leading-[1.05] mb-12 text-[#0D1F3C] tracking-tight flex flex-wrap w-full" 
+                  className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[1.05] mb-12 text-[#0D1F3C] flex flex-wrap w-full" 
                   style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
                 >
                   {["A", "curated", "community", "thrives", "on", "the", "excellence", "of", "its", "individuals.", "We", "connect", "those", "who", "shape", "the", "future."].map((word, i) => (
@@ -1017,9 +1017,10 @@ export function NewPage() {
                   viewport={{ once: false, margin: "-100px" }}
                   variants={{
                     hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
-                    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { delay: 0.9, duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+                    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
                   }}
                   className="text-lg md:text-xl mb-12 text-[#5F5F5F]"
+                  style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
                 >
                   Discover if you meet the criteria to join our network.
                 </motion.p>
@@ -1030,13 +1031,14 @@ export function NewPage() {
                   viewport={{ once: false, margin: "-100px" }}
                   variants={{
                     hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
-                    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { delay: 1.0, duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+                    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
                   }}
                 >
                   <Link 
                     to="/selection"
                     onClick={() => window.scrollTo(0, 0)}
                     className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 border border-[#0D1F3C]/20 rounded-full text-[#0D1F3C] hover:bg-[#0D1F3C]/5 transition-colors whitespace-nowrap"
+                    style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
                   >
                     Review Selection Criteria <ArrowRight className="w-4 h-4" />
                   </Link>

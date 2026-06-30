@@ -247,7 +247,7 @@ export function LogoDownloadPage() {
       </div>
 
       <div className="mx-auto max-w-[1200px] px-6 md:px-12 py-20 md:py-32 relative z-10">
-        <h1 className="text-[2.5rem] md:text-[3.5rem] leading-[1.2] tracking-[-0.015em] mb-8" style={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 400, color: '#0D1F3C' }}>
+        <h1 className="text-[2.5rem] md:text-[3.5rem] leading-[1.2] tracking-[-0.015em] mb-8 font-bold" style={{ fontFamily: 'Cormorant Garamond, serif', color: '#0D1F3C' }}>
           Logo <span style={{ fontStyle: 'italic' }}>Downloads</span>
         </h1>
 

@@ -154,7 +154,7 @@ html {
 
   h1 {
     font-size: var(--text-2xl);
-    font-weight: var(--font-weight-medium);
+    font-weight: 700;
     line-height: 1.5;
   }
 
@@ -197,10 +197,5 @@ html {
 
 body {
   font-family: 'Hanken Grotesk', sans-serif !important;
-  letter-spacing: 0.15em !important;
   color: #5F5F5F;
-}
-
-h1 {
-  letter-spacing: normal !important;
 }

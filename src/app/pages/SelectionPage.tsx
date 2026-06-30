@@ -4,7 +4,7 @@ export function SelectionPage() {
       <div className="mx-auto max-w-[1200px] px-6 md:px-12 pt-28 pb-20 md:pt-32 md:pb-24">
         {/* Header */}
         <div className="mb-16">
-          <h1 className="text-[2.5rem] md:text-[3.5rem] leading-[1.2] tracking-[-0.015em] mb-6" style={{ fontFamily: "'Hanken Grotesk', sans-serif", fontWeight: 400, color: '#0D1F3C' }}>
+          <h1 className="text-[2.5rem] md:text-[3.5rem] leading-[1.2] tracking-[-0.015em] mb-6 font-bold" style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: '#0D1F3C' }}>
             Pricing & <span style={{ fontStyle: 'italic' }}>Eligibility</span>
           </h1>
           <p className="text-[1rem] leading-[1.65] max-w-[700px]" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 400, color: '#1A1A1A' }}>

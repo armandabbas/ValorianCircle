@@ -20,8 +20,8 @@ export function MissionPage() {
               Mission
             </div>
             <h1 
-              className="text-[2.5rem] md:text-[3.5rem] leading-[1.15] tracking-[-0.015em] mb-6"
-              style={{ fontFamily: "'Hanken Grotesk', sans-serif", fontWeight: 400, color: '#0D1F3C' }}
+              className="text-[2.5rem] md:text-[3.5rem] leading-[1.15] tracking-[-0.015em] mb-6 font-bold"
+              style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: '#0D1F3C' }}
             >
               Europe's Competitiveness Is a Leadership Question
             </h1>
