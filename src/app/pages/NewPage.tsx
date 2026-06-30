@@ -250,9 +250,9 @@ export function NewPage() {
     offset: ["start end", "end start"]
   });
 
-  // Scale from small (0.2) to big (1.2)
-  const starScale = useTransform(lowerHeroProgress, [0.1, 0.8], [0.2, 1.2]);
-  const starY = useTransform(lowerHeroProgress, [0.1, 0.8], [400, 0]);
+  // Scale from small (0.2) to big (1.2), then shrink very slowly to a smaller size (0.6) over a longer distance
+  const starScale = useTransform(lowerHeroProgress, [0.1, 0.75, 1.15], [0.2, 1.2, 0.6]);
+  const starY = useTransform(lowerHeroProgress, [0.1, 0.75], [700, 0]);
   const starOpacity = useTransform(lowerHeroProgress, [0.1, 0.4], [0, 1]);
   const h1Opacity = useTransform(lowerHeroProgress, [0.1, 0.3, 0.6, 0.75], [0, 1, 1, 0]);
   const h1FadeOutOpacity = useTransform(lowerHeroProgress, [0.6, 0.75], [1, 0]);
@@ -660,7 +660,7 @@ export function NewPage() {
                       <ScrollExitWord
                         key={i}
                         index={i} total={7} progress={lowerHeroProgress} 
-                        outStart={0.65} outEnd={0.8} 
+                        outStart={0.48} outEnd={0.63} 
                         variants={{
                           hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
                           visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
@@ -688,7 +688,7 @@ export function NewPage() {
                     <ScrollExitWord
                       key={i}
                       index={i} total={8} progress={lowerHeroProgress} 
-                      outStart={0.55} outEnd={0.7} 
+                      outStart={0.53} outEnd={0.68} 
                       variants={{
                         hidden: { opacity: 0, y: 20 },
                         visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
@@ -710,7 +710,7 @@ export function NewPage() {
               <motion.div
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
+                viewport={{ once: true, margin: "-200px" }}
                 variants={{
                   visible: { transition: { staggerChildren: 0.08 } },
                   hidden: {}
@@ -722,7 +722,7 @@ export function NewPage() {
                   <ScrollExitWord
                     key={i}
                     index={i} total={4} progress={lowerHeroProgress} 
-                    outStart={0.8} outEnd={0.95} 
+                    outStart={0.95} outEnd={1.05} 
                     variants={{
                       hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
                       visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
@@ -737,7 +737,7 @@ export function NewPage() {
               <motion.div
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
+                viewport={{ once: true, margin: "-200px" }}
                 variants={{
                   visible: { transition: { staggerChildren: 0.03, delayChildren: 0.3 } },
                   hidden: {}
@@ -748,7 +748,7 @@ export function NewPage() {
                   <ScrollExitWord
                     key={i}
                     index={i} total={34} progress={lowerHeroProgress} 
-                    outStart={0.75} outEnd={0.9} 
+                    outStart={0.9} outEnd={1.0} 
                     variants={{
                       hidden: { opacity: 0, y: 20 },
                       visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
@@ -760,12 +760,12 @@ export function NewPage() {
                 ))}
               </motion.div>
 
-              <ScrollExitWord index={0} total={1} progress={lowerHeroProgress} outStart={0.7} outEnd={0.85}>
+              <ScrollExitWord index={0} total={1} progress={lowerHeroProgress} outStart={0.85} outEnd={0.95}>
                 <motion.button 
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                  viewport={{ once: true, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-200px" }}
                   onClick={() => { alert('Button was clicked!'); window.location.href = '#/circles'; window.scrollTo(0,0); }} 
                   style={{ pointerEvents: 'auto', position: 'relative', zIndex: 999999 }} 
                   className="cursor-pointer inline-flex items-center gap-2 text-[#0D1F3C] font-medium hover:opacity-70 transition-opacity">
