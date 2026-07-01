@@ -982,7 +982,7 @@ export function NewPage() {
 
 
               {/* Members Grid */}
-              <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 md:gap-4 lg:gap-8 pb-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 md:gap-4 lg:gap-8 pb-8 -mx-6 px-6 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 {[
                   { name: 'Dr. Michael Krause', title: 'GLOBAL HEAD OF AI, BCG', image: mem1 },
                   { name: 'Carolin Wais', title: 'PARTNER, PLUG & PLAY VC', image: mem2 },
@@ -990,7 +990,7 @@ export function NewPage() {
                   { name: 'Seena Amidi', title: 'MD, PLUG AND PLAY', image: mem4 },
                   { name: 'Dr. Jonas Kahlert', title: 'SENIOR PM, GOOGLE', image: mem5 }
                 ].map((member, idx) => (
-                  <ScrollReveal key={idx} delay={idx * 0.15} className="w-[80vw] sm:w-[300px] md:flex-1 md:w-auto flex-shrink-0 snap-start">
+                  <ScrollReveal key={idx} delay={idx * 0.15} className="w-[72vw] sm:w-[300px] md:flex-1 md:w-auto flex-shrink-0 snap-start">
                     <div className="bg-[#f2f2f2] aspect-square overflow-hidden mb-4 rounded-sm relative group cursor-pointer">
                       <img 
                         src={member.image} 
@@ -1015,7 +1015,7 @@ export function NewPage() {
               </div>
 
               {/* View All Members Link */}
-              <div className="mt-6 md:mt-12 flex justify-center md:justify-end w-full">
+              <div className="mt-2 md:mt-12 flex justify-center md:justify-end w-full">
                 <ScrollReveal>
                   <Link 
                     to="/members" 
