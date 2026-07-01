@@ -72,6 +72,9 @@ export function RootLayout() {
     });
   }, []);
 
+  const { pathname } = useLocation();
+  const isMembersPage = pathname === '/members' || pathname === '/members/';
+
   return (
     <>
       <ScrollToTop />
@@ -80,7 +83,7 @@ export function RootLayout() {
         <div className="flex-1">
           <Outlet context={{ onApplyClick: () => setIsFormOpen(true) }} />
         </div>
-        <Footer />
+        {!isMembersPage && <Footer />}
         <CookieBanner />
         <ApplicationForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
       </div>
