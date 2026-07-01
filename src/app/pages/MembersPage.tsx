@@ -146,9 +146,12 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
     const timeout = setTimeout(() => {
       setAnimate(true);
       localStorage.setItem('membersAnimationPlayed', 'true');
-    }, 50);
+    }, 100);
+
     return () => clearTimeout(timeout);
   }, [animate]);
+
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   // Lerp Animation Loop for buttery smooth scrolling and magnetic snapping
   useEffect(() => {
@@ -242,8 +245,8 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
         <div
           className="absolute right-0 top-1/2 z-10"
           style={{
-            height: "100vh",
-            width: "100vh",
+            height: isMobile ? "80vh" : "100vh",
+            width: isMobile ? "80vh" : "100vh",
             opacity: animate ? 1 : 0, // Smoothly fade in on mount
             transform: animate
               ? "translate(50%, -50%) scale(1)"
@@ -295,11 +298,11 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                   key={idx}
                   className="absolute top-1/2 left-1/2"
                   style={{
-                    transform: `translate(-50%, -50%) rotate(${baseAngle}deg) translate(42.5vh) rotate(${itemRotation}deg)`,
+                    transform: `translate(-50%, -50%) rotate(${baseAngle}deg) translate(${isMobile ? 34 : 42.5}vh) rotate(${itemRotation}deg)`,
                     opacity: opacity,
                     visibility: opacity <= 0.01 ? 'hidden' : 'visible',
                     zIndex: isActive ? 50 : 10,
-                    width: "320px",
+                    width: isMobile ? "240px" : "320px",
                     pointerEvents: opacity > 0.5 ? 'auto' : 'none',
                     display: 'flex',
                     justifyContent: 'center',
@@ -307,7 +310,7 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                   }}
                 >
                   <div 
-                    className={`w-64 h-64 rounded-full overflow-hidden bg-[#f2f2f2] ${isActive ? 'shadow-[0_20px_40px_rgba(13,31,60,0.2)]' : 'shadow-lg'}`}
+                    className={`${isMobile ? 'w-48 h-48' : 'w-64 h-64'} rounded-full overflow-hidden bg-[#f2f2f2] ${isActive ? 'shadow-[0_20px_40px_rgba(13,31,60,0.2)]' : 'shadow-lg'}`}
                     style={{
                       transform: `scale(${isActive ? 1.4 : 0.75})`,
                       transition: 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s, box-shadow 0.3s'
@@ -348,7 +351,7 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
             </div>
 
             {/* Dynamic Title area */}
-            <div className="relative w-full max-w-2xl lg:max-w-[45%] pointer-events-auto h-[250px] flex items-center ml-8 md:ml-16 lg:ml-24">
+            <div className="absolute bottom-12 md:bottom-auto md:relative w-[calc(100%-3rem)] md:w-full max-w-2xl lg:max-w-[45%] pointer-events-auto h-auto md:h-[250px] flex items-end md:items-center left-6 md:left-0 md:ml-16 lg:ml-24 z-30">
               {MEMBERS_DATA.map((member, idx) => {
                 let activeIndex = Math.round((displayedRotation / 360) * MEMBERS_DATA.length) % MEMBERS_DATA.length;
                 if (activeIndex < 0) activeIndex += MEMBERS_DATA.length;
@@ -357,20 +360,19 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                 return (
                   <div
                     key={idx}
-                    className={`absolute left-0 w-full transition-all flex flex-col justify-center ${
+                    className={`absolute left-0 bottom-0 md:bottom-auto w-full transition-all flex flex-col justify-end md:justify-center bg-gradient-to-t from-[#FFFBF3] via-[#FFFBF3]/80 to-transparent pt-12 md:pt-0 md:bg-none ${
                       isTitleActive
                         ? 'opacity-100 translate-y-0 pointer-events-auto duration-500 delay-100 ease-[cubic-bezier(0.2,0.8,0.2,1)]'
                         : 'opacity-0 translate-y-4 pointer-events-none duration-200 ease-in'
                     }`}
                   >
-                    {/* Indicator removed */}
-                    <h2 className="text-5xl md:text-6xl lg:text-[72px] font-medium text-[#0D1F3C] leading-tight" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
+                    <h2 className="text-3xl md:text-6xl lg:text-[72px] font-medium text-[#0D1F3C] leading-tight" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                       {member.title}
                     </h2>
-                    <p className="text-xl md:text-2xl mt-4 text-[#0D1F3C]/70 font-light" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <p className="text-lg md:text-2xl mt-1 md:mt-4 text-[#0D1F3C]/70 font-light" style={{ fontFamily: "'Inter', sans-serif" }}>
                       {member.description}
                     </p>
-                    <p className="text-base md:text-lg mt-6 text-[#0D1F3C]/50 font-light leading-relaxed max-w-xl" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <p className="hidden md:block text-base md:text-lg mt-6 text-[#0D1F3C]/50 font-light leading-relaxed max-w-xl" style={{ fontFamily: "'Inter', sans-serif" }}>
                       {member.bio}
                     </p>
                   </div>
@@ -379,7 +381,7 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
             </div>
 
             {/* Scroll Indicator */}
-            <div className="absolute bottom-24 left-6 md:left-12 flex items-center space-x-6 opacity-60">
+            <div className="hidden md:flex absolute bottom-24 left-6 md:left-12 items-center space-x-6 opacity-60">
               <div className="w-16 h-[1px] bg-[#0D1F3C]/40"></div>
               <span className="text-[#0D1F3C] tracking-[0.2em] text-sm uppercase font-medium">Scroll to explore</span>
             </div>
