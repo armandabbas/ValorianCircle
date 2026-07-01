@@ -46,8 +46,8 @@ export function Navigation({ onApplyClick }: NavigationProps) {
     >
       <div className="w-full px-6 md:px-12 flex justify-between items-center">
         {/* LOGO */}
-        <Link to="/" onClick={handleLogoClick} className="flex items-center group">
-          <img src={logoImg} alt="Valorian Logo" className="h-8 md:h-10 w-auto object-contain transition-opacity hover:opacity-85" />
+        <Link to="/" onClick={handleLogoClick} className="flex items-center group relative z-[60]">
+          <img src={logoImg} alt="Valorian Logo" className={`h-8 md:h-10 w-auto object-contain transition-all duration-300 hover:opacity-85 ${isOpen ? 'brightness-0 invert' : ''}`} />
         </Link>
 
         {/* Desktop Navigation */}
