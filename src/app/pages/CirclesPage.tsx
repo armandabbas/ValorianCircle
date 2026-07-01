@@ -290,13 +290,13 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
               <h1 className="text-4xl md:text-5xl text-[#0D1F3C] mb-4 tracking-tight" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                 Our Mission
               </h1>
-              <p className="text-base text-[#0D1F3C]/70 font-light max-w-[240px] md:max-w-xl">
+              <p className="hidden md:block text-base text-[#0D1F3C]/70 font-light max-w-[240px] md:max-w-xl">
                 The conversations that matter most happen inside Valorian. Candid, confidential, and among true peers.
               </p>
             </div>
 
             {/* Dynamic Title area */}
-            <div className="absolute bottom-12 md:bottom-auto md:relative w-[calc(100%-3rem)] md:w-full max-w-2xl lg:max-w-[45%] pointer-events-auto h-auto md:h-[200px] flex items-end md:items-center left-6 md:left-0 md:ml-16 lg:ml-24 z-30">
+            <div className="absolute bottom-40 md:bottom-auto md:relative w-[calc(100%-3rem)] md:w-full max-w-2xl lg:max-w-[45%] pointer-events-auto h-auto md:h-[200px] flex items-end md:items-center left-6 md:left-0 md:ml-16 lg:ml-24 z-30">
               {CIRCLES_DATA.map((circle, idx) => {
                 let activeIndex = Math.round((displayedRotation / 360) * CIRCLES_DATA.length) % CIRCLES_DATA.length;
                 if (activeIndex < 0) activeIndex += CIRCLES_DATA.length;
@@ -312,7 +312,7 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                     }`}
                   >
                     {/* Indicator removed */}
-                    <h2 className="text-3xl md:text-6xl lg:text-[72px] font-medium text-[#0D1F3C] leading-tight whitespace-pre-line" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
+                    <h2 className="text-5xl md:text-6xl lg:text-[72px] font-medium text-[#0D1F3C] leading-tight whitespace-pre-line" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                       {circle.title}
                     </h2>
                   </div>
