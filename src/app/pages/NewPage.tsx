@@ -741,7 +741,7 @@ export function NewPage() {
             {/* Background circle of stars - Animated from bottom up and small to big */}
             <motion.div
               style={{ y: starY, scale: starScale, opacity: starOpacity, transformOrigin: "top center" }}
-              className="absolute top-[-40px] md:top-[100px] left-1/2 -translate-x-1/2 w-[160vw] md:w-[100vw] max-w-[1600px] pointer-events-none select-none z-0">
+              className="absolute top-[20px] md:top-[100px] left-1/2 -translate-x-1/2 w-[160vw] md:w-[100vw] max-w-[1600px] pointer-events-none select-none z-0">
 
               {/* Actual star image */}
               <div className="relative w-full h-full">
