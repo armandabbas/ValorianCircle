@@ -818,24 +818,24 @@ export function NewPage() {
               <motion.div
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: isMobile ? "-25% 0px -25% 0px" : "-10% 0px -10% 0px" }}
+                viewport={{ once: true, margin: isMobile ? "-25% 0px -25% 0px" : "-20% 0px -25% 0px" }}
                 variants={{
                   visible: { transition: { staggerChildren: 0.08 } },
                   hidden: {}
                 }}
-                className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[1.05] text-[#0D1F3C] mb-6 flex flex-wrap justify-center"
+                className="text-[42px] md:text-[64px] xl:text-[82px] text-[#0D1F3C] mb-8 leading-[1.1] tracking-tight flex flex-wrap justify-center"
                 style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
               >
                 {["A", "Vision", "for", "Europe"].map((word, i) => (
                   <ScrollExitWord
                     key={i}
                     index={i} total={4} progress={lowerHeroProgress} 
-                    outStart={isMobile ? 0.75 : 0.92} outEnd={isMobile ? 0.85 : 1.02} 
+                    outStart={isMobile ? 0.75 : 0.85} outEnd={isMobile ? 0.85 : 0.95} 
                     variants={{
                       hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
                       visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
                     }}
-                    className="inline-block mx-[0.1em]"
+                    className="inline-block mr-[0.25em]"
                   >
                     {word}
                   </ScrollExitWord>
@@ -845,7 +845,7 @@ export function NewPage() {
               <motion.div
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: isMobile ? "-25% 0px -25% 0px" : "-10% 0px -10% 0px" }}
+                viewport={{ once: true, margin: isMobile ? "-25% 0px -25% 0px" : "-20% 0px -25% 0px" }}
                 variants={{
                   visible: { transition: { staggerChildren: 0.03, delayChildren: 0.3 } },
                   hidden: {}
@@ -856,7 +856,7 @@ export function NewPage() {
                   <ScrollExitWord
                     key={i}
                     index={i} total={25} progress={lowerHeroProgress} 
-                    outStart={isMobile ? 0.70 : 0.87} outEnd={isMobile ? 0.80 : 0.97} 
+                    outStart={isMobile ? 0.70 : 0.80} outEnd={isMobile ? 0.80 : 0.90} 
                     variants={{
                       hidden: { opacity: 0, y: 20 },
                       visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
@@ -868,7 +868,7 @@ export function NewPage() {
                 ))}
               </motion.div>
 
-              <ScrollExitWord index={0} total={1} progress={lowerHeroProgress} outStart={isMobile ? 0.65 : 0.82} outEnd={isMobile ? 0.75 : 0.92}>
+              <ScrollExitWord index={0} total={1} progress={lowerHeroProgress} outStart={isMobile ? 0.65 : 0.75} outEnd={isMobile ? 0.75 : 0.85}>
                 <motion.button 
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
