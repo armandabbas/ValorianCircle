@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, animate, useMotionValueEvent } from 'motion/react';
+import { motion, useScroll, useTransform, animate, useMotionValueEvent, useMotionTemplate } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Linkedin } from 'lucide-react';
 import StaggeredMenu from '../components/StaggeredMenu';
@@ -248,8 +248,6 @@ export function NewPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
-
   const { scrollYProgress: lowerHeroProgress } = useScroll({
     target: lowerHeroRef,
     offset: ["start end", "end start"]
@@ -257,7 +255,7 @@ export function NewPage() {
 
   // Scale from small (0.2) to big (1.2), then shrink very slowly to a smaller size (0.6) over a longer distance
   const starScale = useTransform(lowerHeroProgress, [0.1, 0.75, 1.15], [0.2, 1.2, 0.6]);
-  const starY = useTransform(lowerHeroProgress, [0.1, 0.75], [700, 0]);
+  const starY = useTransform(lowerHeroProgress, [0.1, 0.75], [isMobile ? 300 : 700, 0]);
   const starOpacity = useTransform(lowerHeroProgress, [0.1, 0.4], [0, 1]);
   const h1Opacity = useTransform(lowerHeroProgress, [0.1, 0.3, 0.6, 0.75], [0, 1, 1, 0]);
   const h1FadeOutOpacity = useTransform(lowerHeroProgress, [0.6, 0.75], [1, 0]);
@@ -276,10 +274,21 @@ export function NewPage() {
       const currentScrollY = window.scrollY;
       setScrolled(currentScrollY > 20);
       
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        setIsNavVisible(false);
+      // Ignore programmatic large backward jumps (e.g. from intro to top)
+      if (lastScrollY.current - currentScrollY > 400) {
+        lastScrollY.current = currentScrollY;
+        return;
+      }
+      
+      if (isMobile) {
+        if (!isNavVisible && introDoneRef.current) setIsNavVisible(true);
       } else {
-        setIsNavVisible(true);
+        // Only hide navbar when scrolling down if intro is done
+        if (currentScrollY > lastScrollY.current && currentScrollY > 100 && introDoneRef.current) {
+          setIsNavVisible(false);
+        } else if (currentScrollY < lastScrollY.current) {
+          setIsNavVisible(true);
+        }
       }
       lastScrollY.current = currentScrollY;
     };
@@ -315,32 +324,54 @@ export function NewPage() {
   }, []);
 
   const introY = useTransform(scrollY, (y) => {
-    if (introDoneRef.current) return '-100vh';
-    const progress = Math.min(800, Math.max(0, y)) / 800;
-    return `${-progress * 100}vh`;
+    if (introDoneRef.current) return isMobile ? -150 : '-100vh';
+    const limit = isMobile ? 400 : 800;
+    const progress = Math.min(limit, Math.max(0, y)) / limit;
+    return isMobile ? -progress * 150 : `${-progress * 100}vh`;
   });
-  const introFadeOut = useTransform(scrollY, [0, 400], [1, 0]);
+  const introFadeOut = useTransform(scrollY, (y) => {
+    if (isMobile && introDoneRef.current) return 0;
+    const limit = 400;
+    const progress = Math.min(limit, Math.max(0, y)) / limit;
+    return 1 - progress;
+  });
+  const introBlurRaw = useTransform(scrollY, (y) => {
+    if (!isMobile) return 0;
+    if (introDoneRef.current) return 15;
+    const progress = Math.min(400, Math.max(0, y)) / 400;
+    return progress * 15;
+  });
+  const introBlur = useMotionTemplate`blur(${introBlurRaw}px)`;
 
   const pointerEvents = useTransform(scrollY, (y) => {
-    if (introDoneRef.current || y > 750) return 'none';
+    if (introDoneRef.current || y > (isMobile ? 350 : 750)) return 'none';
     return 'auto';
   });
 
   const promptOpacity = useTransform(scrollY, [0, 50], [showScrollPrompt ? 1 : 0, 0]);
 
   useEffect(() => {
+    if (sessionStorage.getItem('skipIntro') === 'true') {
+      if (spacerRef.current) spacerRef.current.style.height = '0px';
+    } else {
+      if (spacerRef.current) spacerRef.current.style.height = isMobile ? '50vh' : '100vh';
+    }
+  }, [isMobile]);
+
+  useEffect(() => {
     return scrollY.on('change', (y) => {
+      const snapLimit = isMobile ? window.innerHeight * 0.5 : window.innerHeight;
       // Once intro fully raised: collapse spacer and adjust scroll
-      if (y >= window.innerHeight && !introDoneRef.current) {
+      if (y >= snapLimit && !introDoneRef.current) {
         introDoneRef.current = true;
-        const contentScroll = Math.max(0, y - window.innerHeight);
+        const contentScroll = Math.max(0, y - snapLimit);
         if (spacerRef.current) spacerRef.current.style.height = '0px';
         requestAnimationFrame(() => {
           window.scrollTo({ top: contentScroll, behavior: 'instant' });
         });
       }
     });
-  }, [scrollY]);
+  }, [scrollY, isMobile]);
 
   const angleRef = useRef(0);
   const lastTimeRef = useRef(performance.now());
@@ -420,14 +451,17 @@ export function NewPage() {
     setOpenFaq(openFaq === index ? null : index);
   };
 
+  const outerY = useTransform(introY, (val) => isMobile ? 0 : val);
+  const innerY = useTransform(introY, (val) => isMobile ? val : 0);
+
   return (
     <div className="bg-[#FFFBF3]">
       <div id="intro-spacer" ref={spacerRef} style={{ height: '100vh' }} />
       <motion.div
-        style={{ y: introY, opacity: introFadeOut, pointerEvents: pointerEvents as any }}
+        style={{ y: outerY, opacity: introFadeOut, pointerEvents: pointerEvents as any }}
         className="fixed inset-0 z-50 flex items-center justify-center bg-[#FFFBF3] overflow-hidden"
       >
-        <div className="relative w-full h-full flex flex-col items-center justify-center">
+        <motion.div style={{ y: innerY, filter: introBlur }} className="relative w-full h-full flex flex-col items-center justify-center">
           <style dangerouslySetInnerHTML={{
             __html: `
             .val-char-v1 { animation-delay: 0.15s; }
@@ -634,7 +668,7 @@ export function NewPage() {
               }}
             />
           </motion.div>
-        </div>
+        </motion.div>
       </motion.div>
 
       <div className="relative z-10">
@@ -778,12 +812,12 @@ export function NewPage() {
             {/* The Vision Text perfectly centered in the visual ring */}
             <motion.div
               style={{ y: visionY }}
-              className="absolute top-[calc(70px+80vw)] md:top-[calc(150px+50vw)] xl:top-[950px] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] px-6 text-center z-30 pointer-events-auto">
+              className={`absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] px-6 text-center z-30 pointer-events-auto ${isMobile ? 'top-[calc(80px+80vw)]' : 'top-[calc(150px+50vw)] xl:top-[950px]'}`}>
               
               <motion.div
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+                viewport={{ once: true, margin: isMobile ? "-25% 0px -25% 0px" : "-10% 0px -10% 0px" }}
                 variants={{
                   visible: { transition: { staggerChildren: 0.08 } },
                   hidden: {}
@@ -795,7 +829,7 @@ export function NewPage() {
                   <ScrollExitWord
                     key={i}
                     index={i} total={4} progress={lowerHeroProgress} 
-                    outStart={0.92} outEnd={1.02} 
+                    outStart={isMobile ? 0.75 : 0.92} outEnd={isMobile ? 0.85 : 1.02} 
                     variants={{
                       hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
                       visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
@@ -810,7 +844,7 @@ export function NewPage() {
               <motion.div
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+                viewport={{ once: true, margin: isMobile ? "-25% 0px -25% 0px" : "-10% 0px -10% 0px" }}
                 variants={{
                   visible: { transition: { staggerChildren: 0.03, delayChildren: 0.3 } },
                   hidden: {}
@@ -821,7 +855,7 @@ export function NewPage() {
                   <ScrollExitWord
                     key={i}
                     index={i} total={25} progress={lowerHeroProgress} 
-                    outStart={0.87} outEnd={0.97} 
+                    outStart={isMobile ? 0.70 : 0.87} outEnd={isMobile ? 0.80 : 0.97} 
                     variants={{
                       hidden: { opacity: 0, y: 20 },
                       visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
@@ -833,12 +867,12 @@ export function NewPage() {
                 ))}
               </motion.div>
 
-              <ScrollExitWord index={0} total={1} progress={lowerHeroProgress} outStart={0.82} outEnd={0.92}>
+              <ScrollExitWord index={0} total={1} progress={lowerHeroProgress} outStart={isMobile ? 0.65 : 0.82} outEnd={isMobile ? 0.75 : 0.92}>
                 <motion.button 
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                  viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+                  viewport={{ once: true, margin: isMobile ? "-25% 0px -25% 0px" : "-10% 0px -10% 0px" }}
                   onClick={() => { window.location.href = '#/circles'; window.scrollTo(0,0); }} 
                   style={{ pointerEvents: 'auto', position: 'relative', zIndex: 999999 }} 
                   className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 border border-[#0D1F3C]/20 rounded-full text-[#0D1F3C] hover:bg-[#0D1F3C]/5 transition-colors whitespace-nowrap">
