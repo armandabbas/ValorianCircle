@@ -249,8 +249,8 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
             width: isMobile ? "80vh" : "100vh",
             opacity: animate ? 1 : 0, // Smoothly fade in on mount
             transform: animate
-              ? "translate(50%, -50%) scale(1)"
-              : "translate(50%, -50%) scale(0.95)",
+              ? `translate(${isMobile ? "60%" : "50%"}, -50%) scale(1)`
+              : `translate(${isMobile ? "60%" : "50%"}, -50%) scale(0.95)`,
             transition: "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.8s cubic-bezier(0.16, 1, 0.3, 1)",
             willChange: "transform, opacity",
           }}
