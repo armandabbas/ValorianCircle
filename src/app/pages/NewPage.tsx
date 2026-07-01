@@ -830,7 +830,7 @@ export function NewPage() {
                   <ScrollExitWord
                     key={i}
                     index={i} total={4} progress={lowerHeroProgress} 
-                    outStart={isMobile ? 0.75 : 0.88} outEnd={isMobile ? 0.85 : 0.96} 
+                    outStart={isMobile ? 0.83 : 0.88} outEnd={isMobile ? 0.93 : 0.96} 
                     variants={{
                       hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
                       visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
@@ -856,7 +856,7 @@ export function NewPage() {
                   <ScrollExitWord
                     key={i}
                     index={i} total={25} progress={lowerHeroProgress} 
-                    outStart={isMobile ? 0.70 : 0.85} outEnd={isMobile ? 0.80 : 0.93} 
+                    outStart={isMobile ? 0.78 : 0.85} outEnd={isMobile ? 0.88 : 0.93} 
                     variants={{
                       hidden: { opacity: 0, y: 20 },
                       visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
@@ -868,7 +868,7 @@ export function NewPage() {
                 ))}
               </motion.div>
 
-              <ScrollExitWord index={0} total={1} progress={lowerHeroProgress} outStart={isMobile ? 0.65 : 0.82} outEnd={isMobile ? 0.75 : 0.90}>
+              <ScrollExitWord index={0} total={1} progress={lowerHeroProgress} outStart={isMobile ? 0.73 : 0.82} outEnd={isMobile ? 0.83 : 0.90}>
                 <motion.button 
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
