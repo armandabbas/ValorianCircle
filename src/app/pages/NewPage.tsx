@@ -238,6 +238,7 @@ export function NewPage() {
   const [proximityGlow, setProximityGlow] = useState(0);
 
   const lowerHeroRef = useRef<HTMLElement>(null);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   // Track scroll position so we can return to it when clicking the logo
   useEffect(() => {
