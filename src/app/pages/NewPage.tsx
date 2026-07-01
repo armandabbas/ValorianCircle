@@ -884,7 +884,7 @@ export function NewPage() {
         </section>
 
           {/* OUR NETWORK & STATS */}
-          <section className="pt-16 pb-32 md:pt-24 md:pb-32 px-6 md:px-12">
+          <section className="pt-32 pb-32 md:pt-64 md:pb-32 px-6 md:px-12">
             <div className="max-w-[1200px] mx-auto">
               <div className="mb-16 max-w-[600px]">
                 <motion.div
