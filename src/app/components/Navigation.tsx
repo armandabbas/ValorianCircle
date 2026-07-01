@@ -89,7 +89,7 @@ export function Navigation({ onApplyClick }: NavigationProps) {
 
       {/* Expanding Dropdown Menu (Matches Landing Page) */}
       <div 
-        className={`md:hidden absolute top-0 left-0 w-full bg-[#003399] overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] -z-10 ${isOpen ? 'max-h-[300px] shadow-2xl border-b border-white/10' : 'max-h-0'}`}
+        className={`md:hidden absolute top-0 left-0 w-full bg-[#003399] overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] -z-10 ${isOpen ? 'max-h-[300px] opacity-100 shadow-2xl border-b border-white/10' : 'max-h-0 opacity-0 pointer-events-none'}`}
       >
         <div className="pt-24 pb-6 px-6 flex flex-col gap-3 items-end">
           <Link
