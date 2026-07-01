@@ -163,41 +163,6 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
     };
   }, []);
 
-  if (isMobile) {
-    return (
-      <div className="w-full min-h-screen bg-[#FFFBF3] pt-28 pb-20 px-6 flex flex-col" style={{ fontFamily: 'Inter, sans-serif' }}>
-        <div className="max-w-3xl mb-12">
-          <h1 className="text-4xl text-[#0D1F3C] mb-4 tracking-tight" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
-            Our Mission
-          </h1>
-        </div>
-        
-        <div className="flex flex-col space-y-16">
-          {CIRCLES_DATA.map((circle, idx) => (
-            <div key={idx} className="flex flex-col">
-              <h2 className="text-5xl text-[#0D1F3C] font-medium mb-6 leading-tight" style={{ fontFamily: "'Hanken Grotesk', sans-serif", whiteSpace: "pre-line" }}>
-                {circle.title}
-              </h2>
-              <div className="space-y-4">
-                {Array.isArray(circle.description) ? (
-                  circle.description.map((p, pIdx) => (
-                    <p key={pIdx} className="text-[17px] text-[#0D1F3C]/70 font-light leading-relaxed">
-                      {p}
-                    </p>
-                  ))
-                ) : (
-                  <p className="text-[17px] text-[#0D1F3C]/70 font-light leading-relaxed">
-                    {circle.description}
-                  </p>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div ref={containerRef} style={{ height: '100vh', width: '100%', position: 'relative', overflow: 'hidden', backgroundColor: isEmbedded ? 'transparent' : '#FFFBF3' }}>
       <div className={`w-full h-full relative ${isEmbedded ? 'pt-0' : 'pt-0'}`} style={{ fontFamily: 'Inter, sans-serif' }}>
