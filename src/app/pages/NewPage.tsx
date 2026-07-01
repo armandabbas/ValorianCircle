@@ -262,7 +262,7 @@ export function NewPage() {
   const h1FadeOutOpacity = useTransform(lowerHeroProgress, [0.6, 0.75], [1, 0]);
   const h1Y = useTransform(lowerHeroProgress, [0.1, 0.3, 0.6, 0.75], [50, 0, 0, -50]);
   const visionOpacity = useTransform(lowerHeroProgress, [0.45, 0.7], [0, 1]);
-  const visionY = useTransform(lowerHeroProgress, [0.45, 0.7], [50, 0]);
+  const visionY = useTransform(lowerHeroProgress, [0.45, 0.7], [isMobile ? 50 : 400, 0]);
 
   const [showNetwork, setShowNetwork] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
