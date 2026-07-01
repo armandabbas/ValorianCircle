@@ -288,8 +288,8 @@ export function NewPage() {
   }, []);
 
   useMotionValueEvent(lowerHeroProgress, "change", (latest) => {
-    if (latest > 0.95 && !showNetwork) setShowNetwork(true);
-    if (latest <= 0.95 && showNetwork) setShowNetwork(false);
+    if (latest > 0.85 && !showNetwork) setShowNetwork(true);
+    if (latest <= 0.85 && showNetwork) setShowNetwork(false);
   });
 
   useEffect(() => {
@@ -665,7 +665,7 @@ export function NewPage() {
 
               <button 
                 onClick={() => setIsNavOpen(!isNavOpen)}
-                className={`z-50 pointer-events-auto flex items-center gap-3 transition-colors ${isNavOpen ? 'text-[#FFFBF3] hover:text-[#FFFBF3]/80' : 'text-[#5F5F5F] hover:text-[#5F5F5F]/80'} ${!scrolled ? 'opacity-0 pointer-events-none w-0 h-0 overflow-hidden absolute right-6 md:right-12' : 'opacity-100'}`}
+                className={`z-50 pointer-events-auto flex items-center gap-3 transition-colors ${isNavOpen ? 'text-[#FFFBF3] hover:text-[#FFFBF3]/80' : 'text-[#5F5F5F] hover:text-[#5F5F5F]/80'} ${!scrolled ? 'md:opacity-0 md:pointer-events-none md:w-0 md:h-0 md:overflow-hidden md:absolute md:right-12' : 'opacity-100'}`}
                 style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
               >
                 {!isNavOpen && <span className="text-lg font-medium tracking-wide">Menu</span>}
@@ -700,13 +700,13 @@ export function NewPage() {
 
         <div className="min-h-screen bg-[#FFFBF3] overflow-x-hidden w-full" style={{ fontFamily: "\'Hanken Grotesk\', sans-serif" }}>
 
-          <section ref={lowerHeroRef} className="relative overflow-visible flex flex-col items-center justify-center min-h-[110vh] mb-[40vh] md:mb-[60vh] pb-32">
+          <section ref={lowerHeroRef} className="relative overflow-visible flex flex-col items-center justify-center min-h-[60vh] md:min-h-[110vh] mb-[10vh] md:mb-[20vh] pb-32">
             <div className="absolute top-[118vh] w-full h-[1px] snap-center pointer-events-none" />
 
             {/* Background circle of stars - Animated from bottom up and small to big */}
             <motion.div
               style={{ y: starY, scale: starScale, opacity: starOpacity, transformOrigin: "top center" }}
-              className="absolute top-[80px] md:top-[100px] left-1/2 -translate-x-1/2 w-[160vw] md:w-[100vw] max-w-[1600px] pointer-events-none select-none z-0">
+              className="absolute top-[-40px] md:top-[100px] left-1/2 -translate-x-1/2 w-[160vw] md:w-[100vw] max-w-[1600px] pointer-events-none select-none z-0">
 
               {/* Actual star image */}
               <div className="relative w-full h-full">
@@ -715,7 +715,7 @@ export function NewPage() {
             </motion.div>
 
             {/* H1 Top Left - Sticky inside absolute wrapper to ignore flex center */}
-            <div className="absolute inset-0 z-20 pointer-events-none">
+            <div className="absolute inset-0 z-20 pointer-events-none hidden md:block">
               <motion.div
                 className="sticky top-[12vh] px-6 md:px-12 max-w-[1200px] pointer-events-auto w-full">
                 <motion.div 
@@ -726,7 +726,7 @@ export function NewPage() {
                     visible: { transition: { staggerChildren: 0.08 } },
                     hidden: {}
                   }}
-                  className="text-[#393939] font-bold text-[42px] md:text-[72px] leading-[1.1] mb-6 flex flex-wrap"
+                  className="text-[#393939] font-bold text-5xl md:text-7xl lg:text-[88px] leading-[1.05] mb-6 flex flex-wrap"
                 >
                   {["Depth", "and", "relevant", "peers", "over", "transactional", "networking."].map((word, i) => (
                     <React.Fragment key={i}>
@@ -778,17 +778,17 @@ export function NewPage() {
             {/* The Vision Text perfectly centered in the visual ring */}
             <motion.div
               style={{ y: visionY }}
-              className="absolute top-[calc(130px+80vw)] md:top-[calc(150px+50vw)] xl:top-[950px] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] px-6 text-center z-30 pointer-events-auto">
+              className="absolute top-[calc(70px+80vw)] md:top-[calc(150px+50vw)] xl:top-[950px] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] px-6 text-center z-30 pointer-events-auto">
               
               <motion.div
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-200px" }}
+                viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
                 variants={{
                   visible: { transition: { staggerChildren: 0.08 } },
                   hidden: {}
                 }}
-                className="text-[42px] md:text-[72px] text-[#0D1F3C] mb-6 flex flex-wrap justify-center"
+                className="text-5xl md:text-7xl lg:text-[88px] font-bold leading-[1.05] text-[#0D1F3C] mb-6 flex flex-wrap justify-center"
                 style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
               >
                 {["A", "Vision", "for", "Europe"].map((word, i) => (
@@ -810,17 +810,17 @@ export function NewPage() {
               <motion.div
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: "-200px" }}
+                viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
                 variants={{
                   visible: { transition: { staggerChildren: 0.03, delayChildren: 0.3 } },
                   hidden: {}
                 }}
                 className="text-lg md:text-2xl text-[#5F5F5F] font-light mb-12 flex flex-wrap justify-center"
               >
-                {["Europe", "is", "entering", "a", "defining", "decade", "that", "requires", "courage", "and", "true", "builders.", "We", "bring", "together", "those", "who", "carry", "the", "responsibility", "to", "not", "only", "shape", "their", "companies", "but", "leave", "a", "lasting", "impact", "on", "the", "continent."].map((word, i) => (
+                {["Europe", "is", "entering", "a", "defining", "decade.", "We", "unite", "true", "builders", "who", "take", "responsibility", "to", "shape", "their", "companies", "and", "leave", "a", "lasting", "impact", "on", "the", "continent."].map((word, i) => (
                   <ScrollExitWord
                     key={i}
-                    index={i} total={34} progress={lowerHeroProgress} 
+                    index={i} total={25} progress={lowerHeroProgress} 
                     outStart={0.87} outEnd={0.97} 
                     variants={{
                       hidden: { opacity: 0, y: 20 },
@@ -838,7 +838,7 @@ export function NewPage() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                  viewport={{ once: true, margin: "-200px" }}
+                  viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
                   onClick={() => { window.location.href = '#/circles'; window.scrollTo(0,0); }} 
                   style={{ pointerEvents: 'auto', position: 'relative', zIndex: 999999 }} 
                   className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 border border-[#0D1F3C]/20 rounded-full text-[#0D1F3C] hover:bg-[#0D1F3C]/5 transition-colors whitespace-nowrap">
@@ -849,7 +849,7 @@ export function NewPage() {
         </section>
 
           {/* OUR NETWORK & STATS */}
-          <section className="py-32 px-6 md:px-12">
+          <section className="pt-16 pb-32 md:pt-24 md:pb-32 px-6 md:px-12">
             <div className="max-w-[1200px] mx-auto">
               <div className="mb-16 max-w-[600px]">
                 <motion.div
@@ -936,7 +936,7 @@ export function NewPage() {
 
 
               {/* Members Grid */}
-              <div className="flex flex-col md:flex-row justify-between items-start gap-6 md:gap-4 lg:gap-8">
+              <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 md:gap-4 lg:gap-8 pb-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 {[
                   { name: 'Dr. Michael Krause', title: 'GLOBAL HEAD OF AI, BCG', image: mem1 },
                   { name: 'Carolin Wais', title: 'PARTNER, PLUG & PLAY VC', image: mem2 },
@@ -944,7 +944,7 @@ export function NewPage() {
                   { name: 'Seena Amidi', title: 'MD, PLUG AND PLAY', image: mem4 },
                   { name: 'Dr. Jonas Kahlert', title: 'SENIOR PM, GOOGLE', image: mem5 }
                 ].map((member, idx) => (
-                  <ScrollReveal key={idx} delay={idx * 0.15} className="flex-1 w-full">
+                  <ScrollReveal key={idx} delay={idx * 0.15} className="w-[80vw] sm:w-[300px] md:flex-1 md:w-auto flex-shrink-0 snap-start">
                     <div className="bg-[#f2f2f2] aspect-square overflow-hidden mb-4 rounded-sm relative group cursor-pointer">
                       <img 
                         src={member.image} 
