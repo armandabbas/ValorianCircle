@@ -73,7 +73,7 @@ export function RootLayout() {
   }, []);
 
   const { pathname } = useLocation();
-  const isMembersPage = pathname === '/members' || pathname === '/members/';
+  const isNoFooterPage = pathname === '/members' || pathname === '/members/' || pathname === '/mission' || pathname === '/mission/' || pathname === '/circles' || pathname === '/circles/';
 
   return (
     <>
@@ -83,7 +83,7 @@ export function RootLayout() {
         <div className="flex-1">
           <Outlet context={{ onApplyClick: () => setIsFormOpen(true) }} />
         </div>
-        {!isMembersPage && <Footer />}
+        {!isNoFooterPage && <Footer />}
         <CookieBanner />
         <ApplicationForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
       </div>

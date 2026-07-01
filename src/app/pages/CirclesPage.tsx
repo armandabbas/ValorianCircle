@@ -86,6 +86,8 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
     return () => clearTimeout(timeout);
   }, [animate]);
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   // Lerp Animation Loop for buttery smooth scrolling and magnetic snapping
   useEffect(() => {
     let animationFrameId: number;
@@ -177,12 +179,12 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
         <div
           className="absolute right-0 top-1/2 z-10"
           style={{
-            height: "100vh",
-            width: "100vh",
+            height: isMobile ? "80vh" : "100vh",
+            width: isMobile ? "80vh" : "100vh",
             opacity: animate ? 1 : 0, // Smoothly fade in on mount
             transform: animate
-              ? "translate(50%, -50%) scale(1)"
-              : "translate(50%, -50%) scale(0.95)",
+              ? `translate(${isMobile ? "60%" : "50%"}, -50%) scale(1)`
+              : `translate(${isMobile ? "60%" : "50%"}, -50%) scale(0.95)`,
             transition: "opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.8s cubic-bezier(0.16, 1, 0.3, 1)",
             willChange: "transform, opacity",
           }}
@@ -234,17 +236,17 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                   key={idx}
                   className="absolute top-1/2 left-1/2"
                   style={{
-                    transform: `translate(-50%, -50%) rotate(${baseAngle}deg) translate(52vh) rotate(${itemRotation}deg)`,
+                    transform: `translate(-50%, -50%) rotate(${baseAngle}deg) translate(${isMobile ? 38 : 52}vh) rotate(${itemRotation}deg)`,
                     opacity: opacity,
                     visibility: opacity <= 0.01 ? 'hidden' : 'visible',
                     zIndex: isActive ? 50 : 10,
-                    width: "580px",
+                    width: isMobile ? "300px" : "580px",
                     pointerEvents: opacity > 0.5 ? 'auto' : 'none',
                     // REMOVED CSS transition for opacity here to avoid fighting the 60fps React loop!
                   }}
                 >
                   <div
-                    className={`group p-8 md:p-10 border ${isActive ? 'bg-white/95 shadow-[0_20px_40px_rgba(13,31,60,0.1)] border-transparent' : 'bg-white/60 shadow-lg border-[#0D1F3C]/10'}`}
+                    className={`group ${isMobile ? 'p-6 rounded-3xl' : 'p-8 md:p-10 rounded-[2rem]'} border ${isActive ? 'bg-white/95 shadow-[0_20px_40px_rgba(13,31,60,0.1)] border-transparent' : 'bg-white/60 shadow-lg border-[#0D1F3C]/10'}`}
                     style={{
                       transform: `scale(${scale})`,
                       // Only transition colors and shadows, NOT transform, to prevent jitter
@@ -252,15 +254,15 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                       transitionDuration: '300ms',
                     }}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/0 via-[#D4AF37]/0 to-[#D4AF37]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none" />
+                    <div className={`absolute inset-0 bg-gradient-to-br from-[#D4AF37]/0 via-[#D4AF37]/0 to-[#D4AF37]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none ${isMobile ? 'rounded-3xl' : 'rounded-2xl'}`} />
                     {Array.isArray(circle.description) ? (
                       circle.description.map((p, pIdx) => (
-                        <p key={pIdx} className={`text-lg leading-relaxed font-light relative z-10 transition-colors duration-300 mb-4 last:mb-0 ${isActive ? 'text-[#0D1F3C]/80' : 'text-[#0D1F3C]/50'}`}>
+                        <p key={pIdx} className={`${isMobile ? 'text-sm' : 'text-lg'} leading-relaxed font-light relative z-10 transition-colors duration-300 mb-4 last:mb-0 ${isActive ? 'text-[#0D1F3C]/80' : 'text-[#0D1F3C]/50'}`}>
                           {p}
                         </p>
                       ))
                     ) : (
-                      <p className={`text-lg leading-relaxed font-light relative z-10 transition-colors duration-300 ${isActive ? 'text-[#0D1F3C]/80' : 'text-[#0D1F3C]/50'}`}>
+                      <p className={`${isMobile ? 'text-sm' : 'text-lg'} leading-relaxed font-light relative z-10 transition-colors duration-300 ${isActive ? 'text-[#0D1F3C]/80' : 'text-[#0D1F3C]/50'}`}>
                         {circle.description}
                       </p>
                     )}
@@ -284,17 +286,17 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
           <div className="w-full h-full px-6 md:px-12 flex flex-col justify-center relative">
 
             {/* Header pushed up */}
-            <div className="absolute top-28 md:top-32 left-6 md:left-12 pointer-events-auto max-w-3xl">
+            <div className="absolute top-20 md:top-32 left-6 md:left-12 pointer-events-auto max-w-3xl">
               <h1 className="text-4xl md:text-5xl text-[#0D1F3C] mb-4 tracking-tight" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                 Our Mission
               </h1>
-              <p className="text-base text-[#0D1F3C]/70 font-light max-w-xl">
+              <p className="text-base text-[#0D1F3C]/70 font-light max-w-[240px] md:max-w-xl">
                 The conversations that matter most happen inside Valorian. Candid, confidential, and among true peers.
               </p>
             </div>
 
             {/* Dynamic Title area */}
-            <div className="relative w-full max-w-2xl lg:max-w-[45%] pointer-events-auto h-[200px] flex items-center ml-8 md:ml-16 lg:ml-24">
+            <div className="absolute bottom-12 md:bottom-auto md:relative w-[calc(100%-3rem)] md:w-full max-w-2xl lg:max-w-[45%] pointer-events-auto h-auto md:h-[200px] flex items-end md:items-center left-6 md:left-0 md:ml-16 lg:ml-24 z-30">
               {CIRCLES_DATA.map((circle, idx) => {
                 let activeIndex = Math.round((displayedRotation / 360) * CIRCLES_DATA.length) % CIRCLES_DATA.length;
                 if (activeIndex < 0) activeIndex += CIRCLES_DATA.length;
@@ -303,14 +305,14 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                 return (
                   <div
                     key={idx}
-                    className={`absolute left-0 w-full transition-all flex flex-col justify-center ${
+                    className={`absolute left-0 bottom-0 md:bottom-auto w-full transition-all flex flex-col justify-end md:justify-center bg-gradient-to-t from-[#FFFBF3] via-[#FFFBF3]/80 to-transparent pt-12 md:pt-0 md:bg-none ${
                       isTitleActive
                         ? 'opacity-100 translate-y-0 pointer-events-auto duration-500 delay-100 ease-[cubic-bezier(0.2,0.8,0.2,1)]'
                         : 'opacity-0 translate-y-4 pointer-events-none duration-200 ease-in'
                     }`}
                   >
                     {/* Indicator removed */}
-                    <h2 className="text-5xl md:text-6xl lg:text-[72px] font-medium text-[#0D1F3C] leading-tight whitespace-pre-line" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
+                    <h2 className="text-3xl md:text-6xl lg:text-[72px] font-medium text-[#0D1F3C] leading-tight whitespace-pre-line" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                       {circle.title}
                     </h2>
                   </div>
@@ -319,7 +321,7 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
             </div>
 
             {/* Scroll Indicator */}
-            <div className="absolute bottom-24 left-6 md:left-12 flex items-center space-x-6 opacity-60">
+            <div className="hidden md:flex absolute bottom-24 left-6 md:left-12 items-center space-x-6 opacity-60">
               <div className="w-16 h-[1px] bg-[#0D1F3C]/40"></div>
               <span className="text-[#0D1F3C] tracking-[0.2em] text-sm uppercase font-medium">Scroll to explore</span>
             </div>
