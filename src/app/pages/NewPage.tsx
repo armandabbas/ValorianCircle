@@ -895,7 +895,7 @@ export function NewPage() {
         </section>
 
           {/* OUR NETWORK & STATS */}
-          <section className="pt-32 pb-32 md:pt-64 md:pb-32 px-6 md:px-12">
+          <section className="pt-32 pb-12 md:pt-64 md:pb-32 px-6 md:px-12">
             <div className="max-w-[1200px] mx-auto">
               <div className="mb-16 max-w-[600px]">
                 <motion.div
@@ -1030,7 +1030,7 @@ export function NewPage() {
           </section>
 
           {/* Motivational CTA Section */}
-          <section className="pt-12 pb-24 md:pt-16 md:pb-32 px-6 md:px-12">
+          <section className="pt-0 pb-24 md:pt-16 md:pb-32 px-6 md:px-12">
             <div className="max-w-[1200px] mx-auto flex flex-col items-start w-full">
                 <motion.h2 
                   initial="hidden" 
@@ -1060,10 +1060,10 @@ export function NewPage() {
                 <motion.p 
                   initial="hidden"
                   whileInView="visible"
-                  viewport={{ once: false, margin: "-100px" }}
+                  viewport={{ once: false, margin: "0px" }}
                   variants={{
                     hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
-                    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+                    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
                   }}
                   className="text-lg md:text-xl mb-12 text-[#5F5F5F]"
                   style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
@@ -1074,10 +1074,10 @@ export function NewPage() {
                 <motion.div
                   initial="hidden"
                   whileInView="visible"
-                  viewport={{ once: false, margin: "-100px" }}
+                  viewport={{ once: false, margin: "0px" }}
                   variants={{
                     hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
-                    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+                    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { delay: 0.15, duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
                   }}
                 >
                   <Link 
