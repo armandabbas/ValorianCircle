@@ -59,6 +59,7 @@ interface SloganChar {
   isItalic?: boolean;
   isBlue?: boolean;
   isNewLineAfter?: boolean;
+  isMobileNewLineAfter?: boolean;
 }
 
 const SLOGAN_CHARS: SloganChar[] = [
@@ -84,7 +85,7 @@ const SLOGAN_CHARS: SloganChar[] = [
   // " technology leadership."
   { char: " " }, { char: "t" }, { char: "e" }, { char: "c" }, { char: "h" },
   { char: "n" }, { char: "o" }, { char: "l" }, { char: "o" }, { char: "g" },
-  { char: "y" }, { char: " " }, { char: "l" }, { char: "e" }, { char: "a" },
+  { char: "y", isMobileNewLineAfter: true }, { char: " " }, { char: "l" }, { char: "e" }, { char: "a" },
   { char: "d" }, { char: "e" }, { char: "r" }, { char: "s" }, { char: "h" },
   { char: "i" }, { char: "p" }, { char: "." }
 ];
@@ -636,7 +637,7 @@ export function NewPage() {
                         >
                           {item.char}
                         </span>
-                        {item.isNewLineAfter && <br />}
+                        {(item.isNewLineAfter || (item.isMobileNewLineAfter && isMobile)) && <br />}
                       </React.Fragment>
                     ))}
                   </p>
