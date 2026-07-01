@@ -256,18 +256,18 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                   >
                     <div className={`absolute inset-0 bg-gradient-to-br from-[#D4AF37]/0 via-[#D4AF37]/0 to-[#D4AF37]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none ${isMobile ? 'rounded-3xl' : 'rounded-2xl'}`} />
                     {isMobile && (
-                      <h2 className={`text-2xl font-medium mb-4 relative z-10 transition-colors duration-300 ${isActive ? 'text-[#0D1F3C]' : 'text-[#0D1F3C]/50'}`} style={{ fontFamily: "'Hanken Grotesk', sans-serif", whiteSpace: "pre-line", lineHeight: 1.1 }}>
+                      <h2 className={`text-3xl font-medium mb-4 relative z-10 transition-colors duration-300 ${isActive ? 'text-[#0D1F3C]' : 'text-[#0D1F3C]/50'}`} style={{ fontFamily: "'Hanken Grotesk', sans-serif", whiteSpace: "pre-line", lineHeight: 1.1 }}>
                         {circle.title}
                       </h2>
                     )}
                     {Array.isArray(circle.description) ? (
                       circle.description.map((p, pIdx) => (
-                        <p key={pIdx} className={`${isMobile ? 'text-sm' : 'text-lg'} leading-relaxed font-light relative z-10 transition-colors duration-300 mb-4 last:mb-0 ${isActive ? 'text-[#0D1F3C]/80' : 'text-[#0D1F3C]/50'}`}>
+                        <p key={pIdx} className={`${isMobile ? 'text-base' : 'text-lg'} leading-relaxed font-light relative z-10 transition-colors duration-300 mb-4 last:mb-0 ${isActive ? 'text-[#0D1F3C]/80' : 'text-[#0D1F3C]/50'}`}>
                           {p}
                         </p>
                       ))
                     ) : (
-                      <p className={`${isMobile ? 'text-sm' : 'text-lg'} leading-relaxed font-light relative z-10 transition-colors duration-300 ${isActive ? 'text-[#0D1F3C]/80' : 'text-[#0D1F3C]/50'}`}>
+                      <p className={`${isMobile ? 'text-base' : 'text-lg'} leading-relaxed font-light relative z-10 transition-colors duration-300 ${isActive ? 'text-[#0D1F3C]/80' : 'text-[#0D1F3C]/50'}`}>
                         {circle.description}
                       </p>
                     )}
