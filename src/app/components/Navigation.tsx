@@ -41,7 +41,7 @@ export function Navigation({ onApplyClick }: NavigationProps) {
   return (
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-[#FFFBF3]/90 backdrop-blur-md border-b border-[#0D1F3C]/5 py-4' : 'bg-transparent py-6'
+        isOpen ? 'bg-transparent py-6' : (scrolled ? 'bg-[#FFFBF3]/90 backdrop-blur-md border-b border-[#0D1F3C]/5 py-4' : 'bg-transparent py-6')
       }`}
     >
       <div className="w-full px-6 md:px-12 flex justify-between items-center">
@@ -75,40 +75,49 @@ export function Navigation({ onApplyClick }: NavigationProps) {
         {/* Mobile Hamburger */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-[#0D1F3C] transition-opacity hover:opacity-70"
+          className={`md:hidden z-50 pointer-events-auto flex items-center gap-3 transition-colors ${isOpen ? 'text-[#FFFBF3] hover:text-[#FFFBF3]/80' : 'text-[#0D1F3C] hover:text-[#0D1F3C]/80'}`}
+          style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
         >
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {!isOpen && <span className="text-lg font-medium tracking-wide">Menu</span>}
+          <div className="flex flex-col gap-[5px] w-6">
+            <span className={`h-[2px] w-full bg-current rounded-full transition-transform duration-300 origin-right ${isOpen ? '-rotate-45 -translate-y-[2px]' : ''}`} />
+            <span className={`h-[2px] w-full bg-current rounded-full transition-opacity duration-300 ${isOpen ? 'opacity-0' : ''}`} />
+            <span className={`h-[2px] w-full bg-current rounded-full transition-transform duration-300 origin-right ${isOpen ? 'rotate-45 translate-y-[2px]' : ''}`} />
+          </div>
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md border-t border-[#0D1F3C]/10 shadow-lg">
-          <div className="px-6 py-8 flex flex-col gap-6">
-            <Link
-              to="/circles"
-              onClick={() => setIsOpen(false)}
-              className="text-lg font-medium tracking-wide text-[#0D1F3C]/80"
-            >
-              Mission
-            </Link>
-            <Link
-              to="/members"
-              onClick={() => setIsOpen(false)}
-              className="text-lg font-medium tracking-wide text-[#0D1F3C]/80"
-            >
-              Members
-            </Link>
-            <Link
-              to="/selection"
-              onClick={() => setIsOpen(false)}
-              className="text-lg font-medium tracking-wide text-[#0D1F3C]/80"
-            >
-              Selection
-            </Link>
-          </div>
+      {/* Expanding Dropdown Menu (Matches Landing Page) */}
+      <div 
+        className={`md:hidden absolute top-0 left-0 w-full bg-[#003399] overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] -z-10 ${isOpen ? 'max-h-[300px] shadow-2xl border-b border-white/10' : 'max-h-0'}`}
+      >
+        <div className="pt-24 pb-6 px-6 flex flex-col gap-3 items-end">
+          <Link
+            to="/circles"
+            onClick={() => setIsOpen(false)}
+            className="text-2xl font-light text-[#FFFBF3]/80 hover:text-[#FFFBF3] transition-colors"
+            style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
+          >
+            Mission
+          </Link>
+          <Link
+            to="/members"
+            onClick={() => setIsOpen(false)}
+            className="text-2xl font-light text-[#FFFBF3]/80 hover:text-[#FFFBF3] transition-colors"
+            style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
+          >
+            Members
+          </Link>
+          <Link
+            to="/selection"
+            onClick={() => setIsOpen(false)}
+            className="text-2xl font-light text-[#FFFBF3]/80 hover:text-[#FFFBF3] transition-colors"
+            style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}
+          >
+            Selection
+          </Link>
         </div>
-      )}
+      </div>
     </nav>
   );
 }
