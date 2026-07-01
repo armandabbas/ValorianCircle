@@ -255,6 +255,11 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
                     }}
                   >
                     <div className={`absolute inset-0 bg-gradient-to-br from-[#D4AF37]/0 via-[#D4AF37]/0 to-[#D4AF37]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none ${isMobile ? 'rounded-3xl' : 'rounded-2xl'}`} />
+                    {isMobile && (
+                      <h2 className={`text-2xl font-medium mb-4 relative z-10 transition-colors duration-300 ${isActive ? 'text-[#0D1F3C]' : 'text-[#0D1F3C]/50'}`} style={{ fontFamily: "'Hanken Grotesk', sans-serif", whiteSpace: "pre-line", lineHeight: 1.1 }}>
+                        {circle.title}
+                      </h2>
+                    )}
                     {Array.isArray(circle.description) ? (
                       circle.description.map((p, pIdx) => (
                         <p key={pIdx} className={`${isMobile ? 'text-sm' : 'text-lg'} leading-relaxed font-light relative z-10 transition-colors duration-300 mb-4 last:mb-0 ${isActive ? 'text-[#0D1F3C]/80' : 'text-[#0D1F3C]/50'}`}>
@@ -296,29 +301,31 @@ export function CirclesPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
             </div>
 
             {/* Dynamic Title area */}
-            <div className="absolute bottom-16 md:bottom-auto md:relative w-[calc(100%-3rem)] md:w-full max-w-2xl lg:max-w-[45%] pointer-events-auto h-auto md:h-[200px] flex items-end md:items-center left-6 md:left-0 md:ml-16 lg:ml-24 z-30">
-              {CIRCLES_DATA.map((circle, idx) => {
-                let activeIndex = Math.round((displayedRotation / 360) * CIRCLES_DATA.length) % CIRCLES_DATA.length;
-                if (activeIndex < 0) activeIndex += CIRCLES_DATA.length;
-                const isTitleActive = activeIndex === idx;
+            {!isMobile && (
+              <div className="absolute bottom-16 md:bottom-auto md:relative w-[calc(100%-3rem)] md:w-full max-w-2xl lg:max-w-[45%] pointer-events-auto h-auto md:h-[200px] flex items-end md:items-center left-6 md:left-0 md:ml-16 lg:ml-24 z-30">
+                {CIRCLES_DATA.map((circle, idx) => {
+                  let activeIndex = Math.round((displayedRotation / 360) * CIRCLES_DATA.length) % CIRCLES_DATA.length;
+                  if (activeIndex < 0) activeIndex += CIRCLES_DATA.length;
+                  const isTitleActive = activeIndex === idx;
 
-                return (
-                  <div
-                    key={idx}
-                    className={`absolute left-0 bottom-0 md:bottom-auto w-full transition-all flex flex-col justify-end md:justify-center ${
-                      isTitleActive
-                        ? 'opacity-100 translate-y-0 pointer-events-auto duration-500 delay-100 ease-[cubic-bezier(0.2,0.8,0.2,1)]'
-                        : 'opacity-0 translate-y-4 pointer-events-none duration-200 ease-in'
-                    }`}
-                  >
-                    {/* Indicator removed */}
-                    <h2 className="text-5xl md:text-6xl lg:text-[72px] font-medium text-[#0D1F3C] leading-tight whitespace-pre-line" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
-                      {circle.title}
-                    </h2>
-                  </div>
-                );
-              })}
-            </div>
+                  return (
+                    <div
+                      key={idx}
+                      className={`absolute left-0 bottom-0 md:bottom-auto w-full transition-all flex flex-col justify-end md:justify-center ${
+                        isTitleActive
+                          ? 'opacity-100 translate-y-0 pointer-events-auto duration-500 delay-100 ease-[cubic-bezier(0.2,0.8,0.2,1)]'
+                          : 'opacity-0 translate-y-4 pointer-events-none duration-200 ease-in'
+                      }`}
+                    >
+                      {/* Indicator removed */}
+                      <h2 className="text-5xl md:text-6xl lg:text-[72px] font-medium text-[#0D1F3C] leading-tight whitespace-pre-line" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
+                        {circle.title}
+                      </h2>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
 
             {/* Scroll Indicator */}
             <div className="hidden md:flex absolute bottom-24 left-6 md:left-12 items-center space-x-6 opacity-60">
