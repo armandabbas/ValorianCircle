@@ -1005,7 +1005,7 @@ export function NewPage() {
               </div>
 
               {/* View All Members Link */}
-              <div className="mt-12 flex justify-end">
+              <div className="mt-6 md:mt-12 flex justify-center md:justify-end w-full">
                 <ScrollReveal>
                   <Link 
                     to="/members" 
