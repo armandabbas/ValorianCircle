@@ -618,7 +618,7 @@ export function NewPage() {
               >
                 <div style={{ transform: "translateY(140px)", width: "95vw", maxWidth: "1400px" }}>
                   <p
-                    className="text-[#0D1F3C]/85 font-light tracking-[0.04em] text-[32px] md:text-[32px] lg:text-[32px]"
+                    className="text-[#0D1F3C]/85 font-light tracking-[0.04em] text-[26px] md:text-[32px] lg:text-[32px]"
                     style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", lineHeight: "1.4" }}
                   >
                     {SLOGAN_CHARS.map((item, idx) => (
