@@ -341,11 +341,11 @@ export function MembersPage({ isEmbedded, onApplyClick }: { isEmbedded?: boolean
           <div className="w-full h-full px-6 md:px-12 flex flex-col justify-center relative">
 
             {/* Header pushed up */}
-            <div className="absolute top-28 md:top-32 left-6 md:left-12 pointer-events-auto max-w-3xl">
+            <div className="absolute top-20 md:top-32 left-6 md:left-12 pointer-events-auto max-w-3xl">
               <h1 className="text-4xl md:text-5xl text-[#0D1F3C] mb-4 tracking-tight" style={{ fontFamily: "'Hanken Grotesk', sans-serif" }}>
                 Selected Members
               </h1>
-              <p className="text-base text-[#0D1F3C]/70 font-light md:whitespace-nowrap">
+              <p className="text-base text-[#0D1F3C]/70 font-light md:whitespace-nowrap max-w-[240px] md:max-w-none">
                 A curated community of European leaders shaping technology, business, and innovation.
               </p>
             </div>
