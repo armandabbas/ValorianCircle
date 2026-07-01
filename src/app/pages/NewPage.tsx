@@ -818,7 +818,7 @@ export function NewPage() {
               <motion.div
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: isMobile ? "-25% 0px -25% 0px" : "-20% 0px -25% 0px" }}
+                viewport={{ once: true, margin: isMobile ? "-25% 0px -25% 0px" : "-45% 0px -45% 0px" }}
                 variants={{
                   visible: { transition: { staggerChildren: 0.08 } },
                   hidden: {}
@@ -845,7 +845,7 @@ export function NewPage() {
               <motion.div
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, margin: isMobile ? "-25% 0px -25% 0px" : "-20% 0px -25% 0px" }}
+                viewport={{ once: true, margin: isMobile ? "-25% 0px -25% 0px" : "-45% 0px -45% 0px" }}
                 variants={{
                   visible: { transition: { staggerChildren: 0.03, delayChildren: 0.3 } },
                   hidden: {}
